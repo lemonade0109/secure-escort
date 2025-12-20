@@ -26,7 +26,7 @@ const CTASection = () => {
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button
             asChild
-            className="bg-gold text-black hover:bg-gold/90 px-8 py-6 text-base font-medium"
+            className="bg-gold text-black hover:bg-gold/90 hover:transition-colors duration-300 px-8 py-6 text-base font-medium"
           >
             <Link href="/request">Request a Guard</Link>
           </Button>
@@ -34,7 +34,7 @@ const CTASection = () => {
           <Button
             asChild
             variant="outline"
-            className="text-white hover:text-white/80 hover:bg-accent-foreground/20 px-8 py-6 text-base"
+            className="text-white hover:text-white/80 hover:bg-accent-foreground/20 hover:transition-colors duration-300 px-8 py-6 text-base"
           >
             <Link href="/tracking" className="">
               Track Delivery

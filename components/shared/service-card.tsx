@@ -21,7 +21,7 @@ const ServiceCard = ({
   btnText = "Learn More",
 }: ServiceCardProps) => {
   return (
-    <CinematicCardV2>
+    <CinematicCardV2 className="transition-transform duration-300 hover:translate-y-1">
       <div className="mb-4 inline-flex items-center justify-center gap-2">
         <span className="mb-4 text-gold text-3xl">{icon}</span>
         <span className="text-xs uppercase tracking-widest text-white/60">

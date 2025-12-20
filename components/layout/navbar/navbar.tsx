@@ -42,7 +42,7 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-white"
+                className="hover:text-white  hover:transition-colors duration-300"
               >
                 {link.label}
               </Link>
@@ -54,7 +54,7 @@ const Navbar = () => {
             <Button
               asChild
               variant="outline"
-              className="text-gold hover:text-gold/80 hover:bg-accent-foreground/20"
+              className="text-gold hover:text-gold/80 hover:bg-accent-foreground/20 hover:transition-colors duration-300"
             >
               <Link href="/sign-in" className="">
                 Sign In

@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/footer/footer";
 import Navbar from "@/components/layout/navbar/navbar";
 import CTASection from "@/components/sections/CTA-section";
 import HeroSection from "@/components/sections/hero-section";
@@ -15,6 +16,7 @@ export default function HomePage() {
       <ServiceSection />
       <HowItWorksSection />
       <CTASection />
+      <Footer />
     </main>
   );
 }
