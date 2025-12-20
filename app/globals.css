@@ -46,6 +46,13 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
+@theme {
+  --color-gold: #d4a017;
+  --color-metalic-silver: #c0c0c0;
+  --font-geist-sans: "Geist Sans", sans-serif;
+  --font-geist-mono: "Geist Mono", monospace;
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);

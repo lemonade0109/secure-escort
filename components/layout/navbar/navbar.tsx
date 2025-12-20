@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import MobileMenuNavbar from "./mobile-menu-navbar";
 
 const links = [
@@ -10,7 +10,7 @@ const links = [
     href: "/services",
     label: "Services",
   },
-  { href: "/tracking", label: "Track Order" },
+  { href: "/tracking", label: "Track Delivery" },
   { href: "/contact", label: "Contact" },
   { href: "/about", label: "About" },
 ];
@@ -51,18 +51,15 @@ const Navbar = () => {
 
           {/* Desktop actions */}
           <div className=" space-x-3">
-            <Button asChild variant="outline">
+            <Button
+              asChild
+              variant="outline"
+              className="text-gold hover:text-gold/80 hover:bg-accent-foreground/20"
+            >
               <Link href="/sign-in" className="">
                 Sign In
               </Link>
             </Button>
-
-            <Link
-              href="/requests"
-              className="rounded-md bg-[#D4A017] px-4 py-3 text-sm text-center font-medium text-black hover:opacity-90"
-            >
-              Request a Guard
-            </Link>
           </div>
         </div>
 
