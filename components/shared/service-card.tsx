@@ -34,7 +34,7 @@ const ServiceCard = ({
 
       <CardActionButton
         href={linkHref}
-        className="text-white flex justify-end items-center hover:bg-none hover:text-white/80 "
+        className="text-white flex justify-end items-center hover:bg-none hover:text-gold "
       >
         <div className="flex items-center gap-2">
           {btnText}
