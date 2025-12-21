@@ -27,12 +27,7 @@ const Footer = () => {
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2">
               <div className=" rounded-lg text-black grid place-items-center font-bold">
-                <Image
-                  src="/images/page-logo.png"
-                  alt="Logo"
-                  width={50}
-                  height={50}
-                />
+                <Image src="/logo.png" alt="Logo" width={50} height={50} />
               </div>
 
               <span className="font-semibold tracking-tight text-white">

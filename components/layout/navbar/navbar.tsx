@@ -23,12 +23,7 @@ const Navbar = () => {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center">
           <div className=" flex items-center">
-            <Image
-              src="/images/page-logo.png"
-              alt="Logo"
-              width={80}
-              height={40}
-            />
+            <Image src="/logo.png" alt="Logo" width={80} height={40} />
             <span className="ml-1 font-semibold tracking-tight">
               Secure Escort
             </span>
