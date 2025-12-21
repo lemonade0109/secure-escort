@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "../../ui/button";
 import MobileMenuNavbar from "./mobile-menu-navbar";
+import { APP_NAME } from "@/lib/constants";
 
 const links = [
   {
@@ -25,7 +26,7 @@ const Navbar = () => {
           <div className=" flex items-center">
             <Image src="/logo.png" alt="Logo" width={80} height={40} />
             <span className="ml-1 font-semibold tracking-tight">
-              Secure Escort
+              {APP_NAME}
             </span>
           </div>
         </Link>

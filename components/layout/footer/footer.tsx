@@ -1,3 +1,4 @@
+import { APP_NAME } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -31,7 +32,7 @@ const Footer = () => {
               </div>
 
               <span className="font-semibold tracking-tight text-white">
-                Secure Escort
+                {APP_NAME}
               </span>
             </Link>
 
@@ -102,7 +103,7 @@ const Footer = () => {
           {/* Bottom bar */}
           <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-t border-white pt-8">
             <p className="text-xs text-white/60">
-              &copy; {currentYear} Secure Escort. All rights reserved.
+              &copy; {currentYear} {APP_NAME}. All rights reserved.
             </p>
           </div>
         </div>
