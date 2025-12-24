@@ -1,5 +1,5 @@
 import React from "react";
-import CinematicCard from "../shared/cinematic-card";
+import CinematicCard from "../shared/card/cinematic-card";
 import FadeUp from "@/components/motion/FadeUp";
 
 const TrustSection = () => {

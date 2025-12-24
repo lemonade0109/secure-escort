@@ -1,18 +1,12 @@
 import React from "react";
-import ServiceCard from "../shared/service-card";
+import ServiceCard from "../shared/card/service-card";
 import FadeUp from "@/components/motion/FadeUp";
+import GlowBackground from "../shared/glow-background";
 
 const ServiceSection = () => {
   return (
     <section className="relative w-full bg-[#070a12] text-white py-20 overflow-hidden">
-      {/* Subtle glow background */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          background:
-            "radial-gradient(40% 25% at 50% 0%, rgba(212,160,23,0.08), transparent 70%)",
-        }}
-      />
+      <GlowBackground intensity="medium" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Title */}

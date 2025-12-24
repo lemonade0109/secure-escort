@@ -130,3 +130,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+.custom-bg {
+  min-height: 100vh;
+  background-color: #070a12;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.custom-card {
+  width: 100%;
+  max-width: 28rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px);
+  color: white;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}

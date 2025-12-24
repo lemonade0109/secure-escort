@@ -1,8 +1,9 @@
+import "server-only";
 import NextAuth from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
-import db from "./db/db";
-import * as bcrypt from "bcrypt-ts";
+import { db } from "./db/db";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { verifyPassword } from "./lib/auth/password";
 
 type User = {
   id: string;
@@ -48,11 +49,17 @@ export const {
         const user = await db.user.findUnique({
           where: { email },
         });
-        if (!user || !user.passwordHash) return null;
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.passwordHash
+        if (!user) return null;
+
+        const plainPassword = String(credentials.password);
+        const hashedPassword = String(user.password);
+
+        // Check if password matches
+        const isPasswordValid = await verifyPassword(
+          plainPassword,
+          hashedPassword
         );
+
         if (!isPasswordValid) return null;
         return {
           id: user.id,

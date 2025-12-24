@@ -1,5 +1,6 @@
 import React from "react";
 import FadeUp from "@/components/motion/FadeUp";
+import GlowBackground from "../shared/glow-background";
 
 const HowItWorksSection = () => {
   const steps = [
@@ -25,14 +26,7 @@ const HowItWorksSection = () => {
 
   return (
     <section className="relative overflow-hidden py-20 bg-[#070A12] text-white">
-      {/* Subtle glow background */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          background:
-            "radial-gradient(80% 50% at 50% 0%, rgba(212,160,23,0.18), transparent 65%)",
-        }}
-      />
+      <GlowBackground intensity="medium" />
 
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-7xl px-6">
