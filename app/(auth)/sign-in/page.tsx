@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React from "react";
+import React, { Suspense } from "react";
 import SignInForm from "./signIn-form";
 import { Metadata } from "next";
 
@@ -30,7 +30,9 @@ export default function SignInPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <SignInForm />
+          <Suspense>
+            <SignInForm />
+          </Suspense>
         </CardContent>
       </Card>
     </div>

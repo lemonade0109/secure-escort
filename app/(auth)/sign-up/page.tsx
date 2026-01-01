@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
 import SignUpForm from "./sign-up-form";
 import {
@@ -31,7 +31,9 @@ export default function SignUpPage() {
         </CardHeader>
 
         <CardContent className="mt-4">
-          <SignUpForm />
+          <Suspense>
+            <SignUpForm />
+          </Suspense>
         </CardContent>
       </Card>
     </div>

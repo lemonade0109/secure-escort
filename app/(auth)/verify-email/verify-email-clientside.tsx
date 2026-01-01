@@ -16,8 +16,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 const VerifyEmailClientSide = () => {
-  const sp = useSearchParams();
-  const token = sp.get("token") ?? "";
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token") ?? "";
 
   return (
     <div className=" custom-bg px-6 overflow-hidden">

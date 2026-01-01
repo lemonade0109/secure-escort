@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import VerifyEmailClientSide from "./verify-email-clientside";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Verify Email - Secure Escort",
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default async function VerifyEmailPage() {
-  return <VerifyEmailClientSide />;
+  return (
+    <Suspense>
+      <VerifyEmailClientSide />;
+    </Suspense>
+  );
 }
