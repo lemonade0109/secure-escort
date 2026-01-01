@@ -7,6 +7,7 @@ export type FormContainerProps = {
   action: actionFunction<FormActionState>;
   children: React.ReactNode | ((data: FormActionState) => React.ReactNode);
   className?: string;
+  onReset?: () => void;
 };
 
 export type FormActionState = {

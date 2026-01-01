@@ -61,7 +61,7 @@ const SignInForm = () => {
             )}
 
             <div className="text-sm text-center text-muted-foreground sm:text-base">
-              Dont&appos;t have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href={"/sign-up"} className="text-gold hover:underline">
                 Sign Up
               </Link>

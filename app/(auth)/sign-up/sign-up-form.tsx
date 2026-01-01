@@ -67,8 +67,17 @@ const SignUpForm = () => {
     );
   };
 
+  const handleReset = () => {
+    setPassword("");
+    setConfirmPassword("");
+  };
+
   return (
-    <FormContainer className="space-y-4" action={signupAction}>
+    <FormContainer
+      className="space-y-4"
+      action={signupAction}
+      onReset={handleReset}
+    >
       {(data) => {
         type SignUpFormResult = { success?: boolean; message?: unknown };
         const result = data as SignUpFormResult;
@@ -137,8 +146,8 @@ const SignUpForm = () => {
                         passwordScore <= 2
                           ? "text-red-600"
                           : passwordScore === 3
-                          ? "text-yellow-600"
-                          : "text-green-600"
+                            ? "text-yellow-600"
+                            : "text-green-600"
                       }`}
                     >
                       {password

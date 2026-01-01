@@ -7,11 +7,15 @@ import { Label } from "@/components/ui/label";
 
 type PasswordInputProps = React.ComponentProps<typeof Input> & {
   label?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const PasswordInput = ({
   className,
   label,
+  value,
+  onChange,
   name,
   placeholder,
   ...props
@@ -20,7 +24,7 @@ const PasswordInput = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { type: _type, ...inputProps } = props as Omit<
     PasswordInputProps,
-    "className" | "label" | "name"
+    "className" | "label" | "name" | "value" | "onChange"
   >;
   return (
     <div className="mb-2 gap-1 flex flex-col relative">
@@ -32,7 +36,10 @@ const PasswordInput = ({
           type={show ? "text" : "password"}
           name={name}
           id={name}
+          value={value}
+          onChange={onChange}
           {...inputProps}
+          autoComplete="new-password"
           placeholder={placeholder}
           className={`pr-12 ${className ?? ""}`}
         />

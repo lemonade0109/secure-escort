@@ -7,11 +7,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import React from "react";
-import { Metadata } from "next";
 import SignInForm from "./signIn-form";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sign In",
+  title: "Sign In - Secure Escort",
 };
 
 export default function SignInPage() {

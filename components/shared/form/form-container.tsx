@@ -11,7 +11,12 @@ const initialState: FormActionState = {
   redirectTo: "",
 };
 
-const FormContainer = ({ action, children, className }: FormContainerProps) => {
+const FormContainer = ({
+  action,
+  children,
+  className,
+  onReset,
+}: FormContainerProps) => {
   const router = useRouter();
 
   const [state, formAction] = React.useActionState<FormActionState>(
@@ -26,7 +31,7 @@ const FormContainer = ({ action, children, className }: FormContainerProps) => {
   }, [state, router]);
 
   return (
-    <form className={className} action={formAction}>
+    <form className={className} action={formAction} onReset={onReset}>
       {typeof children === "function" ? children(state) : children}
     </form>
   );

@@ -11,7 +11,7 @@ import {
 import GlowBackground from "@/components/shared/glow-background";
 
 export const metadata: Metadata = {
-  title: "Sign Up",
+  title: "Sign Up - Secure Escort",
 };
 
 export default function SignUpPage() {
