@@ -60,11 +60,22 @@ const SignInForm = () => {
               </div>
             )}
 
-            <div className="text-sm text-center text-muted-foreground sm:text-base">
-              Don&apos;t have an account?{" "}
-              <Link href={"/sign-up"} className="text-gold hover:underline">
-                Sign Up
-              </Link>
+            <div className="text-sm text-center text-muted-foreground sm:text-base flex flex-col justify-center">
+              <span>
+                <Link
+                  href="/forgot-password"
+                  className="hover:underline text-gold"
+                >
+                  Forgot your password?
+                </Link>
+              </span>
+
+              <span>
+                Don&apos;t have an account?{" "}
+                <Link href={"/sign-up"} className="text-gold hover:underline">
+                  Sign Up
+                </Link>
+              </span>
             </div>
           </>
         );

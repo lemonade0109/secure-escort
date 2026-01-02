@@ -18,6 +18,7 @@ export default function SignInPage() {
   return (
     <div className="custom-bg">
       <GlowBackground intensity="strong" />
+
       <Card className="custom-card">
         <CardHeader>
           <CardTitle>

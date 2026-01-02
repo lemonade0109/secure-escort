@@ -24,15 +24,12 @@ const VerifyEmailClientSide = () => {
       <GlowBackground intensity="strong" />
 
       <Card className="custom-card">
-        <CardHeader className="mb-5">
+        <CardHeader className="">
           <CardTitle>
-            <h1 className="text-3xl font-semibold text-center">
-              {" "}
-              Verify Your Email
-            </h1>
+            <h1 className="text-3xl font-semibold "> Verify Your Email</h1>
           </CardTitle>
           <CardDescription>
-            <p className="mt-2 text-sm text-white/70 text-center">
+            <p className="text-sm text-white/70 ">
               Confirm your account to continue.
             </p>
           </CardDescription>

@@ -8,7 +8,7 @@ import { sendPasswordResetEmail } from "@/lib/auth/email-verification/send-passw
 import { sendVerificationEmail } from "@/lib/auth/email-verification/send-verification-email";
 import { hashPassword } from "@/lib/auth/password";
 import { hashToken } from "@/lib/auth/token";
-import { renderError } from "@/lib/utils";
+import { getFriendlyErrorMessage, renderError } from "@/lib/utils";
 import {
   forgotPasswordSchema,
   resetPasswordSchema,
@@ -33,7 +33,7 @@ export const emailExists = async (
     console.error("Database error in emailExists:", error);
     return {
       exists: false,
-      error: "Unable to check email at this time. Please try again later.",
+      error: getFriendlyErrorMessage(error),
     };
   }
 };
@@ -83,10 +83,10 @@ export const signupAction = async (
     if (error?.digest?.startsWith("NEXT_REDIRECT")) {
       console.log("Redirection triggered:", error);
     }
-    const rendered = renderError(error);
+    const rendered = getFriendlyErrorMessage(error);
     return {
       success: false,
-      message: typeof rendered === "string" ? rendered : rendered.message,
+      message: typeof rendered === "string" ? rendered : rendered,
     };
   }
 };
@@ -125,10 +125,10 @@ export const signInAction = async (
         message: "Invalid email or password",
       };
     }
-    const rendered = renderError(error);
+    const rendered = getFriendlyErrorMessage(error);
     return {
       success: false,
-      message: typeof rendered === "string" ? rendered : rendered.message,
+      message: typeof rendered === "string" ? rendered : rendered,
     };
   }
 };
@@ -230,10 +230,10 @@ export const signOutAction = async (): Promise<FormActionState> => {
       message: "Signed out successfully",
     };
   } catch (error) {
-    const rendered = renderError(error);
+    const rendered = getFriendlyErrorMessage(error);
     return {
       success: false,
-      message: typeof rendered === "string" ? rendered : rendered.message,
+      message: typeof rendered === "string" ? rendered : rendered,
     };
   }
 };
@@ -273,10 +273,10 @@ export const forgotPasswordAction = async (
         "If an account with that email exists, a password reset email has been sent.",
     };
   } catch (error) {
-    const rendered = renderError(error);
+    const rendered = getFriendlyErrorMessage(error);
     return {
       success: false,
-      message: typeof rendered === "string" ? rendered : rendered.message,
+      message: typeof rendered === "string" ? rendered : rendered,
     };
   }
 };
@@ -295,10 +295,15 @@ export const resetPasswordAction = async (
 
     const hashedToken = hashToken(token);
 
+    console.log("Reset password: token from form:", token);
+    console.log("Reset password: hashedToken:", hashedToken);
+
     // find token record
-    const record = await db.passwordResetToken.findFirst({
+    const record = await db.passwordResetToken.findUnique({
       where: { token: hashedToken },
     });
+
+    console.log("Reset password: token record from DB:", record);
 
     if (!record) {
       return {
@@ -340,10 +345,10 @@ export const resetPasswordAction = async (
         "Your password has been reset successfully. You can now sign in.",
     };
   } catch (error) {
-    const rendered = renderError(error);
+    const rendered = getFriendlyErrorMessage(error);
     return {
       success: false,
-      message: typeof rendered === "string" ? rendered : rendered.message,
+      message: typeof rendered === "string" ? rendered : rendered,
     };
   }
 };

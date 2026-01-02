@@ -18,6 +18,7 @@ export default function SignUpPage() {
   return (
     <div className="custom-bg">
       <GlowBackground intensity="medium" />
+
       <Card className="custom-card">
         <CardHeader>
           <CardTitle>

@@ -9,16 +9,16 @@ export const createPasswordResetToken = async (userId: string) => {
 
   // Generate a unique token
   const rawToken = generateToken();
-  const token = hashToken(rawToken);
+  const hashedToken = hashToken(rawToken);
 
   // Store the token in the database
   await prisma.passwordResetToken.create({
     data: {
-      token,
+      token: hashedToken,
       userId,
       expiresAt: expiresInMinutes(60), // Token valid for 60 minutes
     },
   });
 
-  return token;
+  return rawToken;
 };

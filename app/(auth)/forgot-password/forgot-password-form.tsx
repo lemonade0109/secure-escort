@@ -27,6 +27,7 @@ const SubmitButton = () => {
     </Button>
   );
 };
+
 const ForgotPasswordForm = () => {
   return (
     <FormContainer
