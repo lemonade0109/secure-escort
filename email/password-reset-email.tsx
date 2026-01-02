@@ -9,19 +9,19 @@ import {
   Button,
 } from "@react-email/components";
 
-interface VerificationEmailProps {
-  verificationUrl: string;
-  userName: string;
+interface PasswordResetEmailProps {
+  resetUrl: string;
+  userName?: string;
 }
 
-export default function VerificationEmail({
-  verificationUrl,
-  userName,
-}: VerificationEmailProps) {
+export default function PasswordResetEmail({
+  resetUrl,
+  userName = "User",
+}: PasswordResetEmailProps) {
   return (
     <Html>
       <Head />
-      <Preview>Verify your email address for Secure Escort</Preview>
+      <Preview>Reset your password for Secure Escort</Preview>
       <Body style={bodyStyle}>
         <Container style={containerStyle}>
           <Section style={headerSectionStyle}>
@@ -30,16 +30,15 @@ export default function VerificationEmail({
           <Section>
             <Text style={greetingStyle}>Hello {userName},</Text>
             <Text style={messageStyle}>
-              Thank you for registering with Secure Escort! To complete your
-              registration, please verify your email address by clicking the
-              button below.
+              We received a request to reset your password. Click the button
+              below to set a new password. If you did not request this, you can
+              safely ignore this email.
             </Text>
-            <Button href={verificationUrl} style={buttonStyle}>
-              Verify Email
+            <Button href={resetUrl} style={buttonStyle}>
+              Reset Password
             </Button>
             <Text style={footerNoteStyle}>
-              If you did not create an account, you can safely ignore this
-              email.
+              For your security, this link will expire in 1 hour.
             </Text>
           </Section>
           <Section style={footerSectionStyle}>
@@ -99,7 +98,7 @@ const messageStyle = {
 
 const buttonStyle = {
   backgroundColor: "#d4a017",
-  color: "#222",
+  color: "#fff",
   fontSize: 16,
   padding: "14px 32px",
   borderRadius: "8px",
@@ -107,10 +106,8 @@ const buttonStyle = {
   fontWeight: 600 as const,
   border: "none",
   display: "inline-block",
-  textAlign: "center" as const,
   marginBottom: 24,
   letterSpacing: 1,
-  cursor: "pointer",
 };
 
 const footerNoteStyle = {

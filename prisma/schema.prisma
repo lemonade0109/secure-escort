@@ -25,7 +25,7 @@ model User {
 
   services                Service[]
   emailVerificationTokens EmailVerificationToken[]
-  passwordResetTokens     PasswordResetToken[]
+  passwordResetTokens     passwordResetToken[]
 }
 
 model Service {
@@ -62,7 +62,7 @@ model EmailVerificationToken {
   @@index([userId])
 }
 
-model PasswordResetToken {
+model passwordResetToken {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   token  String @unique
   userId String @db.ObjectId

@@ -2,15 +2,15 @@
 
 import nodemailer from "nodemailer";
 import { render } from "@react-email/components";
-import VerificationEmail from "@/email/verification-email";
+import PasswordResetEmail from "@/email/password-reset-email";
 
-export const sendVerificationEmail = async (
+export const sendPasswordResetEmail = async (
   email: string,
   token: string,
-  firstName: string
+  firstName?: string
 ) => {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
-  const verificationUrl = `${baseUrl}/verify-email?token=${token}`;
+  const resetUrl = `${baseUrl}/reset-password?token=${token}`;
 
   try {
     // Create SMTP transporter
@@ -29,23 +29,20 @@ export const sendVerificationEmail = async (
 
     // Render the React email component to HTML
     const emailHtml = await render(
-      <VerificationEmail
-        verificationUrl={verificationUrl}
-        userName={firstName}
-      />
+      <PasswordResetEmail resetUrl={resetUrl} userName={firstName} />
     );
 
     // Send the email
     const info = await transporter.sendMail({
       from: `${senderName} <${senderEmail}>`,
       to: email,
-      subject: "Verify Your Email Address - Secure Escort",
+      subject: "Reset Your Password - Secure Escort",
       html: emailHtml,
     });
 
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error(`Failed to send verification email to ${email}:`, error);
+    console.error(`Failed to send password reset email to ${email}:`, error);
     throw error;
   }
 };
