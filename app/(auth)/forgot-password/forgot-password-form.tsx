@@ -7,13 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { forgotPasswordAction } from "@/lib/actions/auth/auth";
 import FormInput from "@/components/shared/form/form-input";
 import { Button } from "@/components/ui/button";
 import { useFormStatus } from "react-dom";
 import { asStringMessage } from "@/lib/utils";
 import Link from "next/link";
 import { CheckCircle2, Mail } from "lucide-react";
+import { forgotPasswordAction } from "@/lib/actions/auth/forgot-password";
 
 const SubmitButton = () => {
   const { pending } = useFormStatus();

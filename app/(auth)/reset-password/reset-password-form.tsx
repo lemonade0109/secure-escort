@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { resetPasswordAction } from "@/lib/actions/auth/auth";
+import { resetPasswordAction } from "@/lib/actions/auth/reset-password";
 import { asStringMessage } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";

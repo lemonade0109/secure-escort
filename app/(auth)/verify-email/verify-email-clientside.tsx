@@ -11,9 +11,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { verifyEmailTokenAction } from "@/lib/actions/auth/auth";
+
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { verifyEmailTokenAction } from "@/lib/actions/auth/verify-email-token";
 
 const VerifyEmailClientSide = () => {
   const searchParams = useSearchParams();

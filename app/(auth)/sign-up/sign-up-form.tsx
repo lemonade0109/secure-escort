@@ -3,7 +3,7 @@ import FormContainer from "@/components/shared/form/form-container";
 import FormInput from "@/components/shared/form/form-input";
 import PasswordInput from "@/components/shared/form/password-input";
 import { Button } from "@/components/ui/button";
-import { signupAction } from "@/lib/actions/auth/auth";
+import { signupAction } from "@/lib/actions/auth/signup";
 import { asStringMessage } from "@/lib/utils";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";

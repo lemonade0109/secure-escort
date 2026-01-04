@@ -21,6 +21,7 @@ const PUBLIC_ROUTES = [
   "/privacy",
   "/services",
   "/terms",
+  "/tracking",
 ];
 
 function isRoute(pathName: string, routes: string[]) {
