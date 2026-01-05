@@ -4,7 +4,7 @@ import CheckEmailForm from "./check-email-form";
 
 export default function CheckEmailPage() {
   return (
-    <div className="relative custom-bg overflow-hidden ">
+    <div className="custom-bg">
       <GlowBackground intensity="medium" />
 
       <CheckEmailForm />

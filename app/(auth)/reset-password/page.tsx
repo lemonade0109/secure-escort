@@ -14,7 +14,7 @@ export default async function ResetPasswordPage({
 }) {
   const { token } = await searchParams;
   return (
-    <div className=" custom-bg overflow-hidden ">
+    <div className=" custom-bg">
       <GlowBackground intensity="medium" />
 
       <ResetPasswordForm token={token || ""} />

@@ -32,68 +32,51 @@ function isRoute(pathName: string, routes: string[]) {
 
 export default auth((req: NextRequest) => {
   const { nextUrl } = req;
-  const { pathname } = nextUrl;
+  const pathname = nextUrl.pathname;
 
-  const session = (req as AuthRequest).auth?.user;
+  const authSession = (req as AuthRequest).auth;
+  const user = authSession?.user as
+    | { email?: string; role?: string }
+    | undefined;
 
-  const isLoggedIn = !!session?.id;
-  const isVerified = !!session?.emailVerified;
-  const role = session?.role;
+  const isLoggedIn = !!user?.email;
+  const role = user?.role;
 
   const isAuthRoute = isRoute(pathname, AUTH_ROUTES);
   const isPublicRoute = isRoute(pathname, PUBLIC_ROUTES);
 
-  // if logged in, don't allow access to auth routes (except verify-email & check-email)
+  // logged in users shouldn't see sign-in/sign-up pages
   if (isLoggedIn && isAuthRoute) {
-    const allowedWhenLoggedIn = ["/verify-email", "/check-email"];
-
-    // if user is NOT verified, push user to check-email page
-    if (!isVerified && isRoute(pathname, allowedWhenLoggedIn)) {
-      return NextResponse.redirect(new URL("/check-email", nextUrl));
-    }
-
-    // if user is verified, redirect to dashboard
-    if (isVerified && !isRoute(pathname, allowedWhenLoggedIn)) {
+    const allowed = ["/reset-password", "/verify-email", "/check-email"];
+    if (!isRoute(pathname, allowed)) {
       return NextResponse.redirect(new URL("/dashboard", nextUrl));
     }
   }
 
-  // If not logged in and route is not public or auth, force sign-in with callbackUrl
+  // protect private routes
   if (!isLoggedIn && !isPublicRoute && !isAuthRoute) {
     const signInUrl = new URL("/sign-in", nextUrl);
-    signInUrl.searchParams.set(
-      "callbackUrl",
-      nextUrl.pathname + nextUrl.search
-    );
+    signInUrl.searchParams.set("callbackUrl", pathname + nextUrl.search);
     return NextResponse.redirect(signInUrl);
   }
 
-  // Role gates
+  // role gates
   if (pathname.startsWith("/admin")) {
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
       const signInUrl = new URL("/sign-in", nextUrl);
-      signInUrl.searchParams.set(
-        "callbackUrl",
-        nextUrl.pathname + nextUrl.search
-      );
+      signInUrl.searchParams.set("callbackUrl", pathname + nextUrl.search);
       return NextResponse.redirect(signInUrl);
     }
-
-    if (role !== "ADMIN") {
+    if (role !== "ADMIN")
       return NextResponse.redirect(new URL("/dashboard", nextUrl));
-    }
   }
 
   if (pathname.startsWith("/guard")) {
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
       const signInUrl = new URL("/sign-in", nextUrl);
-      signInUrl.searchParams.set(
-        "callbackUrl",
-        nextUrl.pathname + nextUrl.search
-      );
+      signInUrl.searchParams.set("callbackUrl", pathname + nextUrl.search);
       return NextResponse.redirect(signInUrl);
     }
-
     if (role !== "GUARD" && role !== "ADMIN") {
       return NextResponse.redirect(new URL("/dashboard", nextUrl));
     }

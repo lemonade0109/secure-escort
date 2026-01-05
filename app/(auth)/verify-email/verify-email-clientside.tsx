@@ -21,7 +21,7 @@ const VerifyEmailClientSide = () => {
   const token = searchParams.get("token") ?? "";
 
   return (
-    <div className=" custom-bg px-6 overflow-hidden">
+    <div className=" custom-bg px-6 ">
       <GlowBackground intensity="strong" />
 
       <Card className="custom-card">

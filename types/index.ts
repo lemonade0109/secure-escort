@@ -43,7 +43,7 @@ export type SessionUser = {
 export interface AuthRequest extends NextRequest {
   auth: {
     user:
-      | { id?: string; role: string; emailVerified?: string | Date | null }
+      | { email?: string; role: string; emailVerified?: string | Date | null }
       | null
       | undefined;
   };

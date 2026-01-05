@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ForgotPasswordPage() {
   return (
-    <div className="relative custom-bg overflow-hidden ">
+    <div className=" custom-bg">
       <GlowBackground intensity="medium" />
 
       <ForgotPasswordForm />
