@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import { AuthRequest } from "./types";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
+import { AuthRequest } from "./types";
 
 const { auth } = NextAuth(authConfig);
 
@@ -33,6 +34,18 @@ function isRoute(pathName: string, routes: string[]) {
 export default auth((req: NextRequest) => {
   const { nextUrl } = req;
   const pathname = nextUrl.pathname;
+
+  //  Skip Next internals + API routes
+  if (pathname.startsWith("/_next")) return NextResponse.next();
+  if (pathname.startsWith("/api")) return NextResponse.next();
+
+  // Skip public static files (logo.png, images, fonts, etc.)
+  const isStaticFile =
+    /\.(png|jpg|jpeg|gif|svg|webp|ico|css|js|map|txt|xml|woff|woff2|ttf|eot)$/.test(
+      pathname
+    );
+
+  if (isStaticFile) return NextResponse.next();
 
   const authSession = (req as AuthRequest).auth;
   const user = authSession?.user as
@@ -67,8 +80,9 @@ export default auth((req: NextRequest) => {
       signInUrl.searchParams.set("callbackUrl", pathname + nextUrl.search);
       return NextResponse.redirect(signInUrl);
     }
-    if (role !== "ADMIN")
+    if (role !== "ADMIN") {
       return NextResponse.redirect(new URL("/dashboard", nextUrl));
+    }
   }
 
   if (pathname.startsWith("/guard")) {
@@ -85,6 +99,7 @@ export default auth((req: NextRequest) => {
   return NextResponse.next();
 });
 
+//handled file skipping inside middleware.
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth).*)"],
+  matcher: ["/((?!_next).*)"],
 };
