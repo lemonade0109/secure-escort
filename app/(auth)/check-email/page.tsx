@@ -1,5 +1,5 @@
 import GlowBackground from "@/components/shared/glow-background";
-import React from "react";
+import React, { Suspense } from "react";
 import CheckEmailForm from "./check-email-form";
 
 export default function CheckEmailPage() {
@@ -7,7 +7,9 @@ export default function CheckEmailPage() {
     <div className="custom-bg">
       <GlowBackground intensity="medium" />
 
-      <CheckEmailForm />
+      <Suspense>
+        <CheckEmailForm />
+      </Suspense>
     </div>
   );
 }
