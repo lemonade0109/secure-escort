@@ -15,10 +15,12 @@ export const metadata: Metadata = {
 export default async function DashboardPage() {
   await requireVerifiedUser();
   return (
-    <main className="custom-bg">
+    <main className=" min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
+
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-10">
         <DashboardHeader />
+
         <div className="mt-8">
           <DashboardStats />
         </div>
