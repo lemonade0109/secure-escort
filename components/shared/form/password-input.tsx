@@ -21,6 +21,7 @@ const PasswordInput = ({
   ...props
 }: PasswordInputProps) => {
   const [show, setShow] = React.useState(false);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { type: _type, ...inputProps } = props as Omit<
     PasswordInputProps,

@@ -10,4 +10,5 @@ export const signUpDefaultValues = {
   name: "",
   confirmPassword: "",
 };
+
 export const PASSWORD_MIN_LENGTH = 8;
