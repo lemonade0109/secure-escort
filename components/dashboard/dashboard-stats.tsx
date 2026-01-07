@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 const stats = [
@@ -13,16 +12,27 @@ const DashboardStats = () => {
       {stats.map((s) => (
         <Card
           key={s.label}
-          className="border-white/10 bg-white/4 text-white backdrop-blur-xl"
+          className="
+            relative overflow-hidden
+            border border-white/10
+            bg-white/5
+            backdrop-blur-xl
+            text-white
+          "
         >
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-white/70">
+          {/* subtle top glow line */}
+          <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-gold/40 to-transparent" />
+
+          <CardHeader className="pb-1">
+            <CardTitle className="text-xs uppercase tracking-widest text-white/60">
               {s.label}
             </CardTitle>
           </CardHeader>
 
           <CardContent>
-            <div className="text-3xl font-semibold">{s.value}</div>
+            <div className="mt-2 text-3xl font-semibold text-gold">
+              {s.value}
+            </div>
           </CardContent>
         </Card>
       ))}

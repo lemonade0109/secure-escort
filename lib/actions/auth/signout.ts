@@ -1,22 +1,7 @@
-// "use server";
+"use server";
 
-// import { signIn } from "@/auth";
-// import { getFriendlyErrorMessage } from "@/lib/utils";
-// import { FormActionState } from "@/types";
+import { signOut } from "@/auth";
 
-// export const signOutAction = async (): Promise<FormActionState> => {
-//   try {
-//     await signIn("credentials", { redirect: false, callbackUrl: "/sign-in" });
-//     return {
-//       success: true,
-//       redirectTo: "/sign-in",
-//       message: "Signed out successfully",
-//     };
-//   } catch (error) {
-//     const rendered = getFriendlyErrorMessage(error);
-//     return {
-//       success: false,
-//       message: rendered,
-//     };
-//   }
-// };
+export const signOutAction = async () => {
+  await signOut({ redirectTo: "/?signedOut=1" });
+};

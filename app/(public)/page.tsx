@@ -7,6 +7,8 @@ import ServiceSection from "@/components/sections/service-section";
 import TrustSection from "@/components/sections/trust-section";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#070A12] bg-[radial-gradient(70%_50%_at50%_0%, rgba(212,160,23,0.12)), transparent_60%] text-white">

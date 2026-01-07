@@ -2,10 +2,10 @@ import React from "react";
 import { Metadata } from "next";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import GlowBackground from "@/components/shared/glow-background";
-import DashboardHeader from "@/components/dashboard/dashboard-header";
 import DashboardStats from "@/components/dashboard/dashboard-stats";
 import RecentRequests from "@/components/dashboard/recent-requests";
 import QuickActions from "@/components/dashboard/quick-actions";
+import DashboardHeader from "@/components/dashboard/dashboard-header-v2";
 
 export const metadata: Metadata = {
   title: "Dashboard - Secure Escort",
