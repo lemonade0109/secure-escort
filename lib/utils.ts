@@ -69,3 +69,10 @@ export function getFriendlyErrorMessage(error: unknown): string {
   // Fallback generic message
   return "Something went wrong. Please try again later.";
 }
+
+// helper func to generate tracking code
+export function makeTrackingCode(prefix = "SE") {
+  const part = Math.random().toString(36).slice(2, 8).toUpperCase();
+  const time = Date.now().toString(36).slice(-4).toUpperCase();
+  return `${prefix}-${part}${time}`; // eg: SE-A1B2C3D4
+}

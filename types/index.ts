@@ -48,3 +48,21 @@ export interface AuthRequest extends NextRequest {
       | undefined;
   };
 }
+
+export interface DashboardStatsProps {
+  stats: {
+    total: number;
+    active: number;
+    completed: number;
+  };
+}
+
+export interface RecentRequestProps {
+  id: string;
+  type: "ESCORT" | "PERSONAL_SECURITY" | "DELIVERY";
+  status: "PENDING" | "ASSIGNED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+  createdAt: Date;
+  pickup: string;
+  dropoff: string;
+  trackingCode: string;
+}

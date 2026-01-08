@@ -1,21 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
-import Link from "next/link";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { RecentRequestProps } from "@/types";
-import { Badge } from "../ui/badge";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { statusVariant } from "../recent-requests";
 
-export function statusVariant(status: RecentRequestProps["status"]) {
-  switch (status) {
-    case "COMPLETED":
-      return "secondary";
-    case "CANCELLED":
-      return "destructive";
-    default:
-      return "outline";
-  }
-}
-
-const RecentRequests = (props: { requests: RecentRequestProps[] }) => {
+const RecentRequestLoading = (props: { requests: RecentRequestProps[] }) => {
   return (
     <Card
       className="
@@ -31,7 +23,7 @@ const RecentRequests = (props: { requests: RecentRequestProps[] }) => {
 
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-sm uppercase tracking-widest text-white/70">
-          Recent Requests
+          <Skeleton className="h-4 w-32" />
         </CardTitle>
 
         <Button
@@ -45,7 +37,7 @@ const RecentRequests = (props: { requests: RecentRequestProps[] }) => {
             hover:bg-white/10
           "
         >
-          <Link href="/request">New Request</Link>
+          <Skeleton className="h-8 w-24" />
         </Button>
       </CardHeader>
 
@@ -59,12 +51,13 @@ const RecentRequests = (props: { requests: RecentRequestProps[] }) => {
             p-5
           "
           >
-            <p className="text-sm text-white/80">No requests yet</p>
+            <span className="text-sm block">
+              <Skeleton className="h-4 w-32" />
+            </span>
 
-            <p className="mt-1 text-xs text-white/60">
-              Your latest escort or delivery requests will appear here once
-              created.
-            </p>
+            <span className="mt-1 text-xs block">
+              <Skeleton className="h-4 w-full" />
+            </span>
           </div>
         ) : (
           props.requests.map((request) => (
@@ -75,24 +68,23 @@ const RecentRequests = (props: { requests: RecentRequestProps[] }) => {
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-sm font-medium">
+                  <span className="text-sm font-medium block">
                     {request.type === "ESCORT"
                       ? "Escort Service"
                       : request.type === "DELIVERY"
                         ? "Delivery Service"
                         : "Personal Security"}
-                    <span className="text-white/70">
-                      {" "}
-                      • {request.trackingCode}
-                    </span>
-                  </p>
-                  <p className="mt-1 text-xs text-white/70">
-                    From {request.pickup} to {request.dropoff}
-                  </p>
+                    <Skeleton className="h-4 w-32" />
+                  </span>
+                  <span className="mt-1 text-xs block">
+                    <Skeleton className="h-4 w-full" />
+                  </span>
+                  <span className="mt-1 text-xs  block">
+                    <Skeleton className="h-4 w-48" />
+                  </span>
                 </div>
-
                 <Badge variant={statusVariant(request.status)}>
-                  {request.status.replaceAll("_", " ")}
+                  <Skeleton className="h-4 w-24" />
                 </Badge>
               </div>
             </Link>
@@ -103,4 +95,4 @@ const RecentRequests = (props: { requests: RecentRequestProps[] }) => {
   );
 };
 
-export default RecentRequests;
+export default RecentRequestLoading;

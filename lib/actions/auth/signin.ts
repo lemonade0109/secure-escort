@@ -35,7 +35,7 @@ export const signInAction = async (
     ) {
       return {
         success: false,
-        message: "Invalid email or password",
+        message: "Incorrect email or password",
       };
     }
     const rendered = getFriendlyErrorMessage(error);

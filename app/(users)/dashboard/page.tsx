@@ -5,7 +5,8 @@ import GlowBackground from "@/components/shared/glow-background";
 import DashboardStats from "@/components/dashboard/dashboard-stats";
 import RecentRequests from "@/components/dashboard/recent-requests";
 import QuickActions from "@/components/dashboard/quick-actions";
-import DashboardHeader from "@/components/dashboard/dashboard-header-v2";
+import DashboardHeader from "@/components/dashboard/dashboard-header-main";
+import { getDashboardData } from "@/lib/actions/requests/dashboard-requests";
 
 export const metadata: Metadata = {
   title: "Dashboard - Secure Escort",
@@ -14,6 +15,8 @@ export const metadata: Metadata = {
 
 export default async function DashboardPage() {
   await requireVerifiedUser();
+
+  const data = await getDashboardData();
   return (
     <main className=" min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
@@ -22,12 +25,12 @@ export default async function DashboardPage() {
         <DashboardHeader />
 
         <div className="mt-8">
-          <DashboardStats />
+          <DashboardStats stats={data.stats} />
         </div>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <RecentRequests />
+            <RecentRequests requests={data.recent} />
           </div>
 
           <div className="space-y-6">

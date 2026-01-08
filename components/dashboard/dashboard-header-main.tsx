@@ -13,14 +13,14 @@ export default async function DashboardHeader() {
     <Card className="overflow-hidden border-white/10 bg-white/4 text-white backdrop-blur-xl">
       {/* top chrome bar */}
       <div className="flex items-center justify-between border-b border-white/10 bg-white/3 px-4 py-3">
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <div className="inline-flex size-8 items-center justify-center rounded-lg border border-white/10 bg-white/3">
             <ShieldCheck className="size-4 text-gold" />
           </div>
           <span className="text-sm font-medium tracking-tight">
             Secure Escort
           </span>
-        </div>
+        </Link>
 
         <div className="flex items-center gap-2">
           <button
@@ -63,7 +63,7 @@ export default async function DashboardHeader() {
                   asChild
                   className="bg-gold text-black hover:bg-gold/90 transition duration-300 "
                 >
-                  <Link href="/request?type=escort">Request Escort</Link>
+                  <Link href="/request">Request A Service</Link>
                 </Button>
 
                 <Button
@@ -71,7 +71,7 @@ export default async function DashboardHeader() {
                   variant="outline"
                   className="border-white/15 bg-white/3 text-white hover:text-white/90 hover:bg-white/6 transition duration-300"
                 >
-                  <Link href="/request?type=delivery">Request Delivery</Link>
+                  <Link href="/tracking">Track Your Package</Link>
                 </Button>
               </div>
 
