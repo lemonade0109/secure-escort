@@ -2,22 +2,26 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import GlowBackground from "@/components/shared/glow-background";
 import { Button } from "@/components/ui/button";
+import ServiceCard from "@/components/shared/card/service-card";
 
 const services = [
   {
     type: "PERSONAL_SECURITY",
+    text: "PERSONAL SECURITY",
     icon: "🛡️",
     title: "Personal Security",
     desc: "Hire a trained guard for events, venues, VIP protection or personal safety.",
   },
   {
     type: "ESCORT",
-    icon: "🚶",
+    text: "ESCORT",
+    icon: "🚚",
     title: "Escort Service",
     desc: "Get escorted safely from pickup to destination with tracking + ETA updates.",
   },
   {
     type: "DELIVERY",
+    text: "COURIER",
     icon: "📦",
     title: "Valuables Delivery",
     desc: "Secure courier delivery with a tracking code and real-time status updates.",
@@ -30,7 +34,7 @@ export default function RequestPage() {
       <GlowBackground intensity="medium" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-10">
-        <div className="mb-8">
+        <div className="my-10">
           <h1 className="text-2xl sm:text-3xl font-semibold">
             Create a Request
           </h1>
@@ -39,31 +43,21 @@ export default function RequestPage() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {services.map((service) => (
-            <Card
-              key={service.type}
-              className="border-white/10 bg-white/4 text-white backdrop-blur-xl overflow-hidden"
-            >
-              <CardHeader className="space-y-2">
-                <div className="text-3xl">{service.icon}</div>
-                <CardTitle className="text-lg">{service.title}</CardTitle>
-              </CardHeader>
-
-              <CardContent className="space-y-5">
-                <p className="text-sm text-white/70">{service.desc}</p>
-
-                <div className="h-px w-full bg-linear-to-r from-transparent via-white/15 to-transparent" />
-
-                <Button
-                  asChild
-                  className="w-full bg-gold text-black hover:bg-gold/90"
-                >
-                  <Link href={`/request/new?type=${service.type}`}>Select</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+        <div className=" w-full">
+          <ul className="w-full grid md:grid-cols-3 gap-6">
+            {services.map((service) => (
+              <li key={service.type} className="">
+                <ServiceCard
+                  spanText={service.text}
+                  serviceCard={false}
+                  icon={service.icon}
+                  title={service.title}
+                  description={service.desc}
+                  linkHref={`/request/new?type=${service.type}`}
+                />
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </main>

@@ -2,17 +2,21 @@ import React from "react";
 import CardActionButton from "./card-action-button";
 import { ArrowRight } from "lucide-react";
 import CinematicCardV2 from "./cinematic-card-v2";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
-type ServiceCardProps = {
+export type ServiceCardProps = {
   icon: string;
   spanText: string;
   title: string;
   description: string;
   linkHref: string;
   btnText?: string | "Learn More";
+  serviceCard: boolean;
 };
 
 const ServiceCard = ({
+  serviceCard,
   icon,
   spanText,
   title,
@@ -32,15 +36,27 @@ const ServiceCard = ({
       <h3 className="text-lg font-medium ">{title}</h3>
       <p className="mt-2 text-sm text-white/70">{description}</p>
 
-      <CardActionButton
-        href={linkHref}
-        className="text-white flex justify-end items-center hover:bg-none hover:text-gold "
-      >
-        <div className="flex items-center gap-2">
-          {btnText}
-          <ArrowRight className="size-4" />
-        </div>
-      </CardActionButton>
+      {serviceCard === true ? (
+        <CardActionButton
+          href={linkHref}
+          className="text-white flex justify-end items-center hover:bg-none hover:text-gold"
+        >
+          <div className="flex items-center gap-2">
+            {btnText}
+            <ArrowRight className="size-4" />
+          </div>
+        </CardActionButton>
+      ) : (
+        <>
+          <div className="h-px w-full bg-linear-to-r from-transparent via-white/15 to-transparent my-6" />
+          <Button
+            asChild
+            className="w-full bg-gold text-black hover:bg-gold/90 "
+          >
+            <Link href={linkHref}>Select</Link>
+          </Button>
+        </>
+      )}
     </CinematicCardV2>
   );
 };

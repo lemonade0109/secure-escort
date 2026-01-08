@@ -29,6 +29,7 @@ const ServiceSection = () => {
         <div className="grid gap-6 md:grid-cols-3">
           <FadeUp delay={0.06}>
             <ServiceCard
+              serviceCard={true}
               icon="🛡️"
               spanText="Personal"
               title="Personal Security"
@@ -39,6 +40,7 @@ const ServiceSection = () => {
 
           <FadeUp delay={0.12}>
             <ServiceCard
+              serviceCard={true}
               icon="🚚"
               spanText="Escort"
               title="Secure Escort"
@@ -49,6 +51,7 @@ const ServiceSection = () => {
 
           <FadeUp delay={0.18}>
             <ServiceCard
+              serviceCard={true}
               icon="📦"
               spanText="Courier"
               title="Valuable Delivery"
