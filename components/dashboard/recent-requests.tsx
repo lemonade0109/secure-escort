@@ -90,7 +90,7 @@ const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
                   </p>
                   {request.type !== "PERSONAL_SECURITY" && (
                     <p className="mt-1 text-xs text-white/70">
-                      From {request.details?.pickup || "N/A"} to{" "}
+                      From: {request.details?.pickup || "N/A"}, To:{" "}
                       {request.details?.dropoff || "N/A"}
                     </p>
                   )}
