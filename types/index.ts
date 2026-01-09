@@ -84,3 +84,12 @@ export type ServiceCardProps = {
 };
 
 export type CreateRequestInput = z.infer<typeof createRequestSchema>;
+
+export type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export type RequestDetails = {
+  time?: string | number | Date;
+  [key: string]: unknown;
+};

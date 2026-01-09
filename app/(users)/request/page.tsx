@@ -33,9 +33,9 @@ export default function RequestPage() {
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6 py-10">
+      <div className="relative z-10 max-w-6xl px-6 py-10 mx-auto">
         <div className="my-10">
-          <h1 className="text-2xl sm:text-3xl font-semibold">
+          <h1 className="text-2xl font-semibold sm:text-3xl">
             Create a Request
           </h1>
           <p className="mt-2 text-sm text-white/70">
@@ -43,8 +43,8 @@ export default function RequestPage() {
           </p>
         </div>
 
-        <div className=" w-full">
-          <ul className="w-full grid md:grid-cols-3 gap-6">
+        <div className="w-full ">
+          <ul className="grid w-full gap-6 md:grid-cols-3">
             {services.map((service) => (
               <li key={service.type} className="">
                 <ServiceCard

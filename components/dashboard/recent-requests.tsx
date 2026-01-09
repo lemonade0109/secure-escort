@@ -2,18 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { RecentRequestProps } from "@/types";
-import { Badge } from "../ui/badge";
-
-export function statusVariant(status: RecentRequestProps["status"]) {
-  switch (status) {
-    case "COMPLETED":
-      return "secondary";
-    case "CANCELLED":
-      return "destructive";
-    default:
-      return "outline";
-  }
-}
+import StatusBadge from "../requests/status-badge";
+import React from "react";
 
 const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
   props
@@ -102,9 +92,7 @@ const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
                   )}
                 </div>
 
-                <Badge variant={statusVariant(request.status)}>
-                  {request.status.replaceAll("_", " ")}
-                </Badge>
+                <StatusBadge status={request.status} />
               </div>
             </Link>
           ))
