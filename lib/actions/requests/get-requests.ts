@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/db/db";
 
-export async function getDashboardData() {
+export async function getRequestAction() {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -24,11 +24,10 @@ export async function getDashboardData() {
       select: {
         id: true,
         trackingCode: true,
-        pickup: true,
         type: true,
         status: true,
         createdAt: true,
-        dropoff: true,
+        details: true,
       },
     }),
   ]);

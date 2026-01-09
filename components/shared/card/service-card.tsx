@@ -4,16 +4,7 @@ import { ArrowRight } from "lucide-react";
 import CinematicCardV2 from "./cinematic-card-v2";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
-export type ServiceCardProps = {
-  icon: string;
-  spanText: string;
-  title: string;
-  description: string;
-  linkHref: string;
-  btnText?: string | "Learn More";
-  serviceCard: boolean;
-};
+import { ServiceCardProps } from "@/types";
 
 const ServiceCard = ({
   serviceCard,

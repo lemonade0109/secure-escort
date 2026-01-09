@@ -1,4 +1,6 @@
+import { createRequestSchema } from "@/lib/validators";
 import { NextRequest } from "next/server";
+import z from "zod";
 
 export type actionFunction<T> = (
   prevState: T,
@@ -62,7 +64,23 @@ export interface RecentRequestProps {
   type: "ESCORT" | "PERSONAL_SECURITY" | "DELIVERY";
   status: "PENDING" | "ASSIGNED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
   createdAt: Date;
-  pickup: string;
-  dropoff: string;
+  pickup: string | null;
+  dropoff: string | null;
   trackingCode: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  details: any;
 }
+
+export type RequestTypeProps = "PERSONAL_SECURITY" | "ESCORT" | "DELIVERY";
+
+export type ServiceCardProps = {
+  icon: string;
+  spanText: string;
+  title: string;
+  description: string;
+  linkHref: string;
+  btnText?: string | "Learn More";
+  serviceCard: boolean;
+};
+
+export type CreateRequestInput = z.infer<typeof createRequestSchema>;

@@ -6,7 +6,7 @@ import DashboardStats from "@/components/dashboard/dashboard-stats";
 import RecentRequests from "@/components/dashboard/recent-requests";
 import QuickActions from "@/components/dashboard/quick-actions";
 import DashboardHeader from "@/components/dashboard/dashboard-header-main";
-import { getDashboardData } from "@/lib/actions/requests/dashboard-requests";
+import { getRequestAction } from "@/lib/actions/requests/get-requests";
 
 export const metadata: Metadata = {
   title: "Dashboard - Secure Escort",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default async function DashboardPage() {
   await requireVerifiedUser();
 
-  const data = await getDashboardData();
+  const data = await getRequestAction();
   return (
     <main className=" min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
@@ -30,7 +30,14 @@ export default async function DashboardPage() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <RecentRequests requests={data.recent} />
+            <RecentRequests
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              requests={data.recent.map((req: any) => ({
+                ...req,
+                pickup: req.details?.pickup,
+                dropoff: req.details?.dropoff,
+              }))}
+            />
           </div>
 
           <div className="space-y-6">

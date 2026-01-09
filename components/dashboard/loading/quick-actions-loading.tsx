@@ -17,7 +17,7 @@ const QuickActionsLoading = () => {
       <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-gold/40 to-transparent" />
 
       <CardHeader>
-        <CardTitle className="text-xs uppercase ">
+        <CardTitle className="text-xs uppercase tracking-widest text-white/70">
           <span className="block">
             <Skeleton className="h-4 w-32" />
           </span>
@@ -47,14 +47,16 @@ const QuickActionsLoading = () => {
             bg-white/5
             px-4 py-3
             text-sm
-            
+            text-white
+            hover:text-white/90
+            hover:bg-white/10
             transition duration-300
           "
         >
           <Skeleton className="h-8 w-full" />
         </Button>
 
-        <span className="pt-2 text-xs leading-relaxed block">
+        <span className="pt-2 text-xs text-white/60 leading-relaxed block">
           <Skeleton className="h-4 w-full" />
         </span>
       </CardContent>

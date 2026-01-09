@@ -15,7 +15,9 @@ export function statusVariant(status: RecentRequestProps["status"]) {
   }
 }
 
-const RecentRequests = (props: { requests: RecentRequestProps[] }) => {
+const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
+  props
+) => {
   return (
     <Card
       className="
@@ -86,9 +88,18 @@ const RecentRequests = (props: { requests: RecentRequestProps[] }) => {
                       • {request.trackingCode}
                     </span>
                   </p>
-                  <p className="mt-1 text-xs text-white/70">
-                    From {request.pickup} to {request.dropoff}
-                  </p>
+                  {request.type !== "PERSONAL_SECURITY" && (
+                    <p className="mt-1 text-xs text-white/70">
+                      From {request.details?.pickup || "N/A"} to{" "}
+                      {request.details?.dropoff || "N/A"}
+                    </p>
+                  )}
+
+                  {request.type === "PERSONAL_SECURITY" && (
+                    <p className="mt-1 text-xs text-white/70">
+                      Location: {request.details?.location || "N/A"}
+                    </p>
+                  )}
                 </div>
 
                 <Badge variant={statusVariant(request.status)}>
