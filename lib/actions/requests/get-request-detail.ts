@@ -16,7 +16,6 @@ export const getRequestDetailAction = async (id: string) => {
       status: true,
       createdAt: true,
       details: true,
-      notes: true,
     },
   });
   return req;

@@ -23,7 +23,7 @@ export const CreateRequestAction = async (
 
     const rawData = Object.fromEntries(formData);
     const validatedData = validateWithZodSchema(createRequestSchema, rawData);
-    console.log(validatedData.type);
+
     const notes = (validatedData.notes ?? "").toString().trim();
     const trackingCode = makeTrackingCode("SE");
 
@@ -36,8 +36,8 @@ export const CreateRequestAction = async (
         trackingCode,
         details: {
           ...validatedData,
+          notes: notes.length > 0 ? notes : undefined,
         },
-        notes: notes.length > 0 ? notes : undefined,
       },
       select: { id: true },
     });
