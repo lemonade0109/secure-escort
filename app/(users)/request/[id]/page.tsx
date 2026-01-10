@@ -69,6 +69,12 @@ export default async function RequestDetailsPage({ params }: PageProps) {
   const time = formatTimeFromDetails(details);
   const summary = getSummary(details, requestDetail.type);
 
+  const isActive = requestDetail.status === "ASSIGNED";
+  // requestDetail.status === "IN_PROGRESS" ||
+  // requestDetail.status === "PENDING" ||
+  // requestDetail.status === "COMPLETED" ||
+  // requestDetail.status === "CANCELLED";
+
   return (
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="strong" />
@@ -279,25 +285,45 @@ export default async function RequestDetailsPage({ params }: PageProps) {
               <CardTitle className="text-base">Progress</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <TimeLineItem
-                title="Request created"
-                desc="We receive your request and it's queued for assignment."
-                active
-              />
-
-              <TimeLineItem
-                title="Guard Assigned"
-                desc="A guard will be assigned and you'll receive updates."
-              />
-              <TimeLineItem
-                title="In Progress"
-                desc="Tracking becomes active once service starts."
-              />
-              <TimeLineItem
-                title="Completed"
-                desc="Service finished. You'll be able to rate your experience."
-              />
-
+              {(() => {
+                const steps = [
+                  {
+                    key: "PENDING",
+                    title: "Request created",
+                    desc: "We receive your request and it's queued for assignment.",
+                  },
+                  {
+                    key: "ASSIGNED",
+                    title: "Guard Assigned",
+                    desc: "A guard will be assigned and you'll receive updates.",
+                  },
+                  {
+                    key: "IN_PROGRESS",
+                    title: "In Progress",
+                    desc: "Tracking becomes active once service starts.",
+                  },
+                  {
+                    key: "COMPLETED",
+                    title: "Completed",
+                    desc: "Service finished. You'll be able to rate your experience.",
+                  },
+                ];
+                const statusOrder = [
+                  "PENDING",
+                  "ASSIGNED",
+                  "IN_PROGRESS",
+                  "COMPLETED",
+                ];
+                const currentStep = statusOrder.indexOf(requestDetail.status);
+                return steps.map((step, idx) => (
+                  <TimeLineItem
+                    key={step.key}
+                    title={step.title}
+                    desc={step.desc}
+                    active={idx <= currentStep}
+                  />
+                ));
+              })()}
               <div className="pt-2 text-xs text-white/60">
                 ETA and live tracking will appear when the request is assigned.
               </div>
