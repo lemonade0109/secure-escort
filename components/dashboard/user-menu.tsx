@@ -38,15 +38,15 @@ const UserMenu = ({ name, email }: UserMenuProps) => {
         <Button
           type="button"
           variant="outline"
-          className="h-9 gap-2 border-white/10 bg-white/5 px-2 text-white hover:bg-white/10 hover:text-white/90"
+          className="gap-2 px-2 text-white h-9 border-white/10 bg-white/5 hover:bg-white/10 hover:text-white/90"
         >
-          <Avatar className="h-6 w-6">
+          <Avatar className="w-6 h-6">
             <AvatarFallback className="bg-white/10 text-[10px] text-white/80">
               {initials}
             </AvatarFallback>
           </Avatar>
 
-          <span className="hidden sm:inline text-xs text-white/80">
+          <span className="hidden text-xs sm:inline text-white/80">
             {name?.split(" ")[0] || "Account"}
           </span>
         </Button>
@@ -65,14 +65,21 @@ const UserMenu = ({ name, email }: UserMenuProps) => {
 
         <DropdownMenuItem asChild>
           <Link href="/profile" className="cursor-pointer">
-            <UserIcon className="mr-2 h-4 w-4" />
+            <UserIcon className="w-4 h-4 mr-2" />
             Profile
           </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
+          <Link href="/requests" className="cursor-pointer">
+            <UserIcon className="w-4 h-4 mr-2" />
+            Requests
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem asChild>
           <Link href="/settings" className="cursor-pointer">
-            <Settings className="mr-2 h-4 w-4" />
+            <Settings className="w-4 h-4 mr-2" />
             Settings
           </Link>
         </DropdownMenuItem>
@@ -83,10 +90,10 @@ const UserMenu = ({ name, email }: UserMenuProps) => {
           <form action={signOutAction} className="w-full">
             <button
               type="submit"
-              className="rounded-xl border-none cursor-pointer items-center hover:bg-white/10 gap-2 flex justify-start "
+              className="flex items-center justify-start gap-2 border-none cursor-pointer rounded-xl hover:bg-white/10 "
               disabled={pending}
             >
-              <LogOut className=" h-4 w-4" />
+              <LogOut className="w-4 h-4 " />
               {pending ? "Signing out..." : "Sign Out"}
             </button>
           </form>

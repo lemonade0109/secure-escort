@@ -1,8 +1,11 @@
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import GlowBackground from "@/components/shared/glow-background";
-import { Button } from "@/components/ui/button";
 import ServiceCard from "@/components/shared/card/service-card";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Request - Secure Escort",
+  description: "Create a new service request with Secure Escort.",
+};
 
 const services = [
   {
@@ -39,7 +42,7 @@ export default function RequestPage() {
             Create a Request
           </h1>
           <p className="mt-2 text-sm text-white/70">
-            Choose a service below. You’ll be taken to a quick form.
+            Choose a service below. You&apos;ll be taken to a quick form.
           </p>
         </div>
 

@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CreateRequestAction } from "@/lib/actions/requests/create-request";
 import { RequestTypeProps } from "@/types";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { success } from "zod";
+import Link from "next/link";
 
 function labelForType(type: RequestTypeProps) {
   switch (type) {
@@ -25,12 +23,15 @@ function labelForType(type: RequestTypeProps) {
 
 export default function NewRequestForm(props: { type: RequestTypeProps }) {
   return (
-    <Card className="border-white/10 bg-white/4 text-white backdrop-blur-xl overflow-hidden">
-      <div className="border-b border-white/10 bg-white/3 px-6 py-4">
-        <p className="text-xs uppercase tracking-widest text-white/50">
+    <Card className="overflow-hidden text-white border-white/10 bg-white/4 backdrop-blur-xl">
+      <div className="px-6 py-4 border-b border-white/10 bg-white/3">
+        <Link
+          href="/request"
+          className="text-xs tracking-widest uppercase text-white/50"
+        >
           Create Request
-        </p>
-        <h1 className="mt-1 text-xl sm:text-2xl font-semibold">
+        </Link>
+        <h1 className="mt-1 text-xl font-semibold sm:text-2xl">
           {labelForType(props.type)}
         </h1>
         <p className="mt-1 text-sm text-white/70">
@@ -150,7 +151,7 @@ export default function NewRequestForm(props: { type: RequestTypeProps }) {
                     id="notes"
                     name="notes"
                     rows={3}
-                    className="w-full rounded-md border border-white/10 bg-white/3 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-gold/60"
+                    className="w-full px-3 py-2 text-sm text-white border rounded-md border-white/10 bg-white/3 placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-gold/60"
                     placeholder="Additional details or instructions"
                   />
                 </div>
@@ -158,19 +159,19 @@ export default function NewRequestForm(props: { type: RequestTypeProps }) {
                 {/* Submit */}
                 <Button
                   type="submit"
-                  className="w-full mt-2 bg-gold hover:bg-gold/90 text-black"
+                  className="w-full mt-2 text-black bg-gold hover:bg-gold/90"
                 >
                   {result?.success ? "Request Created!" : "Create Request"}
                 </Button>
 
                 {/* Error message */}
                 {result?.success === false && (
-                  <div className="text-center text-destructive text-sm sm:text-base">
+                  <div className="text-sm text-center text-destructive sm:text-base">
                     {String(result.message)}
                   </div>
                 )}
 
-                <div className="pt-2 text-xs text-white text-center">
+                <div className="pt-2 text-xs text-center text-white">
                   By submitting, you agree to share request details for guard
                   assignment and tracking purposes.
                 </div>

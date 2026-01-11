@@ -89,7 +89,24 @@ export type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-export type RequestDetails = {
+export type RequestDetailsProps = {
   time?: string | number | Date;
   [key: string]: unknown;
+};
+
+export type RequestListsProps = {
+  requests: {
+    id: string;
+    trackingCode: string;
+    type: "PERSONAL_SECURITY" | "ESCORT" | "DELIVERY";
+    status: "PENDING" | "ASSIGNED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+    createdAt: Date;
+    details: RequestDetailsProps;
+  }[];
+};
+
+export type BackButtonProps = {
+  fallbackHref: string;
+  label?: string;
+  className?: string;
 };

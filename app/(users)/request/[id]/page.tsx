@@ -1,12 +1,19 @@
 import GlowBackground from "@/components/shared/glow-background";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShieldCheck } from "lucide-react";
-import { RequestDetails, PageProps } from "@/types";
+import { RequestDetailsProps, PageProps } from "@/types";
 import { getRequestDetailAction } from "@/lib/actions/requests/get-request-detail";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import StatusBadge from "@/components/requests/status-badge";
 import CopyButton from "@/components/requests/copy-button";
+import { Metadata } from "next";
+import Breadcrumbs from "@/components/shared/breadcrumbs";
+
+export const metadata: Metadata = {
+  title: "Request Details - Secure Escort",
+  description: "View detailed information about a specific service request.",
+};
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +26,7 @@ function formatDate(d: Date) {
   }).format(d);
 }
 
-function formatTimeFromDetails(details: RequestDetails) {
+function formatTimeFromDetails(details: RequestDetailsProps) {
   const t = details?.time;
   if (!t) return null;
   return String(t);
@@ -38,7 +45,7 @@ function requestTypeLabel(type: string) {
   }
 }
 
-function getSummary(details: RequestDetails, type: string) {
+function getSummary(details: RequestDetailsProps, type: string) {
   switch (type) {
     case "ESCORT":
     case "DELIVERY":
@@ -65,15 +72,9 @@ export default async function RequestDetailsPage({ params }: PageProps) {
   const requestDetail = await getRequestDetailAction(id);
   if (!requestDetail) return notFound();
 
-  const details = requestDetail.details as RequestDetails;
+  const details = requestDetail.details as RequestDetailsProps;
   const time = formatTimeFromDetails(details);
   const summary = getSummary(details, requestDetail.type);
-
-  const isActive = requestDetail.status === "ASSIGNED";
-  // requestDetail.status === "IN_PROGRESS" ||
-  // requestDetail.status === "PENDING" ||
-  // requestDetail.status === "COMPLETED" ||
-  // requestDetail.status === "CANCELLED";
 
   return (
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
@@ -96,6 +97,7 @@ export default async function RequestDetailsPage({ params }: PageProps) {
                 <p className="text-[10px] uppercase tracking-widest text-white/50">
                   Request Details
                 </p>
+
                 <h1 className="text-lg font-semibold sm:text-xl">
                   {requestTypeLabel(requestDetail.type)}
                 </h1>
@@ -105,7 +107,14 @@ export default async function RequestDetailsPage({ params }: PageProps) {
             <StatusBadge status={requestDetail.status} />
           </div>
 
-          <CardContent className="p-5">
+          <div className="px-4 py-2 mx-2.5 border rounded-xl border-white/10 bg-white/3 backdrop-blur-xl text-[10px] text-white/90 max-w-sm">
+            <Breadcrumbs
+              serviceCode={requestDetail.trackingCode}
+              page="requests"
+            />
+          </div>
+
+          <CardContent className="px-5 pt-0 pb-5">
             <div className="grid gap-4 md:grid-cols-3">
               {/* Tracking */}
               <div className="p-4 border rounded-xl border-white/10 bg-white/3">

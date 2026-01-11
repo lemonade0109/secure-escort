@@ -4,6 +4,12 @@ import { RequestTypeProps } from "@/types";
 import { redirect } from "next/navigation";
 import React from "react";
 import NewRequestForm from "./request-new-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "New Request - Secure Escort",
+  description: "Create a new service request.",
+};
 
 export const dynamic = "force-dynamic";
 
