@@ -21,7 +21,7 @@ const SignInForm = () => {
       <Button
         type="submit"
         disabled={pending}
-        className="w-full mt-2 bg-gold hover:bg-gold/90 text-black"
+        className="w-full mt-2 text-black bg-gold hover:bg-gold/90"
       >
         {pending ? "Signing In..." : "Sign In"}
       </Button>
@@ -55,12 +55,12 @@ const SignInForm = () => {
             <SignInButton />
 
             {result?.success === false && (
-              <div className="text-center text-destructive text-sm sm:text-base">
+              <div className="text-sm text-center text-destructive sm:text-base">
                 {asStringMessage(result.message)}
               </div>
             )}
 
-            <div className="text-sm text-center text-muted-foreground sm:text-base flex flex-col justify-center">
+            <div className="flex flex-col justify-center text-sm text-center text-muted-foreground sm:text-base">
               <span>
                 <Link
                   href="/forgot-password"

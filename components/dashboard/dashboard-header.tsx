@@ -9,7 +9,7 @@ const DashboardHeader = async () => {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p className="text-xs uppercase tracking-widest text-white/50">
+        <p className="text-xs tracking-widest uppercase text-white/50">
           Dashboard
         </p>
         <h1 className="mt-8 text-3xl font-semibold">
@@ -21,14 +21,14 @@ const DashboardHeader = async () => {
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <Button asChild className="bg-gold hover:bg-gold/90 text-black">
+        <Button asChild className="text-black bg-gold hover:bg-gold/90">
           <Link href="/request">New Request</Link>
         </Button>
 
         <Button
           asChild
           variant="outline"
-          className="border-white/15 bg-white/3 text-white hover:text-white/90 hover:bg-white/6"
+          className="text-white border-white/15 bg-white/3 hover:text-white/90 hover:bg-white/6"
         >
           <Link href="/tracking">Track Package</Link>
         </Button>

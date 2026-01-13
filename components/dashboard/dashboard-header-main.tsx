@@ -2,66 +2,45 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Bell, ShieldCheck } from "lucide-react";
-import { auth } from "@/auth";
-import UserMenu from "./user-menu";
+
+import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
+import DashboardNav from "../layout/navbar/dashboard-nav";
 
 export default async function DashboardHeader() {
-  const session = await auth();
+  const { session } = await requireVerifiedUser();
   const userName = session?.user?.name?.split(" ")[0] || "User";
   return (
-    <Card className="overflow-hidden border-white/10 bg-white/4 text-white backdrop-blur-xl">
+    <Card className="overflow-hidden text-white border-white/10 bg-white/4 backdrop-blur-xl">
       {/* top chrome bar */}
-      <div className="flex items-center justify-between border-b border-white/10 bg-white/3 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="inline-flex size-8 items-center justify-center rounded-lg border border-white/10 bg-white/3">
-            <ShieldCheck className="size-4 text-gold" />
-          </div>
-          <span className="text-sm font-medium tracking-tight">
-            Secure Escort
-          </span>
-        </Link>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            aria-label="Notifications"
-            className="inline-flex size-9 items-center justify-center rounded-lg border border-white/10 bg-white/3 text-white/80 hover:bg-white/6"
-          >
-            <Bell className="size-4" />
-          </button>
-
-          <UserMenu name={session?.user?.name} email={session?.user?.email} />
-        </div>
-      </div>
+      <DashboardNav email={session?.user?.email} name={session?.user?.name} />
 
       <CardContent className="p-0">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* LEFT: text + actions */}
           <div className="relative p-6">
             {/* subtle glow */}
-            <div className="pointer-events-none absolute inset-0">
+            <div className="absolute inset-0 pointer-events-none">
               <div className="absolute -top-24 left-0 h-60 w-115 rounded-full bg-[radial-gradient(closest-side,rgba(212,160,23,0.18),transparent)] blur-2xl" />
             </div>
 
             <div className="relative z-10">
-              <p className="text-xs uppercase tracking-widest text-white/50">
+              <p className="text-xs tracking-widest uppercase text-white/50">
                 Dashboard
               </p>
 
-              <h1 className="mt-2 text-2xl sm:text-3xl font-semibold">
+              <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
                 Welcome back, <span className="text-white/90">{userName}!</span>
               </h1>
 
-              <p className="mt-2 text-sm text-white/70 max-w-xl">
+              <p className="max-w-xl mt-2 text-sm text-white/70">
                 Manage your escort requests and track secured deliveries from
                 one place.
               </p>
 
-              <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col gap-3 mt-6 sm:flex-row">
                 <Button
                   asChild
-                  className="bg-gold text-black hover:bg-gold/90 transition duration-300 "
+                  className="text-black transition duration-300 bg-gold hover:bg-gold/90 "
                 >
                   <Link href="/request">Request A Service</Link>
                 </Button>
@@ -69,13 +48,13 @@ export default async function DashboardHeader() {
                 <Button
                   asChild
                   variant="outline"
-                  className="border-white/15 bg-white/3 text-white hover:text-white/90 hover:bg-white/6 transition duration-300"
+                  className="text-white transition duration-300 border-white/15 bg-white/3 hover:text-white/90 hover:bg-white/6"
                 >
                   <Link href="/tracking">Track Your Package</Link>
                 </Button>
               </div>
 
-              <div className="mt-6 h-px w-full max-w-xl bg-linear-to-r from-transparent via-white/15 to-transparent" />
+              <div className="w-full h-px max-w-xl mt-6 bg-linear-to-r from-transparent via-white/15 to-transparent" />
             </div>
           </div>
 
@@ -86,7 +65,7 @@ export default async function DashboardHeader() {
               alt="Professional security guards"
               fill
               priority
-              className="object-cover object-top rounded-2xl px-2"
+              className="object-cover object-top px-2 rounded-2xl"
               style={{ objectPosition: "center top" }}
             />
 

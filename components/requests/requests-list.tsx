@@ -3,6 +3,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Link from "next/link";
 import StatusBadge from "./status-badge";
+import { getSummaryList, requestTypeLabel } from "@/lib/helpers-function";
 
 function normalizeDetails(details: unknown): Record<string, unknown> {
   if (!details) return {};
@@ -17,33 +18,6 @@ function normalizeDetails(details: unknown): Record<string, unknown> {
     return details as Record<string, unknown>;
   }
   return {};
-}
-
-function typeLabel(type: string) {
-  switch (type) {
-    case "PERSONAL_SECURITY":
-      return "Personal Security";
-    case "ESCORT":
-      return "Escort";
-    case "DELIVERY":
-      return "Delivery";
-    default:
-      return type;
-  }
-}
-
-function summary(type: string, details: Record<string, unknown>) {
-  if (type === "PERSONAL_SECURITY")
-    return details.location ? `Location: ${details.location}` : "-";
-  if (type === "ESCORT")
-    return details.pickup && details.dropoff
-      ? `From ${details.pickup} to ${details.dropoff}`
-      : "-";
-  if (type === "DELIVERY")
-    return details.pickup && details.dropoff
-      ? `From ${details.pickup} to ${details.dropoff}`
-      : "-";
-  return "Service Request";
 }
 
 const RequestList: React.FC<RequestListsProps> = ({ requests }) => {
@@ -74,10 +48,10 @@ const RequestList: React.FC<RequestListsProps> = ({ requests }) => {
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="text-sm font-medium">
-                      {typeLabel(request.type)}
+                      {requestTypeLabel(request.type)}
                     </p>
                     <p className="mt-1 text-xs text-white/70">
-                      {summary(request.type, details)}
+                      {getSummaryList(request.type, details)}
                     </p>
                     <p className="mt-2 font-mono text-xs text-white/60">
                       {request.trackingCode}

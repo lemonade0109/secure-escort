@@ -121,3 +121,11 @@ export const createRequestSchema = z.discriminatedUnion("type", [
   EscortServiceSchema,
   DeliveryServiceSchema,
 ]);
+
+// Schema for tracking request by tracking code
+export const trackRequestSchema = z.object({
+  trackingCode: z
+    .string()
+    .min(5, "Tracking code is required")
+    .max(64, "Invalid tracking code"),
+});

@@ -11,7 +11,13 @@ import {
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { LogOut, Settings, UserIcon } from "lucide-react";
+import {
+  GitPullRequestArrow,
+  LogOut,
+  Settings,
+  TrainTrackIcon,
+  UserIcon,
+} from "lucide-react";
 import { signOutAction } from "@/lib/actions/auth/signout";
 import { useFormStatus } from "react-dom";
 
@@ -72,8 +78,15 @@ const UserMenu = ({ name, email }: UserMenuProps) => {
 
         <DropdownMenuItem asChild>
           <Link href="/requests" className="cursor-pointer">
-            <UserIcon className="w-4 h-4 mr-2" />
+            <GitPullRequestArrow className="w-4 h-4 mr-2" />
             Requests
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem asChild>
+          <Link href="/tracking" className="cursor-pointer">
+            <TrainTrackIcon className="w-4 h-4 mr-2" />
+            Tracking
           </Link>
         </DropdownMenuItem>
 

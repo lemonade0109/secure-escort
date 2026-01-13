@@ -5,10 +5,16 @@ import { RequestDetailsProps, PageProps } from "@/types";
 import { getRequestDetailAction } from "@/lib/actions/requests/get-request-detail";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import StatusBadge from "@/components/requests/status-badge";
 import CopyButton from "@/components/requests/copy-button";
 import { Metadata } from "next";
 import Breadcrumbs from "@/components/shared/breadcrumbs";
+import StatusPill from "@/components/requests/status-pill";
+import {
+  getSummary,
+  InfoRow,
+  requestTypeLabel,
+  TimeLineItem,
+} from "@/lib/helpers-function";
 
 export const metadata: Metadata = {
   title: "Request Details - Secure Escort",
@@ -30,41 +36,6 @@ function formatTimeFromDetails(details: RequestDetailsProps) {
   const t = details?.time;
   if (!t) return null;
   return String(t);
-}
-
-function requestTypeLabel(type: string) {
-  switch (type) {
-    case "PERSONAL_SECURITY":
-      return "Personal Security";
-    case "ESCORT":
-      return "Escort Service";
-    case "DELIVERY":
-      return "Delivery Service";
-    default:
-      return type;
-  }
-}
-
-function getSummary(details: RequestDetailsProps, type: string) {
-  switch (type) {
-    case "ESCORT":
-    case "DELIVERY":
-      return {
-        primary: details.pickup ? `Pickup: ${details.pickup}` : "Pickup",
-        secondary: details.dropoff ? `Dropoff: ${details.dropoff}` : "Drop-off",
-      };
-    case "PERSONAL_SECURITY":
-      return {
-        primary: details.location
-          ? `Location: ${details.location}`
-          : "Location",
-        secondary: details.durationHours
-          ? `Duration: ${details.durationHours} hour(s)`
-          : "Duration",
-      };
-    default:
-      return type;
-  }
 }
 
 export default async function RequestDetailsPage({ params }: PageProps) {
@@ -104,7 +75,7 @@ export default async function RequestDetailsPage({ params }: PageProps) {
               </div>
             </div>
 
-            <StatusBadge status={requestDetail.status} />
+            <StatusPill status={requestDetail.status} />
           </div>
 
           <div className="px-4 py-2 mx-2.5 border rounded-xl border-white/10 bg-white/3 backdrop-blur-xl text-[10px] text-white/90 max-w-sm">
@@ -221,11 +192,11 @@ export default async function RequestDetailsPage({ params }: PageProps) {
                   {requestDetail.type === "ESCORT" && (
                     <>
                       <InfoRow
-                        label="Pickup Location"
+                        label="Pickup"
                         value={details?.pickup as string | undefined}
                       />
                       <InfoRow
-                        label="Drop-off Location"
+                        label="Drop-off"
                         value={details?.dropoff as string | undefined}
                       />
                       <InfoRow
@@ -341,55 +312,5 @@ export default async function RequestDetailsPage({ params }: PageProps) {
         </div>
       </div>
     </main>
-  );
-}
-
-function InfoRow({
-  label,
-  value,
-  mono,
-}: {
-  label: string;
-  value: string | undefined | null;
-  mono?: boolean;
-}) {
-  return (
-    <div>
-      <p className="text-xs tracking-widest uppercase text-white/50">{label}</p>
-      <p
-        className={`mt-1 text-sm text-white ${mono ? "font-mono" : ""} break-all`}
-      >
-        {value && String(value).trim().length ? String(value).trim() : "-"}
-      </p>
-    </div>
-  );
-}
-
-function TimeLineItem({
-  title,
-  desc,
-  active,
-}: {
-  title: string;
-  desc: string;
-  active?: boolean;
-}) {
-  return (
-    <div className="flex gap-3">
-      <div className="pt-1">
-        <div
-          className={[
-            "size-3 rounded-full border",
-            active
-              ? "border-gold bg-gold/40 shadow-[0_0_0_6px_rgba(212,160,23,10)]"
-              : "border-white/20 bg-white/5",
-          ].join(" ")}
-        />
-      </div>
-      <div>
-        <p className="text-sm font-medium">{title}</p>
-        <p className="mt-1 text-xs text-white/60">{desc}</p>
-      </div>
-    </div>
   );
 }

@@ -2,40 +2,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { RecentRequestProps } from "@/types";
-import StatusBadge from "../requests/status-badge";
 import React from "react";
+import StatusPill from "../requests/status-pill";
 
 const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
   props
 ) => {
   return (
-    <Card
-      className="
-        relative overflow-hidden
-        border border-white/10
-        bg-white/5
-        backdrop-blur-xl
-        text-white
-      "
-    >
+    <Card className="relative overflow-hidden text-white border border-white/10 bg-white/5 backdrop-blur-xl">
       {/* top glow divider */}
       <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-gold/40 to-transparent" />
 
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-sm uppercase tracking-widest text-white/70">
+        <CardTitle className="text-sm tracking-widest uppercase text-white/70">
           Recent Requests
         </CardTitle>
 
         <Button
           asChild
           variant="outline"
-          className="
-            border-white/15
-            bg-white/5
-            text-white
-            hover:text-white/90
-            hover:bg-white/10
-          "
+          className="text-white border-white/15 bg-white/5 hover:text-white/90 hover:bg-white/10"
         >
           <Link href="/request">New Request</Link>
         </Button>
@@ -43,14 +29,7 @@ const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
 
       <CardContent className="space-y-4">
         {props.requests.length === 0 ? (
-          <div
-            className="
-            rounded-xl
-            border border-white/10
-            bg-white/3
-            p-5
-          "
-          >
+          <div className="p-5 border rounded-xl border-white/10 bg-white/3">
             <p className="text-sm text-white/80">No requests yet</p>
 
             <p className="mt-1 text-xs text-white/60">
@@ -63,7 +42,7 @@ const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
             <Link
               key={request.id}
               href={`/request/${request.id}`}
-              className="block rounded-xl border border-white/10 bg-white/3 p-4 hover:bg-white/5 transition"
+              className="block p-4 transition border rounded-xl border-white/10 bg-white/3 hover:bg-white/5"
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -92,7 +71,7 @@ const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
                   )}
                 </div>
 
-                <StatusBadge status={request.status} />
+                <StatusPill status={request.status} />
               </div>
             </Link>
           ))

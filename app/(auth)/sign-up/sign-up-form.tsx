@@ -60,7 +60,7 @@ const SignUpForm = () => {
       <Button
         type="submit"
         disabled={pending}
-        className="w-full mt-2 bg-gold hover:bg-gold/90 text-black"
+        className="w-full mt-2 text-black bg-gold hover:bg-gold/90"
       >
         {pending ? "Signing Up..." : "Sign Up"}
       </Button>
@@ -157,7 +157,7 @@ const SignUpForm = () => {
                   )}
 
                   {isTooWeak && (
-                    <p className="text-xs text-red-500 mt-1">
+                    <p className="mt-1 text-xs text-red-500">
                       Please use at least 8 characters with lowercase,
                       uppercase, number and a special character.
                     </p>
@@ -199,7 +199,7 @@ const SignUpForm = () => {
             </div>
 
             {result && result.success === false && (
-              <div className="text-center text-destructive text-sm sm:text-base">
+              <div className="text-sm text-center text-destructive sm:text-base">
                 {asStringMessage(result.message)}
               </div>
             )}
