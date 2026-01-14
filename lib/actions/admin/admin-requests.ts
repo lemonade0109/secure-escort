@@ -3,6 +3,8 @@
 import { db } from "@/db/db";
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
+import { AdminRequestsQuery } from "@/types";
+import { Prisma } from "@prisma/client";
 
 export const getAdminStats = async () => {
   const { session } = await requireVerifiedUser();
@@ -22,28 +24,54 @@ export const getAdminStats = async () => {
   return { pending, assigned, inProgress, completed };
 };
 
-export const getAdminRequests = async (page = 1, limit = 10) => {
+export const getAdminRequests = async (query: AdminRequestsQuery) => {
+  const limit = query.limit || 10;
+  const page = Math.max(1, query.page || 1);
   const skip = (page - 1) * limit;
 
-  const [data, total] = await Promise.all([
+  const q = (query.q || "").trim();
+  const status = query.status || "ALL";
+  const type = query.type || "ALL";
+
+  const where: Prisma.RequestWhereInput = {};
+  if (status !== "ALL") where.status = status;
+  if (type !== "ALL") where.type = type;
+
+  if (q) {
+    where.OR = [
+      { trackingCode: { contains: q, mode: "insensitive" } },
+      { user: { name: { contains: q, mode: "insensitive" } } },
+      { user: { email: { contains: q, mode: "insensitive" } } },
+    ];
+  }
+
+  const [total, requests] = await Promise.all([
+    db.request.count({ where }),
     db.request.findMany({
+      where,
       orderBy: { createdAt: "desc" },
       skip,
       take: limit,
-      include: {
-        user: {
-          select: { name: true, email: true },
-        },
+      select: {
+        id: true,
+        type: true,
+        status: true,
+        createdAt: true,
+        trackingCode: true,
+        details: true,
+        user: { select: { name: true, email: true } },
       },
     }),
-    db.request.count(),
   ]);
 
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+
   return {
-    data,
+    requests,
     total,
-    totalPages: Math.ceil(total / limit),
-    currentPage: page,
+    page,
+    limit,
+    totalPages,
   };
 };
 

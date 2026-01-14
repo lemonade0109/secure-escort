@@ -1,4 +1,5 @@
 import { createRequestSchema } from "@/lib/validators";
+import { RequestStatus, RequestType } from "@prisma/client";
 import { NextRequest } from "next/server";
 import z from "zod";
 
@@ -109,4 +110,27 @@ export type BackButtonProps = {
   fallbackHref: string;
   label?: string;
   className?: string;
+};
+
+export type AdminRequestsQuery = {
+  page?: number;
+  limit?: number;
+  status?: RequestStatus | "ALL";
+  type?: RequestType | "ALL";
+  q?: string; //tracking code search
+};
+
+export type AnyObj = Record<string, unknown>;
+
+export type AdminTableRowProps = {
+  id: string;
+  type: RequestType;
+  status: RequestStatus;
+  createdAt: Date;
+  trackingCode: string;
+  details: RequestDetailsProps;
+  user: {
+    name: string | null;
+    email: string;
+  };
 };

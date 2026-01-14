@@ -13,7 +13,7 @@ import StatusPill from "../requests/status-pill";
 import { requestTypeLabel } from "@/lib/helpers-function";
 import { getRecentAdminRequests } from "@/lib/actions/admin/admin-requests";
 
-const AdminRequestsTable: React.FC = async () => {
+const AdminRecentRequestsTable: React.FC = async () => {
   const requests = await getRecentAdminRequests();
 
   return (
@@ -41,10 +41,10 @@ const AdminRequestsTable: React.FC = async () => {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <Table className="w-full text-sm">
+          <div className="overflow-x-auto border rounded-xl border-white/10">
+            <Table className="w-full px-3">
               <TableHeader>
-                <TableRow className="text-white/60 hover:bg-white/3">
+                <TableRow className="transition text-white/60 hover:bg-white/3">
                   <TableCell className="py-3 font-medium text-left">
                     Tracking
                   </TableCell>
@@ -61,7 +61,7 @@ const AdminRequestsTable: React.FC = async () => {
                     Created
                   </TableCell>
 
-                  <TableCell className="py-3 font-medium text-left">
+                  <TableCell className="py-3 font-medium text-right">
                     Action
                   </TableCell>
                 </TableRow>
@@ -69,8 +69,11 @@ const AdminRequestsTable: React.FC = async () => {
 
               <TableBody className="divide-y divide-white/10">
                 {requests.map((request) => (
-                  <TableRow key={request.id} className="hover:bg-white/3">
-                    <TableCell className="py-3 font-mono text-xs">
+                  <TableRow
+                    key={request.id}
+                    className="transition hover:bg-white/3"
+                  >
+                    <TableCell className="py-3 font-mono text-xs text-gold">
                       {request.trackingCode}
                     </TableCell>
 
@@ -109,4 +112,4 @@ const AdminRequestsTable: React.FC = async () => {
   );
 };
 
-export default AdminRequestsTable;
+export default AdminRecentRequestsTable;

@@ -96,8 +96,6 @@ model Request {
   user         User          @relation(fields: [userId], references: [id])
   notes        String?
   details      Json
-  pickup       String?
-  dropoff      String?
   trackingCode String        @unique
   guardId      String?       @db.ObjectId
   createdAt    DateTime      @default(now())

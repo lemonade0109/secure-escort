@@ -1,4 +1,12 @@
-import { RequestDetailsProps } from "@/types";
+import { AnyObj, RequestDetailsProps } from "@/types";
+import { RequestType } from "@prisma/client";
+
+function str(v: unknown) {
+  return typeof v === "string" ? v : "";
+}
+function num(v: unknown) {
+  return typeof v === "number" ? v : NaN;
+}
 
 export function TimeLineItem({
   title,
@@ -95,4 +103,39 @@ export function getSummaryList(type: string, details: Record<string, unknown>) {
       ? `From ${details.pickup} to ${details.dropoff}`
       : "-";
   return "Service Request";
+}
+
+export function getRequestRouteFromDetails(
+  type: RequestType,
+  details: RequestDetailsProps
+): { primary: string; secondary?: string } {
+  const d = (details ?? {}) as AnyObj;
+
+  if (type === "PERSONAL_SECURITY") {
+    const location = str(d.location);
+    const date = str(d.date);
+
+    return {
+      primary: location || "_",
+      secondary: date ? `Date: ${date}` : undefined,
+    };
+  }
+
+  const pickup = str(d.pickup);
+  const dropoff = str(d.dropoff);
+  return {
+    primary: pickup || "_",
+    secondary: dropoff ? `To: ${dropoff}` : undefined,
+  };
+}
+
+export function getTrackingMeta(details: RequestDetailsProps) {
+  const d = (details ?? {}) as AnyObj;
+
+  return {
+    time: str(d.time),
+    persons: num(d.persons),
+    itemsDescription: str(d.itemsDescription),
+    estimatedValue: num(d.estimatedValue),
+  };
 }

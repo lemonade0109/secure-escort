@@ -82,7 +82,7 @@ const UserMenu = ({ name, email }: UserMenuProps) => {
 
         {userIsAdmin && (
           <DropdownMenuItem asChild>
-            <Link href="/admin/dashboard" className="cursor-pointer">
+            <Link href="/dashboard" className="cursor-pointer">
               <LayoutDashboard className="w-4 h-4 mr-2" />
               Dashboard
             </Link>

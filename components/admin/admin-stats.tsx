@@ -8,7 +8,7 @@ const AdminStats: React.FC = async () => {
   const items = [
     { label: "Pending", value: stats.pending },
     { label: "Assigned", value: stats.assigned },
-    { label: "In-Progress", value: stats.inProgress },
+    { label: "In Progress", value: stats.inProgress },
     { label: "Completed", value: stats.completed },
   ];
   return (
@@ -26,8 +26,7 @@ const AdminStats: React.FC = async () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold">{item.value}</div>
-            {/* <div className="w-full h-px mt-2 bg-linear-to-r from-transparent via-white/10 to-transparent" /> */}
+            <div className="text-3xl font-semibold text-gold">{item.value}</div>
           </CardContent>
         </Card>
       ))}
