@@ -2,8 +2,8 @@ import { RequestListsProps } from "@/types";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Link from "next/link";
-import StatusBadge from "./status-badge";
 import { getSummaryList, requestTypeLabel } from "@/lib/helpers-function";
+import StatusPill from "./status-pill";
 
 function normalizeDetails(details: unknown): Record<string, unknown> {
   if (!details) return {};
@@ -59,7 +59,7 @@ const RequestList: React.FC<RequestListsProps> = ({ requests }) => {
                   </div>
 
                   <div className="flex flex-col items-end gap-2">
-                    <StatusBadge status={request.status} />
+                    <StatusPill status={request.status} />
                     <span className="text-xs text-white/50">
                       {new Date(request.createdAt).toLocaleDateString()}
                     </span>
