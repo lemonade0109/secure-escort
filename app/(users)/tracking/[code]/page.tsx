@@ -59,7 +59,6 @@ export default async function TrackingCodePage({
                   {(() => {
                     const details = request.details as RequestDetailsProps;
                     const summary = getSummary(details, String(request.type));
-                    console.log("summary", summary);
 
                     return (
                       <div className="space-y-3">

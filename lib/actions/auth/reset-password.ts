@@ -25,8 +25,6 @@ export const resetPasswordAction = async (
       where: { token: hashedToken },
     });
 
-    console.log("Reset password: token record from DB:", record);
-
     if (!record) {
       return {
         success: false,

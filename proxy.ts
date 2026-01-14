@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
 import { AuthRequest } from "./types";
+import { isAdminEmail } from "./lib/admin";
 
 const { auth } = NextAuth(authConfig);
 
@@ -53,7 +54,7 @@ export default auth((req: NextRequest) => {
     | undefined;
 
   const isLoggedIn = !!user?.email;
-  const role = user?.role;
+  const role = isAdminEmail(user?.email || "") ? "ADMIN" : user?.role || "USER";
 
   const isAuthRoute = isRoute(pathname, AUTH_ROUTES);
   const isPublicRoute = isRoute(pathname, PUBLIC_ROUTES);

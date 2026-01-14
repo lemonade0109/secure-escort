@@ -3,7 +3,6 @@ import { db } from "@/db/db";
 
 export const getTrackingCode = async ({ code }: { code: string }) => {
   const requestCode = decodeURIComponent(code).trim().toLowerCase();
-  console.log(requestCode);
 
   // Use case-insensitive search for trackingCode
   const request = await db.request.findFirst({
@@ -15,6 +14,5 @@ export const getTrackingCode = async ({ code }: { code: string }) => {
     },
   });
 
-  console.log({ request: request });
   return request;
 };

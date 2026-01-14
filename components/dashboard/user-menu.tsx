@@ -13,6 +13,8 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import {
   GitPullRequestArrow,
+  LayoutDashboard,
+  LockKeyhole,
   LogOut,
   Settings,
   TrainTrackIcon,
@@ -20,6 +22,7 @@ import {
 } from "lucide-react";
 import { signOutAction } from "@/lib/actions/auth/signout";
 import { useFormStatus } from "react-dom";
+import { isAdminClient } from "@/lib/admin";
 
 export type UserMenuProps = {
   name?: string | null;
@@ -36,6 +39,7 @@ function initialsFromName(name?: string | null, email?: string | null) {
 
 const UserMenu = ({ name, email }: UserMenuProps) => {
   const initials = initialsFromName(name, email);
+  const userIsAdmin = isAdminClient(email);
 
   const { pending } = useFormStatus();
   return (
@@ -76,6 +80,15 @@ const UserMenu = ({ name, email }: UserMenuProps) => {
           </Link>
         </DropdownMenuItem>
 
+        {userIsAdmin && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin/dashboard" className="cursor-pointer">
+              <LayoutDashboard className="w-4 h-4 mr-2" />
+              Dashboard
+            </Link>
+          </DropdownMenuItem>
+        )}
+
         <DropdownMenuItem asChild>
           <Link href="/requests" className="cursor-pointer">
             <GitPullRequestArrow className="w-4 h-4 mr-2" />
@@ -89,6 +102,15 @@ const UserMenu = ({ name, email }: UserMenuProps) => {
             Tracking
           </Link>
         </DropdownMenuItem>
+
+        {userIsAdmin && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin/dashboard" className="cursor-pointer">
+              <LockKeyhole className="w-4 h-4 mr-2" />
+              Admin Dashboard
+            </Link>
+          </DropdownMenuItem>
+        )}
 
         <DropdownMenuItem asChild>
           <Link href="/settings" className="cursor-pointer">
