@@ -11,10 +11,10 @@ import {
 } from "../ui/table";
 import StatusPill from "../requests/status-pill";
 import { requestTypeLabel } from "@/lib/helpers-function";
-import { getRecentAdminRequests } from "@/lib/actions/admin/admin-requests";
+import { getRecentAdminRequestsAction } from "@/lib/actions/admin/admin-requests";
 
 const AdminRecentRequestsTable: React.FC = async () => {
-  const requests = await getRecentAdminRequests();
+  const requests = await getRecentAdminRequestsAction();
 
   return (
     <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">

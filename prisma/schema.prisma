@@ -13,19 +13,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+  GUARD
+}
+
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   email         String    @unique
   password      String
   name          String?
   emailVerified DateTime? @db.Timestamp()
-  role          String    @default("USER")
+  role          Role      @default(USER)
   createdAt     DateTime  @default(now())
 
   services                Service[]
   emailVerificationTokens EmailVerificationToken[]
-  passwordResetTokens     passwordResetToken[]
+  passwordResetTokens     PasswordResetToken[]
   requests                Request[]
+  guardProfile            GuardProfile?
 }
 
 model Service {
@@ -42,7 +49,7 @@ model Service {
   etaTo   DateTime?
 
   userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -62,7 +69,7 @@ model EmailVerificationToken {
   @@index([userId])
 }
 
-model passwordResetToken {
+model PasswordResetToken {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   token  String @unique
   userId String @db.ObjectId
@@ -93,14 +100,30 @@ model Request {
   type         RequestType
   status       RequestStatus @default(PENDING)
   userId       String        @db.ObjectId
-  user         User          @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   notes        String?
   details      Json
   trackingCode String        @unique
   guardId      String?       @db.ObjectId
+  guard        GuardProfile? @relation(fields: [guardId], references: [id], onDelete: Cascade)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
   @@index([userId])
   @@index([status])
+}
+
+model GuardProfile {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String  @unique @db.ObjectId
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId String? @unique
+  phone   String?
+  active  Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  requests  Request[]
+
+  @@index([active])
 }

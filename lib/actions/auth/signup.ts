@@ -7,7 +7,7 @@ import { hashPassword } from "@/lib/auth/password";
 import { getFriendlyErrorMessage } from "@/lib/utils";
 import { validateWithZodSchema, SignUpActionSchema } from "@/lib/validators";
 import { FormActionState } from "@/types";
-import { emailExists } from "./email-exists";
+import { emailExistsAction } from "./email-exists";
 
 export const signupAction = async (
   prevState: FormActionState,
@@ -18,7 +18,7 @@ export const signupAction = async (
 
     const validatedData = validateWithZodSchema(SignUpActionSchema, rawData);
 
-    const { exists, error } = await emailExists(validatedData.email);
+    const { exists, error } = await emailExistsAction(validatedData.email);
 
     if (error) {
       return { success: false, message: error };

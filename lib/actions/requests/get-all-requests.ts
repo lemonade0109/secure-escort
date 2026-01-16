@@ -12,7 +12,7 @@ const ALLOWED_STATUS = [
   "IN_PROGRESS",
 ] as const;
 
-export const getAllRequests = async ({
+export const getAllRequestsAction = async ({
   type,
   status,
 }: {

@@ -2,7 +2,7 @@ import DashboardNav from "@/components/layout/navbar/dashboard-nav";
 import StatusPill from "@/components/requests/status-pill";
 import GlowBackground from "@/components/shared/glow-background";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getTrackingCode } from "@/lib/actions/tracking/get-tracking-code";
+import { getTrackingCodeAction } from "@/lib/actions/tracking/get-tracking-code";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import {
   getSummary,
@@ -19,7 +19,7 @@ export default async function TrackingCodePage({
 }) {
   const { code } = await params;
   const { session } = await requireVerifiedUser();
-  const request = await getTrackingCode({ code });
+  const request = await getTrackingCodeAction({ code });
 
   return (
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">

@@ -1,4 +1,4 @@
-import { getAdminRequests } from "@/lib/actions/admin/admin-requests";
+import { getAdminRequestsAction } from "@/lib/actions/admin/admin-requests";
 import React from "react";
 import { Metadata } from "next";
 import GlowBackground from "@/components/shared/glow-background";
@@ -90,7 +90,13 @@ export default async function AdminRequestPage({
     typeof (await searchParams).q === "string" ? (await searchParams).q : "";
   const page = Number((await searchParams).page) || 1;
 
-  const data = await getAdminRequests({ status, type, q, page, limit: 10 });
+  const data = await getAdminRequestsAction({
+    status,
+    type,
+    q,
+    page,
+    limit: 10,
+  });
 
   const transformedRequests = data.requests.map((request) => ({
     ...request,

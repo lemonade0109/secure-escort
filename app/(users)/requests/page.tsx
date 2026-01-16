@@ -1,5 +1,5 @@
 import React from "react";
-import { getAllRequests } from "@/lib/actions/requests/get-all-requests";
+import { getAllRequestsAction } from "@/lib/actions/requests/get-all-requests";
 import GlowBackground from "@/components/shared/glow-background";
 import Link from "next/link";
 import { Metadata } from "next";
@@ -21,7 +21,7 @@ export default async function RequestsPage({ searchParams }: PageProps) {
   const type = sp.type?.toUpperCase();
   const status = sp.status?.toUpperCase();
 
-  const requests = await getAllRequests({ type, status });
+  const requests = await getAllRequestsAction({ type, status });
   const transformedRequests = requests.map((req) => ({
     ...req,
     details: req.details as RequestDetailsProps,

@@ -1,7 +1,7 @@
 "use server";
 import { db } from "@/db/db";
 
-export const getTrackingCode = async ({ code }: { code: string }) => {
+export const getTrackingCodeAction = async ({ code }: { code: string }) => {
   const requestCode = decodeURIComponent(code).trim().toLowerCase();
 
   // Use case-insensitive search for trackingCode

@@ -5,12 +5,19 @@ import GlowBackground from "@/components/shared/glow-background";
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { Bell } from "lucide-react";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import React from "react";
 
+export const metadata: Metadata = {
+  title: "Operations Dashboard | Admin | Secure Escort",
+  description:
+    "Monitor requests, assign guards, and update statuses from the admin operations dashboard.",
+};
+
 export default async function AdminDashboardPage() {
   const { session } = await requireVerifiedUser();
-  const userIsAdmin = isAdmin(session?.user?.email);
+  const userIsAdmin = isAdmin(session?.user?.email || "");
   if (!userIsAdmin) {
     redirect("/dashboard");
   }

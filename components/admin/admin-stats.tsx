@@ -1,9 +1,9 @@
-import { getAdminStats } from "@/lib/actions/admin/admin-requests";
+import { getAdminStatsAction } from "@/lib/actions/admin/admin-requests";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 const AdminStats: React.FC = async () => {
-  const stats = await getAdminStats();
+  const stats = await getAdminStatsAction();
 
   const items = [
     { label: "Pending", value: stats.pending },

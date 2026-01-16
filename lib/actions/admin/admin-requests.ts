@@ -6,7 +6,7 @@ import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { AdminRequestsQuery } from "@/types";
 import { Prisma } from "@prisma/client";
 
-export const getAdminStats = async () => {
+export const getAdminStatsAction = async () => {
   const { session } = await requireVerifiedUser();
   const userIsAdmin = isAdmin(session?.user?.email || "");
   if (!userIsAdmin) {
@@ -24,7 +24,7 @@ export const getAdminStats = async () => {
   return { pending, assigned, inProgress, completed };
 };
 
-export const getAdminRequests = async (query: AdminRequestsQuery) => {
+export const getAdminRequestsAction = async (query: AdminRequestsQuery) => {
   const limit = query.limit || 10;
   const page = Math.max(1, query.page || 1);
   const skip = (page - 1) * limit;
@@ -75,7 +75,7 @@ export const getAdminRequests = async (query: AdminRequestsQuery) => {
   };
 };
 
-export const getRecentAdminRequests = async () => {
+export const getRecentAdminRequestsAction = async () => {
   const { session } = await requireVerifiedUser();
   const userIsAdmin = isAdmin(session?.user?.email || "");
   if (!userIsAdmin) {

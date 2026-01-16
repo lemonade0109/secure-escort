@@ -139,3 +139,10 @@ export function getTrackingMeta(details: RequestDetailsProps) {
     estimatedValue: num(d.estimatedValue),
   };
 }
+
+export function readDetail(details: RequestDetailsProps, key: string) {
+  const d = details?.[key];
+  if (d === null || d === undefined) return "_";
+  if (typeof d === "string" && d.trim().length === 0) return "_";
+  return String(d);
+}

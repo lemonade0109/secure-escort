@@ -3,7 +3,7 @@
 import { db } from "@/db/db";
 import { getFriendlyErrorMessage } from "@/lib/utils";
 
-export const emailExists = async (
+export const emailExistsAction = async (
   email: string
 ): Promise<{ exists: boolean; error?: string }> => {
   try {
@@ -13,7 +13,7 @@ export const emailExists = async (
     });
     return { exists: !!user };
   } catch (error) {
-    console.error("Database error in emailExists:", error);
+    console.error("Database error in emailExistsAction:", error);
     return {
       exists: false,
       error: getFriendlyErrorMessage(error),
