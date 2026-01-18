@@ -1,4 +1,5 @@
 import AdminRequestsTimeline from "@/components/admin/admin-requests-timeline";
+import AdminUpdateStatusCard from "@/components/admin/admin-update-status";
 import AssignGuardCard from "@/components/admin/assign-guard-card";
 import UserMenu from "@/components/dashboard/user-menu";
 import StatusPill from "@/components/requests/status-pill";
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getAdminRequestByIdAction } from "@/lib/actions/admin/get-admin-requests-id";
+import { getGuardAction } from "@/lib/actions/admin/get-guard";
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { InfoRow, readDetail, requestTypeLabel } from "@/lib/helpers-function";
@@ -64,8 +66,10 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
 
   const req = await getAdminRequestByIdAction(id);
   if (!req) return notFound();
-
   const details = (req.details || {}) as RequestDetailsProps;
+
+  const guardsResult = await getGuardAction();
+  const guards = Array.isArray(guardsResult) ? guardsResult : [];
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
@@ -212,18 +216,30 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
           <div className="space-y-6">
             <AssignGuardCard
               requestId={req.id}
-              guards={
-                req.guard
-                  ? [
-                      {
-                        id: req.guard.id,
-                        label: req.guard.user.name || req.guard.user.email,
-                      },
-                    ]
-                  : []
-              }
-              currentGuardId={req.guardId}
+              guardOptions={guards}
+              defaultGuardId={req.guardId}
             />
+            <AdminUpdateStatusCard
+              requestId={req.id}
+              currentStatus={req.status}
+            />
+
+            <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
+              <CardHeader>
+                <CardTitle className="text-base">Oops Notes</CardTitle>
+                <CardDescription className="text-white/60">
+                  Admin-only operational notes.
+                </CardDescription>
+              </CardHeader>
+
+              <CardContent className="text-sm text-white/70">
+                Assign a guard before moving status to <b>IN_PROGRESS</b>.
+                <div className="mt-4 text-xs text-white">
+                  Tip: Tracking activates once a guard is assigned and service
+                  starts.
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>

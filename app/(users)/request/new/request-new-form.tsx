@@ -5,10 +5,10 @@ import FormInput from "@/components/shared/form/form-input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CreateRequestAction } from "@/lib/actions/requests/create-request";
-import { RequestTypeProps } from "@/types";
+import { RequestType } from "@/types";
 import Link from "next/link";
 
-function labelForType(type: RequestTypeProps) {
+function labelForType(type: RequestType) {
   switch (type) {
     case "PERSONAL_SECURITY":
       return "Personal Security";
@@ -21,7 +21,7 @@ function labelForType(type: RequestTypeProps) {
   }
 }
 
-export default function NewRequestForm(props: { type: RequestTypeProps }) {
+export default function NewRequestForm(props: { type: RequestType }) {
   return (
     <Card className="overflow-hidden text-white border-white/10 bg-white/4 backdrop-blur-xl">
       <div className="px-6 py-4 border-b border-white/10 bg-white/3">

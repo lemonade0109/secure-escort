@@ -1,5 +1,9 @@
-import { createRequestSchema } from "@/lib/validators";
-import { RequestStatus, RequestType } from "@prisma/client";
+import {
+  createRequestSchema,
+  StatusSchema,
+  TypeSchema,
+} from "@/lib/validators";
+
 import { NextRequest } from "next/server";
 import z from "zod";
 
@@ -62,8 +66,8 @@ export interface DashboardStatsProps {
 
 export interface RecentRequestProps {
   id: string;
-  type: "ESCORT" | "PERSONAL_SECURITY" | "DELIVERY";
-  status: "PENDING" | "ASSIGNED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+  type: RequestType;
+  status: Status;
   createdAt: Date;
   pickup: string | null;
   dropoff: string | null;
@@ -71,8 +75,6 @@ export interface RecentRequestProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   details: any;
 }
-
-export type RequestTypeProps = "PERSONAL_SECURITY" | "ESCORT" | "DELIVERY";
 
 export type ServiceCardProps = {
   icon: string;
@@ -84,7 +86,9 @@ export type ServiceCardProps = {
   serviceCard: boolean;
 };
 
+export type Status = z.infer<typeof StatusSchema>;
 export type CreateRequestInput = z.infer<typeof createRequestSchema>;
+export type RequestType = z.infer<typeof TypeSchema>;
 
 export type PageProps = {
   params: Promise<{ id: string }>;
@@ -99,8 +103,8 @@ export type RequestListsProps = {
   requests: {
     id: string;
     trackingCode: string;
-    type: "PERSONAL_SECURITY" | "ESCORT" | "DELIVERY";
-    status: "PENDING" | "ASSIGNED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+    type: RequestType;
+    status: Status;
     createdAt: Date;
     details: RequestDetailsProps;
   }[];
@@ -115,7 +119,7 @@ export type BackButtonProps = {
 export type AdminRequestsQuery = {
   page?: number;
   limit?: number;
-  status?: RequestStatus | "ALL";
+  status?: Status | "ALL";
   type?: RequestType | "ALL";
   q?: string; //tracking code search
 };
@@ -125,7 +129,7 @@ export type AnyObj = Record<string, unknown>;
 export type AdminTableRowProps = {
   id: string;
   type: RequestType;
-  status: RequestStatus;
+  status: Status;
   createdAt: Date;
   trackingCode: string;
   details: RequestDetailsProps;

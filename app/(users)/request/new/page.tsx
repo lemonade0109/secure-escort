@@ -1,10 +1,10 @@
 import GlowBackground from "@/components/shared/glow-background";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
-import { RequestTypeProps } from "@/types";
 import { redirect } from "next/navigation";
 import React from "react";
 import NewRequestForm from "./request-new-form";
 import { Metadata } from "next";
+import { RequestType } from "@/types";
 
 export const metadata: Metadata = {
   title: "New Request - Secure Escort",
@@ -20,7 +20,7 @@ export default async function NewRequestPage({
 }) {
   await requireVerifiedUser();
 
-  const type = (await searchParams).type as RequestTypeProps | undefined;
+  const type = (await searchParams).type as RequestType | undefined;
 
   if (!type || !["PERSONAL_SECURITY", "ESCORT", "DELIVERY"].includes(type)) {
     redirect("/request");

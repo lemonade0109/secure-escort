@@ -1,55 +1,61 @@
 "use client";
+
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import FormContainer from "@/components/shared/form/form-container";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import FormContainer from "../shared/form/form-container";
+} from "@/components/ui/select";
 import { assignGuardAction } from "@/lib/actions/admin/assign-guard";
-import { Button } from "../ui/button";
 
-const AssignGuardCard: React.FC<{
+type GuardOption = {
+  id: string;
+  label: string; // e.g. "Ayo (B-102) • Active"
+};
+
+export default function AssignGuardCard({
+  requestId,
+  guardOptions,
+  defaultGuardId,
+}: {
   requestId: string;
-  guards: { id: string; label: string }[];
-  currentGuardId?: string | null;
-}> = ({ requestId, guards, currentGuardId }) => {
-  const [guardId, setGuardId] = React.useState<string>(currentGuardId || "");
-  console.log(requestId, guards, currentGuardId);
+  guardOptions: GuardOption[];
+  defaultGuardId?: string | null;
+}) {
+  const [guardId, setGuardId] = React.useState(defaultGuardId ?? "");
+  console.log(guardOptions, requestId, defaultGuardId);
+
   return (
     <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-3">
         <CardTitle className="text-base">Assign Guard</CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-4">
-        <Select value={guardId} onValueChange={setGuardId}>
-          <SelectTrigger className="text-white border-white/10 bg-white/3">
-            <SelectValue placeholder="Select a guard" />
-          </SelectTrigger>
-
-          <SelectContent>
-            {guards.map((guard) => (
-              <SelectItem key={guard.id} value={guard.id}>
-                {guard.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <FormContainer
-          action={async (Prev, fd) => {
-            const gid = fd.get("guard") as string;
-            return await assignGuardAction(requestId, gid);
-          }}
-          className="w-full"
-        >
-          {(state) => (
+      <CardContent className="space-y-3">
+        <FormContainer action={assignGuardAction} className="space-y-3">
+          {() => (
             <>
+              <input type="hidden" name="requestId" value={requestId} />
               <input type="hidden" name="guardId" value={guardId} />
+
+              <Select value={guardId} onValueChange={setGuardId}>
+                <SelectTrigger className="text-white bg-white/3 border-white/10">
+                  <SelectValue placeholder="Select a guard…" />
+                </SelectTrigger>
+                <SelectContent>
+                  {guardOptions.map((guard) => (
+                    <SelectItem key={guard.id} value={guard.id}>
+                      {guard.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
               <Button
                 type="submit"
                 className="w-full text-black bg-gold hover:bg-gold/90"
@@ -57,19 +63,13 @@ const AssignGuardCard: React.FC<{
               >
                 Assign Guard
               </Button>
-
-              {state?.success === false ? (
-                <p className="text-xs text-center text-destructive">
-                  {String(state.message)}
-                </p>
-              ) : null}
             </>
           )}
         </FormContainer>
 
-        {currentGuardId ? (
+        {defaultGuardId ? (
           <p className="text-xs text-white/60">
-            Already assigned. Re-assigning will overwrite the current guard.
+            Already assigned. Re-assigning will overwrite the current guard
           </p>
         ) : (
           <p className="text-xs text-white/60">
@@ -79,6 +79,4 @@ const AssignGuardCard: React.FC<{
       </CardContent>
     </Card>
   );
-};
-
-export default AssignGuardCard;
+}

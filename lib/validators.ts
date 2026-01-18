@@ -129,3 +129,25 @@ export const trackRequestSchema = z.object({
     .min(5, "Tracking code is required")
     .max(64, "Invalid tracking code"),
 });
+
+// Schema for assigning guard to a request
+export const assignGuardSchema = z.object({
+  requestId: z.string().min(1, "Request ID is required"),
+  guardId: z.string().min(1, "Guard ID is required"),
+});
+
+export const StatusSchema = z.enum([
+  "PENDING",
+  "ASSIGNED",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "CANCELLED",
+]);
+
+export const TypeSchema = z.enum(["PERSONAL_SECURITY", "ESCORT", "DELIVERY"]);
+
+// Schema for updating request status
+export const updateRequestStatusSchema = z.object({
+  requestId: z.string().min(1, "Request ID is required"),
+  status: StatusSchema,
+});

@@ -4,17 +4,19 @@ import { db } from "@/db/db";
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { getFriendlyErrorMessage } from "@/lib/utils";
-import { assignGuardSchema, validateWithZodSchema } from "@/lib/validators";
+import {
+  updateRequestStatusSchema,
+  validateWithZodSchema,
+} from "@/lib/validators";
 import { FormActionState } from "@/types";
 
-export const assignGuardAction = async (
+export const updateRequestStatusAction = async (
   prevState: FormActionState,
   formData: FormData
 ): Promise<FormActionState> => {
   try {
-    // Verify admin access
     const { session } = await requireVerifiedUser();
-    const isAdminUser = isAdmin(session?.user?.email);
+    const isAdminUser = await isAdmin(session?.user?.email);
     if (!isAdminUser) {
       return {
         success: false,
@@ -23,41 +25,32 @@ export const assignGuardAction = async (
     }
 
     const rawData = Object.fromEntries(formData);
-    const { requestId, guardId } = validateWithZodSchema(
-      assignGuardSchema,
+    const { requestId, status } = validateWithZodSchema(
+      updateRequestStatusSchema,
       rawData
     );
 
-    // ensure request exists
     const req = await db.request.findUnique({
       where: { id: requestId },
+      select: { id: true, guardId: true },
     });
     if (!req) return { success: false, message: "Request not found." };
 
-    // guard exists + active
-    const guard = await db.guardProfile.findUnique({
-      where: { id: guardId },
-      select: { active: true, id: true },
-    });
-    if (!guard) return { success: false, message: "Guard not found." };
-    if (guard.active === false) {
-      return { success: false, message: "Guard is not active." };
+    // cannot set to ASSIGNED or IN_PROGRESS without guard
+    if ((status === "ASSIGNED" || status === "IN_PROGRESS") && !req.guardId) {
+      return {
+        success: false,
+        message: "Assign a guard before setting this status.",
+      };
     }
-
-    // Assign + set status
     await db.request.update({
       where: { id: requestId },
-      data: {
-        guardId: guardId,
-        status: "ASSIGNED",
-      },
+      data: { status },
     });
 
-    return {
-      success: true,
-      message: "Guard assigned to request successfully.",
-    };
+    return { success: true, message: `Status updated to ${status}.` };
   } catch (error) {
+    console.error("updateRequestStatusAction:", error);
     return {
       success: false,
       message: getFriendlyErrorMessage(error),
