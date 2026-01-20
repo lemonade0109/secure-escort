@@ -33,6 +33,7 @@ model User {
   passwordResetTokens     PasswordResetToken[]
   requests                Request[]
   guardProfile            GuardProfile?
+  requestEvents           RequestEvent[]
 }
 
 model Service {
@@ -96,18 +97,21 @@ enum RequestStatus {
 }
 
 model Request {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  type         RequestType
-  status       RequestStatus @default(PENDING)
-  userId       String        @db.ObjectId
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  notes        String?
-  details      Json
-  trackingCode String        @unique
-  guardId      String?       @db.ObjectId
-  guard        GuardProfile? @relation(fields: [guardId], references: [id], onDelete: Cascade)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  type          RequestType
+  status        RequestStatus  @default(PENDING)
+  userId        String         @db.ObjectId
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notes         String?
+  details       Json
+  trackingCode  String         @unique
+  guardId       String?        @db.ObjectId
+  guard         GuardProfile?  @relation(fields: [guardId], references: [id], onDelete: Cascade)
+  etaFrom       DateTime?
+  etaTo         DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  requestEvents RequestEvent[]
 
   @@index([userId])
   @@index([status])
@@ -126,4 +130,29 @@ model GuardProfile {
   requests  Request[]
 
   @@index([active])
+}
+
+enum RequestEventType {
+  REQUEST_CREATED
+  STATUS_CHANGED
+  GUARD_UNASSIGNED
+  ETA_UPDATED
+  NOTE_ADDED
+}
+
+model RequestEvent {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  requestId String           @db.ObjectId
+  request   Request          @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  type      RequestEventType
+  message   String?
+  meta      Json?
+
+  actorId   String?  @db.ObjectId
+  actor     User?    @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([requestId])
+  @@index([type])
+  @@map("request_events")
 }

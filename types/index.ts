@@ -1,5 +1,6 @@
 import {
   createRequestSchema,
+  makeGuardSchema,
   StatusSchema,
   TypeSchema,
 } from "@/lib/validators";
@@ -134,6 +135,15 @@ export type AdminTableRowProps = {
   trackingCode: string;
   details: RequestDetailsProps;
   user: {
+    name: string | null;
+    email: string;
+  };
+};
+
+export type GuardProfileProps = z.infer<typeof makeGuardSchema> & {
+  id: string;
+  user: {
+    id: string;
     name: string | null;
     email: string;
   };

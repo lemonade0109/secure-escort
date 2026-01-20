@@ -1,5 +1,6 @@
+import AdminEtaCard from "@/components/admin/admin-eta-card";
 import AdminRequestsTimeline from "@/components/admin/admin-requests-timeline";
-import AdminUpdateStatusCard from "@/components/admin/admin-update-status";
+import { AdminUpdateStatusCard } from "@/components/admin/admin-update-status";
 import AssignGuardCard from "@/components/admin/assign-guard-card";
 import UserMenu from "@/components/dashboard/user-menu";
 import StatusPill from "@/components/requests/status-pill";
@@ -13,8 +14,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { getActiveGuardsAction } from "@/lib/actions/admin/get-active-guards";
 import { getAdminRequestByIdAction } from "@/lib/actions/admin/get-admin-requests-id";
-import { getGuardAction } from "@/lib/actions/admin/get-guard";
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { InfoRow, readDetail, requestTypeLabel } from "@/lib/helpers-function";
@@ -68,7 +69,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
   if (!req) return notFound();
   const details = (req.details || {}) as RequestDetailsProps;
 
-  const guardsResult = await getGuardAction();
+  const guardsResult = await getActiveGuardsAction();
   const guards = Array.isArray(guardsResult) ? guardsResult : [];
 
   return (
@@ -158,7 +159,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
 
               <CardContent className="grid gap-4 sm:grid-cols-2">
                 {/* Common Details */}
-                <InfoRow label="Notes" value={req.notes || "-"} />
+                <InfoRow label="Notes" value={readDetail(details, "notes")} />
                 <InfoRow label="Date" value={readDetail(details, "date")} />
                 <InfoRow label="Time" value={readDetail(details, "time")} />
 
@@ -208,8 +209,12 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
               </CardContent>
             </Card>
 
-            {/* Timeline placeholder (we'll wire it later) */}
-            <AdminRequestsTimeline requestId={req.id} status={req.status} />
+            <AdminEtaCard
+              requestId={req.id}
+              etaFrom={req.etaFrom}
+              etaTo={req.etaTo}
+            />
+            <AdminRequestsTimeline requestId={req.id} />
           </div>
 
           {/* RIGHT: sidebar */}
@@ -217,7 +222,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
             <AssignGuardCard
               requestId={req.id}
               guardOptions={guards}
-              defaultGuardId={req.guardId}
+              defaultGuardId={req.guard?.id}
             />
             <AdminUpdateStatusCard
               requestId={req.id}

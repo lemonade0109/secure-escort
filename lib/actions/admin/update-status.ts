@@ -9,6 +9,8 @@ import {
   validateWithZodSchema,
 } from "@/lib/validators";
 import { FormActionState } from "@/types";
+import { createRequestEvent } from "./request-events";
+import { revalidatePath } from "next/cache";
 
 export const updateRequestStatusAction = async (
   prevState: FormActionState,
@@ -16,13 +18,7 @@ export const updateRequestStatusAction = async (
 ): Promise<FormActionState> => {
   try {
     const { session } = await requireVerifiedUser();
-    const isAdminUser = await isAdmin(session?.user?.email);
-    if (!isAdminUser) {
-      return {
-        success: false,
-        message: "Unauthorized: Admin access required.",
-      };
-    }
+    if (!isAdmin(session?.user?.email)) throw new Error("Unauthorized");
 
     const rawData = Object.fromEntries(formData);
     const { requestId, status } = validateWithZodSchema(
@@ -32,7 +28,7 @@ export const updateRequestStatusAction = async (
 
     const req = await db.request.findUnique({
       where: { id: requestId },
-      select: { id: true, guardId: true },
+      select: { id: true, guardId: true, status: true },
     });
     if (!req) return { success: false, message: "Request not found." };
 
@@ -43,12 +39,38 @@ export const updateRequestStatusAction = async (
         message: "Assign a guard before setting this status.",
       };
     }
+
+    // no-op
+    if (req.status === status) {
+      return { success: true, message: `Status is already ${status}.` };
+    }
+
+    const prevStatus = req.status;
+
     await db.request.update({
       where: { id: requestId },
       data: { status },
     });
 
-    return { success: true, message: `Status updated to ${status}.` };
+    //Timeline: Status changed
+    await createRequestEvent({
+      requestId,
+      type: "STATUS_CHANGED",
+      message: `Status changed: from ${prevStatus} to ${status}.`,
+      meta: {
+        from: prevStatus,
+        to: status,
+      },
+    });
+
+    revalidatePath(`/admin/requests/${requestId}`);
+    revalidatePath(`/admin/requests`);
+    revalidatePath(`/requests/${requestId}`);
+    revalidatePath(`/requests`);
+    return {
+      success: true,
+      message: `Status updated to ${status}.`,
+    };
   } catch (error) {
     console.error("updateRequestStatusAction:", error);
     return {

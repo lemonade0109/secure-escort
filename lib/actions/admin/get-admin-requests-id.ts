@@ -5,7 +5,16 @@ import { db } from "@/db/db";
 export const getAdminRequestByIdAction = async (id: string) => {
   return db.request.findUnique({
     where: { id },
-    include: {
+    select: {
+      id: true,
+      trackingCode: true,
+      type: true,
+      status: true,
+      details: true,
+      createdAt: true,
+      updatedAt: true,
+      etaFrom: true,
+      etaTo: true,
       user: {
         select: {
           id: true,

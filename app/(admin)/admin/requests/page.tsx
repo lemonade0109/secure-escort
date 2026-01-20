@@ -1,4 +1,4 @@
-import { getAdminRequestsAction } from "@/lib/actions/admin/admin-requests";
+import { getAdminRequestsAction } from "@/lib/actions/admin/requests";
 import React from "react";
 import { Metadata } from "next";
 import GlowBackground from "@/components/shared/glow-background";

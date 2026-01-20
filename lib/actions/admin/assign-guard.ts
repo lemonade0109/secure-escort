@@ -1,11 +1,13 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { db } from "@/db/db";
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { getFriendlyErrorMessage } from "@/lib/utils";
 import { assignGuardSchema, validateWithZodSchema } from "@/lib/validators";
 import { FormActionState } from "@/types";
+import { createRequestEvent } from "./request-events";
 
 export const assignGuardAction = async (
   prevState: FormActionState,
@@ -14,13 +16,7 @@ export const assignGuardAction = async (
   try {
     // Verify admin access
     const { session } = await requireVerifiedUser();
-    const isAdminUser = isAdmin(session?.user?.email);
-    if (!isAdminUser) {
-      return {
-        success: false,
-        message: "Unauthorized: Admin access required.",
-      };
-    }
+    if (!isAdmin(session?.user?.email)) throw new Error("Unauthorized");
 
     const rawData = Object.fromEntries(formData);
     const { requestId, guardId } = validateWithZodSchema(
@@ -37,12 +33,19 @@ export const assignGuardAction = async (
     // guard exists + active
     const guard = await db.guardProfile.findUnique({
       where: { id: guardId },
-      select: { active: true, id: true },
+      select: {
+        active: true,
+        id: true,
+        user: { select: { email: true, name: true } },
+      },
     });
     if (!guard) return { success: false, message: "Guard not found." };
     if (guard.active === false) {
       return { success: false, message: "Guard is not active." };
     }
+
+    const prevStatus = req.status;
+    const prevGuardId = req.guardId;
 
     // Assign + set status
     await db.request.update({
@@ -52,6 +55,37 @@ export const assignGuardAction = async (
         status: "ASSIGNED",
       },
     });
+
+    // Timeline: Guard assigned
+    await createRequestEvent({
+      requestId,
+      type: "REQUEST_CREATED",
+      message: `Guard ${guard.user.name || guard.user.email} assigned to the request.`,
+      meta: {
+        guardId: guard.id,
+        guardName: guard.user.name,
+        guardEmail: guard.user.email,
+        previousGuardId: prevGuardId,
+      },
+    });
+
+    // Timeline: Status changed (only if it is changed)
+    if (prevStatus !== "ASSIGNED") {
+      await createRequestEvent({
+        requestId,
+        type: "STATUS_CHANGED",
+        message: `Request status changed from ${prevStatus} to ASSIGNED.`,
+        meta: {
+          from: prevStatus,
+          to: "ASSIGNED",
+        },
+      });
+    }
+
+    revalidatePath(`/admin/requests/${requestId}`);
+    revalidatePath(`/admin/requests`);
+    revalidatePath(`/requests/${requestId}`);
+    revalidatePath(`/requests`);
 
     return {
       success: true,

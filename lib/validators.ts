@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { email, z } from "zod";
 
 export function validateWithZodSchema<S extends z.ZodTypeAny>(
   schema: S,
@@ -150,4 +150,19 @@ export const TypeSchema = z.enum(["PERSONAL_SECURITY", "ESCORT", "DELIVERY"]);
 export const updateRequestStatusSchema = z.object({
   requestId: z.string().min(1, "Request ID is required"),
   status: StatusSchema,
+});
+
+// Schema for updating ETA
+export const updateRequestETASchema = z.object({
+  requestId: z.string().min(1, "Request ID is required"),
+  etaFrom: z.string().optional(),
+  etaTo: z.string().optional(),
+});
+
+// Schema for making user a guard
+export const makeGuardSchema = z.object({
+  badgeId: z.string().min(1, "Badge ID is required").optional(),
+  phone: z.string().min(7, "Phone number is required").optional(),
+  active: z.coerce.boolean(),
+  email: z.email("Invalid email address").min(1, "Email is required"),
 });
