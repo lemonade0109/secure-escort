@@ -52,7 +52,7 @@ const AdminAllRequestsTable: React.FC<{
                 rows.map((row) => {
                   const route = getRequestRouteFromDetails(
                     row.type,
-                    row.details
+                    row.details,
                   );
 
                   return (

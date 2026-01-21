@@ -2,7 +2,7 @@ import { email, z } from "zod";
 
 export function validateWithZodSchema<S extends z.ZodTypeAny>(
   schema: S,
-  data: unknown
+  data: unknown,
 ): z.infer<S> {
   const results = schema.safeParse(data);
 
@@ -29,7 +29,7 @@ export const SignUpActionSchema = z
       .regex(/[0-9]/, "Password must contain at least one number")
       .regex(
         /[^a-zA-Z0-9]/,
-        "Password must contain at least one special character"
+        "Password must contain at least one special character",
       ),
     confirmPassword: z.string(),
   })
@@ -66,7 +66,7 @@ export const resetPasswordSchema = z
       .regex(/[0-9]/, "Password must contain at least one number")
       .regex(
         /[^a-zA-Z0-9]/,
-        "Password must contain at least one special character"
+        "Password must contain at least one special character",
       ),
     confirmPassword: z.string(),
   })
@@ -164,5 +164,8 @@ export const makeGuardSchema = z.object({
   badgeId: z.string().min(1, "Badge ID is required").optional(),
   phone: z.string().min(7, "Phone number is required").optional(),
   active: z.coerce.boolean(),
-  email: z.email("Invalid email address").min(1, "Email is required"),
+  email: z
+    .email("Invalid email address")
+    .min(1, "Email is required")
+    .optional(),
 });

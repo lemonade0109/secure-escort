@@ -10,7 +10,7 @@ import z from "zod";
 
 export type actionFunction<T> = (
   prevState: T,
-  formData: FormData
+  formData: FormData,
 ) => T | Promise<T>;
 
 export type FormContainerProps = {
@@ -142,9 +142,10 @@ export type AdminTableRowProps = {
 
 export type GuardProfileProps = z.infer<typeof makeGuardSchema> & {
   id: string;
-  user: {
+  user?: {
     id: string;
     name: string | null;
     email: string;
   };
+  createdAt: Date;
 };

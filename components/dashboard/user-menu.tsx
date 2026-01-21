@@ -16,6 +16,7 @@ import {
   LayoutDashboard,
   LockKeyhole,
   LogOut,
+  PersonStandingIcon,
   Settings,
   TrainTrackIcon,
   UserIcon,
@@ -108,6 +109,15 @@ const UserMenu = ({ name, email }: UserMenuProps) => {
             <Link href="/admin/dashboard" className="cursor-pointer">
               <LockKeyhole className="w-4 h-4 mr-2" />
               Admin Dashboard
+            </Link>
+          </DropdownMenuItem>
+        )}
+
+        {userIsAdmin && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin/guards" className="cursor-pointer">
+              <PersonStandingIcon className="w-4 h-4 mr-2" />
+              Guards
             </Link>
           </DropdownMenuItem>
         )}

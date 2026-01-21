@@ -6,10 +6,11 @@ import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { getFriendlyErrorMessage } from "@/lib/utils";
 import { makeGuardSchema, validateWithZodSchema } from "@/lib/validators";
 import { FormActionState } from "@/types";
+import { generateBadge } from "./badge";
 
 export const makeGuardAction = async (
   prevState: FormActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<FormActionState> => {
   try {
     const { session } = await requireVerifiedUser();
@@ -31,6 +32,20 @@ export const makeGuardAction = async (
       };
     }
 
+    // Prevent duplicate guard profiles
+    const existingGuardProfile = await db.guardProfile.findUnique({
+      where: { userId: user.id },
+      select: { id: true },
+    });
+    if (existingGuardProfile) {
+      return {
+        success: false,
+        message: "This user is already a guard.",
+      };
+    }
+
+    const badgeId = await generateBadge("B");
+
     // 1) Promote role
     await db.user.update({
       where: { id: user.id },
@@ -42,12 +57,12 @@ export const makeGuardAction = async (
       where: { userId: user.id },
       create: {
         userId: user.id,
-        badgeId: validatedData.badgeId,
+        badgeId,
         phone: validatedData.phone,
         active,
       },
       update: {
-        badgeId: validatedData.badgeId,
+        badgeId,
         phone: validatedData.phone,
         active,
       },
