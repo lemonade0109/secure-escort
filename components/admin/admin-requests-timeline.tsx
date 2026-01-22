@@ -7,6 +7,9 @@ function fmtTime(d: Date) {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
   }).format(d);
 }
 
@@ -33,8 +36,6 @@ const AdminRequestsTimeline: React.FC<{
         ) : (
           <ol className="space-y-4">
             {events.map((event) => {
-              const actor =
-                event.actor?.name?.trim() || event?.actor?.email || "System";
               return (
                 <li key={event.id} className="flex gap-3">
                   <div className="relative pt-1">
@@ -48,11 +49,16 @@ const AdminRequestsTimeline: React.FC<{
                       <span className="text-xs text-white/60">
                         {fmtTime(event.createdAt)}
                       </span>
-                      <span className="text-xs text-white/50">●</span>
-                      <span className="text-xs text-white/70">{actor}</span>
                     </div>
 
                     <p className="mt-2 text-white/85">{event.message}</p>
+                    <p className="mt-1 text-xs text-white/60">
+                      {event.actorRole
+                        ? `By ${event.actorRole}${
+                            event.actorId ? ` (ID: ${event.actorId})` : ""
+                          }`
+                        : ""}
+                    </p>
                   </div>
                 </li>
               );

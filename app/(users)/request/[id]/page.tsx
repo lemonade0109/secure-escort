@@ -137,7 +137,7 @@ export default async function RequestDetailsPage({ params }: PageProps) {
         </Card>
 
         {/* Details + Notes + Timeline */}
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 mt-6 lg:grid-cols-3">
           {/* Main Details */}
           <Card className="text-white lg:col-span-2 border-white/10 bg-white/4 backdrop-blur-xl">
             <CardHeader className="pb-2">

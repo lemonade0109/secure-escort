@@ -3,7 +3,7 @@
 import { db } from "@/db/db";
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
-import { RequestEvent } from "@prisma/client";
+import { RequestEvent, Role } from "@prisma/client";
 import { InputJsonValue } from "@prisma/client/runtime/library";
 
 type createEventType = {
@@ -11,6 +11,8 @@ type createEventType = {
   type: RequestEvent["type"];
   message: string;
   meta: Record<string, unknown>;
+  actorId?: string | null;
+  actorRole?: Role | null;
 };
 
 // Create a new request event (admin only)
@@ -24,7 +26,8 @@ export const createRequestEvent = async (input: createEventType) => {
       type: input.type,
       message: input.message,
       meta: (input.meta ?? {}) as InputJsonValue,
-      actorId: session?.user?.id,
+      actorId: input.actorId ?? session?.user?.id ?? null,
+      actorRole: input.actorRole ?? null,
     },
   });
 };
@@ -37,14 +40,5 @@ export const getRequestEventsByRequestId = async (requestId: string) => {
   return await db.requestEvent.findMany({
     where: { requestId },
     orderBy: { createdAt: "desc" },
-    include: {
-      actor: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-        },
-      },
-    },
   });
 };

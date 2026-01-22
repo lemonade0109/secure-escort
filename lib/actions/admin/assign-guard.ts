@@ -6,12 +6,13 @@ import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { getFriendlyErrorMessage } from "@/lib/utils";
 import { assignGuardSchema, validateWithZodSchema } from "@/lib/validators";
-import { FormActionState } from "@/types";
+import { BUSY_STATUSES, FormActionState } from "@/types";
 import { createRequestEvent } from "./request-events";
+import { Role } from "@prisma/client";
 
 export const assignGuardAction = async (
   prevState: FormActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<FormActionState> => {
   try {
     // Verify admin access
@@ -21,7 +22,7 @@ export const assignGuardAction = async (
     const rawData = Object.fromEntries(formData);
     const { requestId, guardId } = validateWithZodSchema(
       assignGuardSchema,
-      rawData
+      rawData,
     );
 
     // ensure request exists
@@ -36,12 +37,29 @@ export const assignGuardAction = async (
       select: {
         active: true,
         id: true,
+        badgeId: true,
         user: { select: { email: true, name: true } },
       },
     });
     if (!guard) return { success: false, message: "Guard not found." };
     if (guard.active === false) {
       return { success: false, message: "Guard is not active." };
+    }
+
+    const busyCount = await db.request.count({
+      where: {
+        guardId: guard.id,
+        status: { in: BUSY_STATUSES },
+        NOT: { id: requestId },
+      },
+    });
+
+    if (busyCount > 0) {
+      return {
+        success: false,
+        message:
+          "This guard is currently busy (ASSIGNED / IN_PROGRESS). Choose another guard.",
+      };
     }
 
     const prevStatus = req.status;
@@ -57,16 +75,23 @@ export const assignGuardAction = async (
     });
 
     // Timeline: Guard assigned
+    const actorId = session?.user?.id ?? null;
+    const guardLabel =
+      guard.user.name || guard.user.email || guard.badgeId || "Guard";
     await createRequestEvent({
       requestId,
-      type: "REQUEST_CREATED",
-      message: `Guard ${guard.user.name || guard.user.email} assigned to the request.`,
+      type: "GUARD_ASSIGNED",
+      message: prevGuardId
+        ? `Guard changed to ${guardLabel}.`
+        : `Guard ${guardLabel} assigned to request.`,
       meta: {
-        guardId: guard.id,
-        guardName: guard.user.name,
-        guardEmail: guard.user.email,
-        previousGuardId: prevGuardId,
+        from: req.status,
+        to: "ASSIGNED",
+        prevGuardId: prevGuardId,
+        newGuardId: guardId,
       },
+      actorId,
+      actorRole: Role.ADMIN,
     });
 
     // Timeline: Status changed (only if it is changed)
@@ -79,6 +104,8 @@ export const assignGuardAction = async (
           from: prevStatus,
           to: "ASSIGNED",
         },
+        actorId,
+        actorRole: Role.ADMIN,
       });
     }
 

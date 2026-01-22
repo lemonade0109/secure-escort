@@ -135,7 +135,7 @@ model GuardProfile {
 enum RequestEventType {
   REQUEST_CREATED
   STATUS_CHANGED
-  GUARD_UNASSIGNED
+  GUARD_ASSIGNED
   ETA_UPDATED
   NOTE_ADDED
 }
@@ -149,6 +149,7 @@ model RequestEvent {
   meta      Json?
 
   actorId   String?  @db.ObjectId
+  actorRole Role?
   actor     User?    @relation(fields: [actorId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 

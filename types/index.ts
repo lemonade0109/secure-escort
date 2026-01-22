@@ -4,6 +4,7 @@ import {
   StatusSchema,
   TypeSchema,
 } from "@/lib/validators";
+import { RequestStatus } from "@prisma/client";
 
 import { NextRequest } from "next/server";
 import z from "zod";
@@ -148,4 +149,15 @@ export type GuardProfileProps = z.infer<typeof makeGuardSchema> & {
     email: string;
   };
   createdAt: Date;
+};
+
+export const BUSY_STATUSES: RequestStatus[] = [
+  RequestStatus.ASSIGNED,
+  RequestStatus.IN_PROGRESS,
+];
+
+export type GuardOption = {
+  id: string;
+  label: string;
+  disabled?: boolean;
 };

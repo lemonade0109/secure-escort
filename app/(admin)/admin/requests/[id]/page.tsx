@@ -14,8 +14,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { getActiveGuardsAction } from "@/lib/actions/admin/get-active-guards";
 import { getAdminRequestByIdAction } from "@/lib/actions/admin/get-admin-requests-id";
+import { getGuardOptionsForAssign } from "@/lib/actions/admin/get-guard-options";
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { InfoRow, readDetail, requestTypeLabel } from "@/lib/helpers-function";
@@ -69,8 +69,8 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
   if (!req) return notFound();
   const details = (req.details || {}) as RequestDetailsProps;
 
-  const guardsResult = await getActiveGuardsAction();
-  const guards = Array.isArray(guardsResult) ? guardsResult : [];
+  const guardOptions = await getGuardOptionsForAssign();
+  const guards = Array.isArray(guardOptions) ? guardOptions : [];
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">

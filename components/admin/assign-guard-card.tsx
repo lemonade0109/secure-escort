@@ -12,11 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { assignGuardAction } from "@/lib/actions/admin/assign-guard";
-
-type GuardOption = {
-  id: string;
-  label: string;
-};
+import { GuardOption } from "@/types";
 
 export default function AssignGuardCard({
   requestId,
@@ -28,6 +24,9 @@ export default function AssignGuardCard({
   defaultGuardId?: string | null;
 }) {
   const [guardId, setGuardId] = React.useState(defaultGuardId ?? "");
+
+  const selected = guardOptions.find((g) => g.id === guardId);
+  const isDisabled = !!selected?.disabled;
 
   // If defaultGuardId changes later (might never happen, but it's safer), keep state in sync:
   React.useEffect(() => {
@@ -58,7 +57,11 @@ export default function AssignGuardCard({
                 </SelectItem>
               ) : (
                 guardOptions.map((guard) => (
-                  <SelectItem key={guard.id} value={guard.id}>
+                  <SelectItem
+                    key={guard.id}
+                    value={guard.id}
+                    disabled={guard.disabled}
+                  >
                     {guard.label}
                   </SelectItem>
                 ))
@@ -69,7 +72,7 @@ export default function AssignGuardCard({
           <Button
             type="submit"
             className="w-full text-black bg-gold hover:bg-gold/90"
-            disabled={!guardId || guardId === "__none__"}
+            disabled={!guardId || isDisabled}
           >
             Assign Guard
           </Button>

@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 import TrackingForm from "./tracking-form";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import GlowBackground from "@/components/shared/glow-background";
+import Link from "next/link";
 
 export default function TrackingPage() {
   return (
@@ -12,7 +13,15 @@ export default function TrackingPage() {
       <div className="max-w-3xl px-6 py-12 mx-auto">
         <Card className="relative z-10 text-white border-white/10 bg-white/4 backdrop-blur-xl">
           <CardHeader>
-            <CardTitle className="text-xl">Track Delivery</CardTitle>
+            <div className="">
+              <Link
+                href="/dashboard"
+                className="text-[10px] tracking-widest uppercase text-white/50"
+              >
+                Dashboard
+              </Link>
+              <CardTitle className="text-xl">Track Delivery</CardTitle>
+            </div>
             <p className="text-sm text-white/70">
               Enter your tracking code to see status updates and ETA.
             </p>
