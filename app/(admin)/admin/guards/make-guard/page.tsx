@@ -12,7 +12,7 @@ export default async function AdminGuardsPage() {
   if (!userIsAdmin) return notFound();
 
   return (
-    <main className="min-h-screen relative overflow-x-hidden bg-[#070a12] text-white">
+    <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
       <div className="relative z-10 max-w-3xl px-6 py-10 mx-auto">

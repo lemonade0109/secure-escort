@@ -20,6 +20,6 @@ export const getActiveGuardsAction = async () => {
   });
   return guards.map((guard) => ({
     id: guard.id,
-    label: `${guard.user.name ?? "Guard"} (${guard.badgeId ?? "NO_BADGE"}) ● ${guard.user.email ?? ""}`,
+    label: `${guard.user.name ?? "Guard"} ● ${guard.badgeId ?? "NO_BADGE"}`,
   }));
 };

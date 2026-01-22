@@ -52,14 +52,7 @@ const AdminRequestsTimeline: React.FC<{
                       <span className="text-xs text-white/70">{actor}</span>
                     </div>
 
-                    <p className="mt-1 text-white/85">{event.message}</p>
-
-                    {/* Optional: might remove later */}
-                    {event.meta && Object.keys(event.meta).length > 0 ? (
-                      <pre className="mt-2 overflow-x-auto rounded-lg border border-white/10 bg-black/30 p-3 text-[11px] text-white/70">
-                        {JSON.stringify(event.meta, null, 2)}
-                      </pre>
-                    ) : null}
+                    <p className="mt-2 text-white/85">{event.message}</p>
                   </div>
                 </li>
               );

@@ -16,7 +16,7 @@ export default async function GuardPage() {
 
   const jobs = await getGuardJobByIdAction(guardId);
   return (
-    <main className="min-h-screen bg-[#070a12] text-white px-6 py-10">
+    <main className="min-h-screen overflow-hidden bg-[#070a12] text-white px-6 py-10">
       <GlowBackground intensity="medium" />
       <div className="max-w-5xl mx-auto space-y-6">
         <h1 className="text-2xl font-semibold">My Jobs</h1>

@@ -71,6 +71,23 @@ export function requestTypeLabel(type: string) {
   }
 }
 
+export function requestStatusLabel(status: string) {
+  switch (status) {
+    case "PENDING":
+      return "Pending";
+    case "ASSIGNED":
+      return "Assigned";
+    case "IN_PROGRESS":
+      return "In Progress";
+    case "COMPLETED":
+      return "Completed";
+    case "CANCELLED":
+      return "Cancelled";
+    default:
+      return status;
+  }
+}
+
 export function getSummary(details: RequestDetailsProps, type: string) {
   switch (type) {
     case "ESCORT":
@@ -107,7 +124,7 @@ export function getSummaryList(type: string, details: Record<string, unknown>) {
 
 export function getRequestRouteFromDetails(
   type: RequestType,
-  details: RequestDetailsProps
+  details: RequestDetailsProps,
 ): { primary: string; secondary?: string } {
   const d = (details ?? {}) as AnyObj;
 
