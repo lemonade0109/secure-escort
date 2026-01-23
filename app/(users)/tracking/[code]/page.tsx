@@ -12,6 +12,19 @@ import {
 import { RequestDetailsProps } from "@/types";
 import React from "react";
 
+function formatEta(d?: Date | string | null) {
+  if (!d) return "";
+  const date = typeof d === "string" ? new Date(d) : d;
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 export default async function TrackingCodePage({
   params,
 }: {
@@ -101,9 +114,30 @@ export default async function TrackingCodePage({
                           </div>
                         </div>
 
-                        <div className="text-xs text-white">
-                          ETA and live updates appear once the request is
-                          assigned.
+                        <div className="flex items-center gap-2 mt-2 text-xs">
+                          <span className="px-2 py-1 border rounded-full border-white/10 bg-white/3 text-white/70">
+                            ETA
+                          </span>
+
+                          {request.status === "PENDING" ? (
+                            <span className="text-white/60">
+                              Pending assignment
+                            </span>
+                          ) : request.etaFrom || request.etaTo ? (
+                            <span className="text-white/80">
+                              <span className="font-medium text-white/90">
+                                {formatEta(request.etaFrom) || "—"}
+                              </span>{" "}
+                              <span className="text-white/60">to</span>{" "}
+                              <span className="font-medium text-white/90">
+                                {formatEta(request.etaTo) || "—"}
+                              </span>
+                            </span>
+                          ) : (
+                            <span className="text-white/60">
+                              Assigned. ETA coming soon.
+                            </span>
+                          )}
                         </div>
                       </div>
                     );
