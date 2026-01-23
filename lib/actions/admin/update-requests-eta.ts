@@ -13,15 +13,27 @@ import { createRequestEvent } from "./request-events";
 import { revalidatePath } from "next/cache";
 
 function parseOptionalDate(val?: string) {
-  if (!val) return null;
-  const date = new Date(val);
+  const stringVal = val?.trim();
+  if (!stringVal) return null;
+  const date = new Date(stringVal);
   if (Number.isNaN(date.getTime())) return null;
   return date;
 }
 
+function formatEtaDate(date: Date | null) {
+  if (!date) return "_";
+  return date.toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 export const updateRequestsEtaAction = async (
-  preveState: FormActionState,
-  formData: FormData
+  prevState: FormActionState,
+  formData: FormData,
 ): Promise<FormActionState> => {
   try {
     const { session } = await requireVerifiedUser();
@@ -30,47 +42,56 @@ export const updateRequestsEtaAction = async (
     const rawData = Object.fromEntries(formData);
     const { requestId, etaFrom, etaTo } = validateWithZodSchema(
       updateRequestETASchema,
-      rawData
+      rawData,
     );
 
-    const req = db.request.findUnique({
+    const req = await db.request.findUnique({
       where: { id: requestId },
       select: { id: true, etaFrom: true, etaTo: true },
     });
     if (!req) return { success: false, message: "Request not found." };
 
-    const fromDate = parseOptionalDate(etaFrom);
-    const toDate = parseOptionalDate(etaTo);
+    const fromDate = parseOptionalDate(etaFrom) ?? undefined;
+    const toDate = parseOptionalDate(etaTo) ?? undefined;
 
-    // Allow clearing by leaving empty
-    if (fromDate && toDate && fromDate > toDate) {
+    // If admin clears both, allow clearing
+    const clearedBoth =
+      String(etaFrom || "").trim() === "" && String(etaTo || "").trim() === "";
+
+    if (!clearedBoth && fromDate && toDate && fromDate > toDate) {
       return {
         success: false,
-        message: "ETA range is invalid. 'From' cannot be after 'To'.",
+        message: "Invalid ETA: 'From' date cannot be later than 'To' date.",
       };
     }
 
     // Update the request ETA
-    await db.request.update({
+    const updated = await db.request.update({
       where: { id: requestId },
       data: {
-        etaFrom: fromDate,
-        etaTo: toDate,
+        etaFrom: clearedBoth ? null : (fromDate ?? req.etaFrom),
+        etaTo: clearedBoth ? null : (toDate ?? req.etaTo),
       },
+      select: { etaFrom: true, etaTo: true },
     });
 
     // Timeline event
-    const fromLabel = fromDate ? fromDate.toLocaleString() : "_";
-    const toLabel = toDate ? toDate.toLocaleString() : "_";
+    const actorId = session?.user?.id ?? null;
 
     await createRequestEvent({
       requestId,
       type: "ETA_UPDATED",
-      message: `Updated ETA: From ${fromLabel} To ${toLabel}`,
+      message: `ETA updated: From ${formatEtaDate(req.etaFrom || null)} - ${formatEtaDate(
+        req.etaTo || null,
+      )} → ${formatEtaDate(updated.etaFrom || null)} - ${formatEtaDate(
+        updated.etaTo || null,
+      )}`,
       meta: {
-        etaFrom: fromDate ? fromDate.toISOString() : null,
-        etaTo: toDate ? toDate.toISOString() : null,
+        etaFrom: updated.etaFrom ? updated.etaFrom.toISOString() : null,
+        etaTo: updated.etaTo ? updated.etaTo.toISOString() : null,
       },
+      actorId,
+      actorRole: "ADMIN",
     });
 
     revalidatePath(`/admin/requests/${requestId}`);

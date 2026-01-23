@@ -34,12 +34,12 @@ export default function AdminEtaCard({
   return (
     <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">ETA Window</CardTitle>
+        <CardTitle className="text-base">ETA</CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-3">
         <FormContainer action={updateRequestsEtaAction} className="space-y-3">
-          {() => (
+          {(state) => (
             <>
               <input type="hidden" name="requestId" value={requestId} />
               <input type="hidden" name="etaFrom" value={from} />
@@ -91,12 +91,23 @@ export default function AdminEtaCard({
                   Clear ETA
                 </Button>
               </div>
+
+              {state?.success === false && state.message ? (
+                <p className="text-xs text-destructive">
+                  {String(state.message)}
+                </p>
+              ) : (
+                <p className="text-xs text-white/60">
+                  Visible to users on tracking once assigned/in progress.
+                </p>
+              )}
             </>
           )}
         </FormContainer>
 
         <p className="text-xs text-white/60">
-          This ETA will show on tracking and request progress once assigned.
+          This ETA will show on tracking and request progress once assigned/in
+          progress.
         </p>
       </CardContent>
     </Card>

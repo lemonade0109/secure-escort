@@ -209,11 +209,6 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
               </CardContent>
             </Card>
 
-            <AdminEtaCard
-              requestId={req.id}
-              etaFrom={req.etaFrom}
-              etaTo={req.etaTo}
-            />
             <AdminRequestsTimeline requestId={req.id} />
           </div>
 
@@ -227,6 +222,11 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
             <AdminUpdateStatusCard
               requestId={req.id}
               currentStatus={req.status}
+            />
+            <AdminEtaCard
+              requestId={req.id}
+              etaFrom={req.etaFrom}
+              etaTo={req.etaTo}
             />
 
             <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
