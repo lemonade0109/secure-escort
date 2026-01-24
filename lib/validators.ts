@@ -169,3 +169,26 @@ export const makeGuardSchema = z.object({
     .min(1, "Email is required")
     .optional(),
 });
+
+export const daysOfWeekSchema = z.enum([
+  "MON",
+  "TUE",
+  "WED",
+  "THU",
+  "FRI",
+  "SAT",
+  "SUN",
+]);
+
+// Schema for creating guard availability
+export const createGuardAvailabilitySchema = z.object({
+  day: daysOfWeekSchema,
+  startTime: z.string().min(4, "Start time is required"),
+  endTime: z.string().min(4, "End time is required"),
+  timezone: z.string().optional(),
+});
+
+// Schema for deleting guard availability
+export const deleteGuardAvailabilitySchema = z.object({
+  id: z.string().min(1, "Availability ID is required"),
+});

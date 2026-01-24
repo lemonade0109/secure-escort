@@ -125,9 +125,10 @@ model GuardProfile {
   phone   String?
   active  Boolean @default(true)
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  requests  Request[]
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  requests     Request[]
+  availability GuardAvailability[]
 
   @@index([active])
 }
@@ -156,4 +157,30 @@ model RequestEvent {
   @@index([requestId])
   @@index([type])
   @@map("request_events")
+}
+
+enum DayOfWeek {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+model GuardAvailability {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  guardId   String       @db.ObjectId
+  guard     GuardProfile @relation(fields: [guardId], references: [id], onDelete: Cascade)
+  day       DayOfWeek
+  startMin  Int
+  endMin    Int
+  timezone  String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([guardId])
+  @@index([day])
+  @@index([guardId, day])
 }
