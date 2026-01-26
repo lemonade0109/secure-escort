@@ -28,6 +28,7 @@ import { isAdminClient } from "@/lib/admin";
 export type UserMenuProps = {
   name?: string | null;
   email?: string | null;
+  role?: string | null;
 };
 
 function initialsFromName(name?: string | null, email?: string | null) {
@@ -38,7 +39,7 @@ function initialsFromName(name?: string | null, email?: string | null) {
   return base.slice(0, 2).toUpperCase();
 }
 
-const UserMenu = ({ name, email }: UserMenuProps) => {
+const UserMenu = ({ name, email, role }: UserMenuProps) => {
   const initials = initialsFromName(name, email);
   const userIsAdmin = isAdminClient(email);
 
@@ -80,6 +81,15 @@ const UserMenu = ({ name, email }: UserMenuProps) => {
             Profile
           </Link>
         </DropdownMenuItem>
+
+        {role === "GUARD" && (
+          <DropdownMenuItem asChild>
+            <Link href="/guard/jobs" className="cursor-pointer">
+              <LayoutDashboard className="w-4 h-4 mr-2" />
+              My Jobs
+            </Link>
+          </DropdownMenuItem>
+        )}
 
         {userIsAdmin && (
           <DropdownMenuItem asChild>

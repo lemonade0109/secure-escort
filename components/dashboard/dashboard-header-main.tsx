@@ -12,7 +12,11 @@ export default async function DashboardHeader() {
   return (
     <Card className="overflow-hidden text-white border-white/10 bg-white/4 backdrop-blur-xl">
       {/* top chrome bar */}
-      <DashboardNav email={session?.user?.email} name={session?.user?.name} />
+      <DashboardNav
+        email={session?.user?.email}
+        name={session?.user?.name}
+        role={session?.user?.role}
+      />
 
       <CardContent className="p-0">
         <div className="grid grid-cols-1 lg:grid-cols-2">

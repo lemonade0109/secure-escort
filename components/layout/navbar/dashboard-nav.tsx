@@ -6,7 +6,8 @@ import React from "react";
 const DashboardNav: React.FC<{
   email: string | null | undefined;
   name: string | null | undefined;
-}> = ({ email, name }) => {
+  role?: string | null | undefined;
+}> = ({ email, name, role }) => {
   return (
     <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/3">
       <Link href="/" className="flex items-center gap-2">
@@ -27,7 +28,7 @@ const DashboardNav: React.FC<{
           <Bell className="size-4" />
         </button>
 
-        <UserMenu name={name} email={email} />
+        <UserMenu name={name} email={email} role={role} />
       </div>
     </div>
   );

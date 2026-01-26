@@ -6,7 +6,7 @@ import React from "react";
 import StatusPill from "../requests/status-pill";
 
 const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
-  props
+  props,
 ) => {
   return (
     <Card className="relative overflow-hidden text-white border border-white/10 bg-white/5 backdrop-blur-xl">
@@ -59,14 +59,14 @@ const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
                   </p>
                   {request.type !== "PERSONAL_SECURITY" && (
                     <p className="mt-1 text-xs text-white/70">
-                      From: {request.details?.pickup || "N/A"}, To:{" "}
-                      {request.details?.dropoff || "N/A"}
+                      From: {request.details?.pickup || "_"}, To:{" "}
+                      {request.details?.dropoff || "_"}
                     </p>
                   )}
 
                   {request.type === "PERSONAL_SECURITY" && (
                     <p className="mt-1 text-xs text-white/70">
-                      Location: {request.details?.location || "N/A"}
+                      Location: {request.details?.location || "_"}
                     </p>
                   )}
                 </div>

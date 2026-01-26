@@ -39,7 +39,7 @@ export const {
         // Check if password matches
         const isPasswordValid = await verifyPassword(
           plainPassword,
-          hashedPassword
+          hashedPassword,
         );
 
         if (!isPasswordValid) return null;
@@ -70,18 +70,13 @@ export const {
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
-        (session.user as SessionUser).role =
-          typeof token.role === "string" ? token.role : undefined;
-        (session.user as SessionUser).id = token.sub;
+      if (session.user && token) {
+        (session.user as SessionUser).id = token.sub || (token.id as string);
+        (session.user as SessionUser).role = token.role as string;
         (session.user as SessionUser).emailVerified =
-          typeof token.emailVerified === "string" ||
-          token.emailVerified instanceof Date ||
-          token.emailVerified === null ||
-          token.emailVerified === undefined
-            ? token.emailVerified
-            : undefined;
+          token.emailVerified as Date | null;
       }
+
       return session;
     },
   },

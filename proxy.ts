@@ -1,11 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import NextAuth from "next-auth";
-import { authConfig } from "./auth.config";
+import { auth } from "./auth";
 import { AuthRequest } from "./types";
 import { isAdminEmail } from "./lib/admin";
-
-const { auth } = NextAuth(authConfig);
 
 const AUTH_ROUTES = [
   "/sign-in",
@@ -28,7 +25,7 @@ const PUBLIC_ROUTES = [
 
 function isRoute(pathName: string, routes: string[]) {
   return routes.some(
-    (route) => pathName === route || pathName.startsWith(`${route}/`)
+    (route) => pathName === route || pathName.startsWith(`${route}/`),
   );
 }
 
@@ -43,7 +40,7 @@ export default auth((req: NextRequest) => {
   // Skip public static files (logo.png, images, fonts, etc.)
   const isStaticFile =
     /\.(png|jpg|jpeg|gif|svg|webp|ico|css|js|map|txt|xml|woff|woff2|ttf|eot)$/.test(
-      pathname
+      pathname,
     );
 
   if (isStaticFile) return NextResponse.next();
@@ -54,7 +51,8 @@ export default auth((req: NextRequest) => {
     | undefined;
 
   const isLoggedIn = !!user?.email;
-  const role = isAdminEmail(user?.email || "") ? "ADMIN" : user?.role || "USER";
+  const userRole = user?.role || "USER";
+  const role = isAdminEmail(user?.email || "") ? "ADMIN" : userRole;
 
   const isAuthRoute = isRoute(pathname, AUTH_ROUTES);
   const isPublicRoute = isRoute(pathname, PUBLIC_ROUTES);
@@ -92,7 +90,7 @@ export default auth((req: NextRequest) => {
       signInUrl.searchParams.set("callbackUrl", pathname + nextUrl.search);
       return NextResponse.redirect(signInUrl);
     }
-    if (role !== "GUARD" && role !== "ADMIN") {
+    if (userRole !== "GUARD" && role !== "ADMIN") {
       return NextResponse.redirect(new URL("/dashboard", nextUrl));
     }
   }

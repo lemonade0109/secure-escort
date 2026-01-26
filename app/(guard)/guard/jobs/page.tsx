@@ -1,8 +1,11 @@
+import UserMenu from "@/components/dashboard/user-menu";
 import StatusPill from "@/components/requests/status-pill";
 import GlowBackground from "@/components/shared/glow-background";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getGuardJobAction } from "@/lib/actions/guard/get-guard-job.";
+import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { readDetail, requestTypeLabel } from "@/lib/helpers-function";
+import { Bell } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -11,6 +14,11 @@ type Props = {
 };
 
 export default async function GuardJobPage({ searchParams }: Props) {
+  const { session } = await requireVerifiedUser();
+  const name = session?.user?.name || null;
+  const email = session?.user?.email || null;
+  const role = session?.user?.role || null;
+
   const searchParam = await searchParams;
   const tab =
     searchParam?.tab === "completed" || searchParam?.tab === "all"
@@ -23,25 +31,50 @@ export default async function GuardJobPage({ searchParams }: Props) {
       <GlowBackground intensity="medium" />
 
       <div className="relative z-10 px-6 py-10 mx-auto space-y-6 max-w-7xl">
-        <div>
-          <p className="text-xs tracking-widest uppercase text-white/60">
-            Guard ● Jobs
-          </p>
-          <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
-            My Assigned Jobs
-          </h1>
-          <p className="mt-1 text-sm text-white/70">
-            View your assigned requests and track progress.
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs tracking-widest uppercase text-white/60">
+              Guard ● Jobs
+            </p>
+            <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
+              My Assigned Jobs
+            </h1>
+            <p className="mt-1 text-sm text-white/70">
+              View your assigned requests and track progress.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label="Notifications"
+              className="inline-flex items-center justify-center border rounded-lg size-9 border-white/10 bg-white/3 text-white/80 hover:bg-white/6"
+            >
+              <Bell className="size-4" />
+            </button>
+
+            <UserMenu name={name} email={email} role={role} />
+          </div>
         </div>
 
         {/* Tabs */}
         <div className="flex gap-2 text-sm">
           <Link
-            href="/guard/jobs?tab=completed"
+            href="/guard/jobs?tab=active"
             className={[
               "rounded-lg border px-3 py-2",
               tab === "active"
+                ? "border-gold/40 bg-white/5"
+                : "border-white/10 bg-white/3 hover:bg-white/5",
+            ].join(" ")}
+          >
+            Active
+          </Link>
+          <Link
+            href="/guard/jobs?tab=completed"
+            className={[
+              "rounded-lg border px-3 py-2",
+              tab === "completed"
                 ? "border-gold/40 bg-white/5"
                 : "border-white/10 bg-white/3 hover:bg-white/5",
             ].join(" ")}
@@ -83,6 +116,7 @@ export default async function GuardJobPage({ searchParams }: Props) {
                 const details = (j.details ?? {}) as Record<string, unknown>;
                 const pickup = readDetail(details, "pickup");
                 const dropoff = readDetail(details, "dropoff");
+                const location = readDetail(details, "location");
 
                 return (
                   <Link
@@ -100,11 +134,17 @@ export default async function GuardJobPage({ searchParams }: Props) {
                           <span className="font-mono">{j.trackingCode}</span>
                         </p>
 
-                        {(pickup || dropoff) && (
+                        {j.type !== "PERSONAL_SECURITY" && (
                           <p className="mt-2 text-xs truncate text-white/70">
-                            {pickup ? `Pickup: ${String(pickup)}` : ""}{" "}
-                            {pickup && dropoff ? "•" : ""}{" "}
-                            {dropoff ? `Dropoff: ${String(dropoff)}` : ""}
+                            {pickup ? `Pickup: ${String(pickup)} ` : "_ "}{" "}
+                            {pickup && dropoff ? " • " : ""}{" "}
+                            {dropoff ? `Dropoff: ${String(dropoff)} ` : "_"}
+                          </p>
+                        )}
+
+                        {j.type === "PERSONAL_SECURITY" && (
+                          <p className="mt-2 text-xs truncate text-white/70">
+                            Location: {String(location)}
                           </p>
                         )}
 
