@@ -21,14 +21,14 @@ export default async function DashboardPage() {
     <main className=" min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-10">
+      <div className="relative z-10 px-6 py-10 mx-auto max-w-7xl">
         <DashboardHeader />
 
         <div className="mt-8">
           <DashboardStats stats={data.stats} />
         </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 mt-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <RecentRequests
               // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -78,7 +78,11 @@ export const createGuardAvailabilityBlockAction = async (
       },
     });
 
-    return { success: true, message: "Availability saved." };
+    return {
+      success: true,
+      message: "Availability saved.",
+      redirectTo: "/guard/availability",
+    };
   } catch (error) {
     return { success: false, message: getFriendlyErrorMessage(error) };
   }

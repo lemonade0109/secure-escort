@@ -41,9 +41,11 @@ export const deleteGuardAvailabilityBlockAction = async (
     await db.guardAvailability.delete({
       where: { id: availabilityBlock.id },
     });
+
     return {
       success: true,
       message: "Availability block deleted successfully.",
+      redirectTo: "/guard/availability",
     };
   } catch (error) {
     return { success: false, message: getFriendlyErrorMessage(error) };

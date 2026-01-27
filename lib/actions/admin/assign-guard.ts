@@ -9,6 +9,8 @@ import { assignGuardSchema, validateWithZodSchema } from "@/lib/validators";
 import { BUSY_STATUSES, FormActionState } from "@/types";
 import { createRequestEvent } from "./request-events";
 import { Role } from "@prisma/client";
+import { getRequestWindowAction } from "../guard/request-window";
+import { overlaps } from "@/lib/scheduling/time";
 
 export const assignGuardAction = async (
   prevState: FormActionState,
@@ -46,20 +48,60 @@ export const assignGuardAction = async (
       return { success: false, message: "Guard is not active." };
     }
 
-    const busyCount = await db.request.count({
+    // Guard availability: time overlap rule
+    const targetWindow = await getRequestWindowAction(
+      req.details as Record<string, unknown>,
+    );
+    if (!targetWindow) {
+      return {
+        success: false,
+        message:
+          "This request doesn't have enough schedule info (date/time/duration) to assign a guard.",
+      };
+    }
+    const guardBusyRequests = await db.request.findMany({
       where: {
         guardId: guard.id,
         status: { in: BUSY_STATUSES },
         NOT: { id: requestId },
       },
+      select: {
+        id: true,
+        trackingCode: true,
+        details: true,
+        type: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      orderBy: { createdAt: "desc" },
     });
 
-    if (busyCount > 0) {
-      return {
-        success: false,
-        message:
-          "This guard is currently busy (ASSIGNED / IN_PROGRESS). Choose another guard.",
-      };
+    for (const busyReq of guardBusyRequests) {
+      const busyWindow = await getRequestWindowAction(
+        busyReq.details as Record<string, unknown>,
+      );
+      if (!busyWindow) continue;
+
+      if (
+        overlaps(
+          {
+            day: targetWindow.day,
+            startMin: targetWindow.startMin,
+            endMin: targetWindow.endMin,
+          },
+          {
+            day: busyWindow.day,
+            startMin: busyWindow.startMin,
+            endMin: busyWindow.endMin,
+          },
+        )
+      ) {
+        return {
+          success: false,
+          message: `This guard has another busy request (${busyReq.trackingCode}) that overlaps with the time of this request. Choose another guard.`,
+        };
+      }
     }
 
     const prevStatus = req.status;

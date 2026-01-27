@@ -19,6 +19,7 @@ import {
   PersonStandingIcon,
   Settings,
   TrainTrackIcon,
+  Hourglass,
   UserIcon,
 } from "lucide-react";
 import { signOutAction } from "@/lib/actions/auth/signout";
@@ -87,6 +88,15 @@ const UserMenu = ({ name, email, role }: UserMenuProps) => {
             <Link href="/guard/jobs" className="cursor-pointer">
               <LayoutDashboard className="w-4 h-4 mr-2" />
               My Jobs
+            </Link>
+          </DropdownMenuItem>
+        )}
+
+        {role === "GUARD" && (
+          <DropdownMenuItem asChild>
+            <Link href="/guard/availability" className="cursor-pointer">
+              <Hourglass className="w-4 h-4 mr-2" />
+              Working Hours
             </Link>
           </DropdownMenuItem>
         )}

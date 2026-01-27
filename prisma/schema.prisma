@@ -160,13 +160,13 @@ model RequestEvent {
 }
 
 enum DayOfWeek {
-  SUNDAY
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
+  SUN
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
 }
 
 model GuardAvailability {

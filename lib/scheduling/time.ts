@@ -1,3 +1,5 @@
+import { DayOfWeek } from "@prisma/client";
+
 export function hhmToMinutes(hhm: string) {
   const [hoursStr, minutesStr] = hhm.split(":").map(Number);
   if (Number.isNaN(hoursStr) || Number.isNaN(minutesStr)) {
@@ -14,15 +16,25 @@ export function minutesToHHMM(minutes: number) {
   return `${hrs}:${mins}`;
 }
 export function dateToDayOfWeekEnum(date: Date) {
-  const map = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-  return map[date.getDay()];
+  const day = date.getDay();
+
+  const map: DayOfWeek[] = [
+    DayOfWeek.SUN,
+    DayOfWeek.MON,
+    DayOfWeek.TUE,
+    DayOfWeek.WED,
+    DayOfWeek.THU,
+    DayOfWeek.FRI,
+    DayOfWeek.SAT,
+  ];
+
+  return map[day];
 }
 
 export function overlaps(
-  aStart: number,
-  aEnd: number,
-  bStart: number,
-  bEnd: number,
+  a: { day: string; startMin: number; endMin: number },
+  b: { day: string; startMin: number; endMin: number },
 ) {
-  return aStart < bEnd && bStart < aEnd;
+  if (a.day !== b.day) return false;
+  return a.startMin < b.endMin && b.startMin < a.endMin;
 }
