@@ -65,6 +65,7 @@ export default async function GuardJobDetailsPage({ params }: Props) {
         <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Customer</CardTitle>
+            <div className="w-full h-px mt-4 bg-linear-to-r from-transparent via-white/15 to-transparent" />
           </CardHeader>
           <CardContent className="text-sm text-white/80">
             <p>{job.user?.name ?? "-"}</p>
@@ -75,6 +76,7 @@ export default async function GuardJobDetailsPage({ params }: Props) {
         <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Details</CardTitle>
+            <div className="w-full h-px mt-4 bg-linear-to-r from-transparent via-white/15 to-transparent" />
           </CardHeader>
 
           <CardContent className="grid gap-4 text-sm sm:grid-cols-2">

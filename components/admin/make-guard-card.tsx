@@ -46,7 +46,7 @@ const MakeGuardCard: React.FC = () => {
                   <Label className="text-xs text-white/80">Phone</Label>
                   <Input
                     name="phone"
-                    placeholder="(123) 456-7890"
+                    placeholder="+2349032XXXXXX"
                     className="text-white bg-white/3 border-white/10"
                   />
                 </div>
