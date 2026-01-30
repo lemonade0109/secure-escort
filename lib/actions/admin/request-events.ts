@@ -18,7 +18,6 @@ type createEventType = {
 // Create a new request event (admin only)
 export const createRequestEvent = async (input: createEventType) => {
   const { session } = await requireVerifiedUser();
-  if (!isAdmin(session?.user?.email)) throw new Error("Unauthorized");
 
   await db.requestEvent.create({
     data: {

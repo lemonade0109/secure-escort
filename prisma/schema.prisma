@@ -139,6 +139,7 @@ enum RequestEventType {
   GUARD_ASSIGNED
   ETA_UPDATED
   NOTE_ADDED
+  TRACKING_ACTIVATED
 }
 
 model RequestEvent {

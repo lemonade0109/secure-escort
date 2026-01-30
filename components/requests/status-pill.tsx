@@ -10,6 +10,7 @@ const StatusPill: React.FC<{ status: string }> = ({ status }) => {
     ASSIGNED: "border-gold/30 bg-gold/10 text-gold",
     GUARD_ASSIGNED: "border-gold/30 bg-gold/10 text-gold",
     IN_PROGRESS: "border-blue-400/30 bg-green-400/10 text-white/80",
+    TRACKING_ACTIVATED: "border-blue-400/30 bg-green-400/10 text-white/80",
     COMPLETED: "border-green-400/30 bg-green-400/10 text-green-400",
     CANCELLED: "border-red-400/30 bg-red-400/10 text-red-400",
   };

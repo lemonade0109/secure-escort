@@ -1,6 +1,11 @@
 "use server";
 
-import { dateToDayOfWeekEnum, hhmToMinutes } from "@/lib/scheduling/time";
+import {
+  dateToDayOfWeekEnum,
+  durationToMinutes,
+  hhmToMinutes,
+  parseDateOnlyToUTC,
+} from "@/lib/scheduling/time";
 
 export const getRequestWindowAction = async (
   details: Record<string, unknown>,
@@ -10,11 +15,10 @@ export const getRequestWindowAction = async (
     throw new Error("Date is required");
   }
 
-  const dateObj = new Date(dateStr);
-  if (Number.isNaN(dateObj.getTime())) {
-    throw new Error("Invalid date format");
-  }
+  // parse date-only safely
+  const dateObj = parseDateOnlyToUTC(dateStr);
 
+  // compute day from UTC
   const day = dateToDayOfWeekEnum(dateObj);
 
   //Start minute
@@ -28,11 +32,11 @@ export const getRequestWindowAction = async (
   // end minute
   let endMin = startMin + 60;
   if (details?.durationHours) {
-    const dur = hhmToMinutes(String(details.durationHours));
+    const dur = durationToMinutes(String(details.durationHours));
     if (!Number.isFinite(dur) || dur <= 0) {
       throw new Error("Invalid duration format");
     }
-    endMin = startMin + Math.round(dur * 60);
+    endMin = startMin + dur;
   }
 
   return {

@@ -91,6 +91,7 @@ const PersonalSecuritySchema = ServiceTypeSchema.extend({
   type: z.literal("PERSONAL_SECURITY"),
   location: z.string().min(3, "Location is required"),
   date: z.string().min(1, "Date is required"),
+  time: z.string().min(1, "Time is required"),
   durationHours: z.coerce.number().min(1, "Duration must be at least 1 hour"),
 });
 

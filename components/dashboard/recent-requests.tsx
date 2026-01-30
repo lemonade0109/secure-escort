@@ -23,7 +23,7 @@ const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
           variant="outline"
           className="text-white border-white/15 bg-white/5 hover:text-white/90 hover:bg-white/10"
         >
-          <Link href="/request">New Request</Link>
+          <Link href="/requests">View All</Link>
         </Button>
       </CardHeader>
 

@@ -15,13 +15,16 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getAdminRequestByIdAction } from "@/lib/actions/admin/get-admin-requests-id";
-import { getGuardOptionsForAssign } from "@/lib/actions/admin/get-guard-options";
+import { getAvailableGuardsForRequestsAction } from "@/lib/actions/admin/get-available-guards-for-requests";
+import { getGuardOptionsForAssignRequestAction } from "@/lib/actions/admin/get-guard-options";
+
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { InfoRow, readDetail, requestTypeLabel } from "@/lib/helpers-function";
 import { RequestDetailsProps } from "@/types";
 import { Bell } from "lucide-react";
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -69,8 +72,12 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
   if (!req) return notFound();
   const details = (req.details || {}) as RequestDetailsProps;
 
-  const guardOptions = await getGuardOptionsForAssign();
-  const guards = Array.isArray(guardOptions) ? guardOptions : [];
+  const { options: guardOptions } = await getGuardOptionsForAssignRequestAction(
+    req.id,
+  );
+  // const guardOptions = await getAvailableGuardsForRequestsAction(req.id);
+
+  console.log(guardOptions);
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
@@ -80,9 +87,12 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
         {/* Top Header */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs tracking-widest uppercase text-white/50">
+            <Link
+              href="/admin/requests"
+              className="text-xs tracking-widest uppercase text-white/50"
+            >
               Admin ● Requests
-            </p>
+            </Link>
             <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
               {requestTypeLabel(req.type)}
             </h1>
@@ -216,7 +226,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
           <div className="space-y-6">
             <AssignGuardCard
               requestId={req.id}
-              guardOptions={guards}
+              guardOptions={guardOptions}
               defaultGuardId={req.guard?.id}
             />
             <AdminUpdateStatusCard

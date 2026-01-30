@@ -63,6 +63,14 @@ export default function NewRequestForm(props: { type: RequestType }) {
                       className="text-xs"
                     />
 
+                    <FormInput
+                      name="time"
+                      type="time"
+                      label="Start Time (hours)"
+                      className="text-xs "
+                      placeholder="e.g. 4"
+                    />
+
                     <div className="grid gap-4 sm:grid-cols-2">
                       <FormInput
                         name="date"

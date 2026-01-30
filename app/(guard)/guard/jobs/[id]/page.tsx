@@ -8,6 +8,7 @@ import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import UserMenu from "@/components/dashboard/user-menu";
 import { Bell } from "lucide-react";
 import Link from "next/link";
+import { GuardJobActionsCard } from "@/components/guard/guard-job-actions-card";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -61,72 +62,82 @@ export default async function GuardJobDetailsPage({ params }: Props) {
             />
           </div>
         </div>
+        <div className="grid gap-6 lg:grid-cols-5">
+          <div className="space-y-6 lg:col-span-3">
+            <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Customer</CardTitle>
+                <div className="w-full h-px mt-4 bg-linear-to-r from-transparent via-white/15 to-transparent" />
+              </CardHeader>
+              <CardContent className="text-sm text-white/80">
+                <p>{job.user?.name ?? "-"}</p>
+                <p className="text-white/60">{job.user?.email ?? "-"}</p>
+              </CardContent>
+            </Card>
 
-        <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">Customer</CardTitle>
-            <div className="w-full h-px mt-4 bg-linear-to-r from-transparent via-white/15 to-transparent" />
-          </CardHeader>
-          <CardContent className="text-sm text-white/80">
-            <p>{job.user?.name ?? "-"}</p>
-            <p className="text-white/60">{job.user?.email ?? "-"}</p>
-          </CardContent>
-        </Card>
+            <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Details</CardTitle>
+                <div className="w-full h-px mt-4 bg-linear-to-r from-transparent via-white/15 to-transparent" />
+              </CardHeader>
 
-        <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">Details</CardTitle>
-            <div className="w-full h-px mt-4 bg-linear-to-r from-transparent via-white/15 to-transparent" />
-          </CardHeader>
+              <CardContent className="grid gap-4 text-sm sm:grid-cols-2">
+                <div>
+                  <p className="text-xs tracking-widest uppercase text-white/50">
+                    {job.type === "PERSONAL_SECURITY" ? "Location" : "Pickup"}
+                  </p>
+                  <p className="mt-1 text-white">
+                    {job.type === "PERSONAL_SECURITY"
+                      ? readDetail(details, "location")
+                      : (readDetail(details, "pickup") ?? "-")}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs tracking-widest uppercase text-white/50">
+                    {job.type === "PERSONAL_SECURITY" ? "Duration" : "Dropoff"}
+                  </p>
+                  <p className="mt-1 text-white">
+                    {job.type === "PERSONAL_SECURITY"
+                      ? readDetail(details, "durationHours")
+                      : (readDetail(details, "dropoff") ?? "-")}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs tracking-widest uppercase text-white/50">
+                    Date
+                  </p>
+                  <p className="mt-1 text-white">
+                    {readDetail(details, "date") ?? "-"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs tracking-widest uppercase text-white/50">
+                    Time
+                  </p>
+                  <p className="mt-1 text-white">
+                    {readDetail(details, "time") ?? "-"}
+                  </p>
+                </div>
 
-          <CardContent className="grid gap-4 text-sm sm:grid-cols-2">
-            <div>
-              <p className="text-xs tracking-widest uppercase text-white/50">
-                {job.type === "PERSONAL_SECURITY" ? "Location" : "Pickup"}
-              </p>
-              <p className="mt-1 text-white">
-                {job.type === "PERSONAL_SECURITY"
-                  ? readDetail(details, "location")
-                  : (readDetail(details, "pickup") ?? "-")}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs tracking-widest uppercase text-white/50">
-                {job.type === "PERSONAL_SECURITY" ? "Duration" : "Dropoff"}
-              </p>
-              <p className="mt-1 text-white">
-                {job.type === "PERSONAL_SECURITY"
-                  ? readDetail(details, "durationHours")
-                  : (readDetail(details, "dropoff") ?? "-")}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs tracking-widest uppercase text-white/50">
-                Date
-              </p>
-              <p className="mt-1 text-white">
-                {readDetail(details, "date") ?? "-"}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs tracking-widest uppercase text-white/50">
-                Time
-              </p>
-              <p className="mt-1 text-white">
-                {readDetail(details, "time") ?? "-"}
-              </p>
-            </div>
+                {job.notes ? (
+                  <div className="sm:col-span-2">
+                    <p className="text-xs tracking-widest uppercase text-white/50">
+                      Notes
+                    </p>
+                    <p className="mt-1 text-white/80">{job.notes}</p>
+                  </div>
+                ) : null}
+              </CardContent>
+            </Card>
+          </div>
 
-            {job.notes ? (
-              <div className="sm:col-span-2">
-                <p className="text-xs tracking-widest uppercase text-white/50">
-                  Notes
-                </p>
-                <p className="mt-1 text-white/80">{job.notes}</p>
-              </div>
-            ) : null}
-          </CardContent>
-        </Card>
+          <div className="lg:col-span-2">
+            <GuardJobActionsCard
+              requestId={job.id}
+              currentStatus={job.status}
+            />
+          </div>
+        </div>
       </div>
     </main>
   );

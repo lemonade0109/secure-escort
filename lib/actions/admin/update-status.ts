@@ -11,10 +11,11 @@ import {
 import { FormActionState } from "@/types";
 import { createRequestEvent } from "./request-events";
 import { revalidatePath } from "next/cache";
+import { Role } from "@prisma/client";
 
 export const updateRequestStatusAction = async (
   prevState: FormActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<FormActionState> => {
   try {
     const { session } = await requireVerifiedUser();
@@ -23,7 +24,7 @@ export const updateRequestStatusAction = async (
     const rawData = Object.fromEntries(formData);
     const { requestId, status } = validateWithZodSchema(
       updateRequestStatusSchema,
-      rawData
+      rawData,
     );
 
     const req = await db.request.findUnique({
@@ -52,6 +53,18 @@ export const updateRequestStatusAction = async (
       data: { status },
     });
 
+    // if status is now IN_PROGRESS, log tracking activation
+    if (status === "IN_PROGRESS") {
+      await createRequestEvent({
+        requestId,
+        type: "TRACKING_ACTIVATED",
+        message: `Tracking activated as job is now In Progress.`,
+        meta: { startedAt: new Date().toISOString() },
+        actorRole: Role.ADMIN,
+        actorId: session.user.id,
+      });
+    }
+
     //Timeline: Status changed
     await createRequestEvent({
       requestId,
@@ -67,6 +80,7 @@ export const updateRequestStatusAction = async (
     revalidatePath(`/admin/requests`);
     revalidatePath(`/requests/${requestId}`);
     revalidatePath(`/requests`);
+    revalidatePath(`/guard/jobs/${requestId}`);
     return {
       success: true,
       message: `Status updated to ${status}.`,

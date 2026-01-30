@@ -2,13 +2,17 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db/db";
-import { getFriendlyErrorMessage, makeTrackingCode } from "@/lib/utils";
+import {
+  getFriendlyErrorMessage,
+  makeTrackingCode,
+  renderError,
+} from "@/lib/utils";
 import { createRequestSchema, validateWithZodSchema } from "@/lib/validators";
 import { FormActionState } from "@/types";
 
 export const CreateRequestAction = async (
   prevState: FormActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<FormActionState> => {
   try {
     const session = await auth();
@@ -41,6 +45,8 @@ export const CreateRequestAction = async (
       },
       select: { id: true },
     });
+
+    console.log("Created request", created);
     return {
       success: true,
       message: "Request submitted successfully.",
@@ -48,8 +54,9 @@ export const CreateRequestAction = async (
     };
   } catch (error) {
     return {
+      //To use renderError for dev Debugging
       success: false,
-      message: getFriendlyErrorMessage(error),
+      message: getFriendlyErrorMessage(error) || renderError(error).message,
     };
   }
 };
