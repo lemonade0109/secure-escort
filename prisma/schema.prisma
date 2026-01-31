@@ -34,6 +34,7 @@ model User {
   requests                Request[]
   guardProfile            GuardProfile?
   requestEvents           RequestEvent[]
+  notifications           Notification[]
 }
 
 model Service {
@@ -190,3 +191,30 @@ model GuardAvailability {
   @@index([day])
   @@index([guardId, day])
 }
+
+enum NotificationType {
+  REQUEST_CREATED
+  STATUS_CHANGED
+  GUARD_ASSIGNED
+  ETA_UPDATED
+  REQUEST_COMPLETED
+  REQUEST_CANCELLED
+  SYSTEM
+}
+
+model Notification {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String           @db.ObjectId
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType @default(SYSTEM)
+  message   String
+  title     String
+  href      String?
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  @@index([readAt])
+  @@index([createdAt])
+  @@index([userId])
+}
+

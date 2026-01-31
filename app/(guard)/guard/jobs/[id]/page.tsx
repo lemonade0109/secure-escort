@@ -22,7 +22,6 @@ export default async function GuardJobDetailsPage({ params }: Props) {
   if (!job) return notFound();
 
   const details = (job.details ?? {}) as Record<string, unknown>;
-  console.log(details);
 
   return (
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
