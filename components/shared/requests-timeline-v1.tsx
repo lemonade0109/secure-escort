@@ -1,7 +1,7 @@
-import { getRequestEventsByRequestId } from "@/lib/actions/admin/request-events";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import StatusPill from "../requests/status-pill";
+import { getRequestEventsByRequestId } from "@/lib/actions/timeline/get-request-event";
 
 function fmtTime(d: Date) {
   return new Intl.DateTimeFormat("en-US", {
@@ -13,7 +13,7 @@ function fmtTime(d: Date) {
   }).format(d);
 }
 
-const AdminRequestsTimeline: React.FC<{
+const RequestsTimeline: React.FC<{
   requestId: string;
 }> = async ({ requestId }) => {
   const events = await getRequestEventsByRequestId(requestId);
@@ -70,4 +70,4 @@ const AdminRequestsTimeline: React.FC<{
   );
 };
 
-export default AdminRequestsTimeline;
+export default RequestsTimeline;

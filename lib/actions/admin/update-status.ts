@@ -9,9 +9,9 @@ import {
   validateWithZodSchema,
 } from "@/lib/validators";
 import { FormActionState } from "@/types";
-import { createRequestEvent } from "./request-events";
 import { revalidatePath } from "next/cache";
 import { Role } from "@prisma/client";
+import { createRequestEvent } from "../timeline/create-request-events";
 
 export const updateRequestStatusAction = async (
   prevState: FormActionState,
@@ -79,8 +79,9 @@ export const updateRequestStatusAction = async (
     revalidatePath(`/admin/requests/${requestId}`);
     revalidatePath(`/admin/requests`);
     revalidatePath(`/requests/${requestId}`);
-    revalidatePath(`/requests`);
+    revalidatePath(`/tracking`);
     revalidatePath(`/guard/jobs/${requestId}`);
+    revalidatePath(`/guard/jobs`);
     return {
       success: true,
       message: `Status updated to ${status}.`,

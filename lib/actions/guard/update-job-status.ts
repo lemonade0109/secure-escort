@@ -6,9 +6,8 @@ import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { getFriendlyErrorMessage, renderError } from "@/lib/utils";
 import { FormActionState } from "@/types";
 import { RequestStatus, Role } from "@prisma/client";
-// import { createRequestEvent } from "../admin/request-events";
 import { revalidatePath } from "next/cache";
-import { createRequestEvent } from "../admin/request-events";
+import { createRequestEvent } from "../timeline/create-request-events";
 
 const ALLOWED_GUARD_NEXT: Record<RequestStatus, RequestStatus[]> = {
   PENDING: [],
@@ -82,21 +81,22 @@ export const guardUpdateJobStatusAction = async (
         actorId: session.user.id,
       });
     }
-    //TODO: timeline event(guard status update)
-    // await createRequestEvent({
-    //   requestId,
-    //   type: "STATUS_CHANGED",
-    //   message: `Guard updated status: ${req.status} → ${nextStatus}`,
-    //   meta: { from: req.status, to: nextStatus },
-    //   actorId: userId,
-    //   actorRole: Role.GUARD,
-    // });
+    // Timeline event
+    await createRequestEvent({
+      requestId,
+      type: "STATUS_CHANGED",
+      message: `Guard updated status: ${req.status} → ${nextStatus}`,
+      meta: { from: req.status, to: nextStatus },
+      actorId: userId,
+      actorRole: Role.GUARD,
+    });
 
     revalidatePath(`/admin/requests/${requestId}`);
     revalidatePath(`/admin/requests`);
     revalidatePath(`/requests/${requestId}`);
-    revalidatePath(`/requests`);
+    revalidatePath(`/tracking`);
     revalidatePath(`/guard/jobs/${requestId}`);
+    revalidatePath(`/guard/jobs`);
 
     return { success: true, message: `Status updated to ${nextStatus}.` };
   } catch (error) {

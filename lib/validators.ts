@@ -154,11 +154,17 @@ export const updateRequestStatusSchema = z.object({
 });
 
 // Schema for updating ETA
-export const updateRequestETASchema = z.object({
-  requestId: z.string().min(1, "Request ID is required"),
-  etaFrom: z.string().optional(),
-  etaTo: z.string().optional(),
-});
+export const updateRequestETASchema = z
+  .object({
+    requestId: z.string().min(1, "Request ID is required"),
+    etaFrom: z.string().min(1, "ETA From is required"),
+    etaTo: z.string().min(1, "ETA To is required"),
+  })
+  .refine(
+    (data) =>
+      new Date(data.etaFrom).getTime() <= new Date(data.etaTo).getTime(),
+    { message: "ETA From must be before ETA To" },
+  );
 
 // Schema for making user a guard
 export const makeGuardSchema = z.object({

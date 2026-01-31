@@ -9,6 +9,7 @@ import {
 } from "@/lib/utils";
 import { createRequestSchema, validateWithZodSchema } from "@/lib/validators";
 import { FormActionState } from "@/types";
+import { createRequestEvent } from "../timeline/create-request-events";
 
 export const CreateRequestAction = async (
   prevState: FormActionState,
@@ -46,7 +47,17 @@ export const CreateRequestAction = async (
       select: { id: true },
     });
 
-    console.log("Created request", created);
+    //Timeline Event
+    await createRequestEvent({
+      requestId: created.id,
+      type: "REQUEST_CREATED",
+      meta: {},
+      actorId: userId,
+      actorEmail: session.user?.email || null,
+      actorName: session.user?.name || null,
+      actorRole: "USER",
+      message: `Request created with tracking code ${trackingCode}.`,
+    });
     return {
       success: true,
       message: "Request submitted successfully.",

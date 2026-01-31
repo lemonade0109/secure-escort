@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getGuardJobAction } from "@/lib/actions/guard/get-guard-job.";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { readDetail, requestTypeLabel } from "@/lib/helpers-function";
+import { formatGuardEta } from "@/lib/utils";
 import { Bell } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -153,7 +154,12 @@ export default async function GuardJobPage({ searchParams }: Props) {
                           {j.user?.email || "_"})
                         </p>
                       </div>
-                      <StatusPill status={j.status} />
+                      <div className="flex flex-col items-end gap-1">
+                        <StatusPill status={j.status} />
+                        <p className="text-xs text-white/50">
+                          {formatGuardEta(j.etaFrom)}
+                        </p>
+                      </div>
                     </div>
                   </Link>
                 );

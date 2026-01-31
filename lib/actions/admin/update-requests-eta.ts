@@ -9,8 +9,8 @@ import {
   validateWithZodSchema,
 } from "@/lib/validators";
 import { FormActionState } from "@/types";
-import { createRequestEvent } from "./request-events";
 import { revalidatePath } from "next/cache";
+import { createRequestEvent } from "../timeline/create-request-events";
 
 function parseOptionalDate(val?: string) {
   const stringVal = val?.trim();
@@ -18,17 +18,6 @@ function parseOptionalDate(val?: string) {
   const date = new Date(stringVal);
   if (Number.isNaN(date.getTime())) return null;
   return date;
-}
-
-function formatEtaDate(date: Date | null) {
-  if (!date) return "_";
-  return date.toLocaleString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
 }
 
 export const updateRequestsEtaAction = async (
@@ -47,7 +36,7 @@ export const updateRequestsEtaAction = async (
 
     const req = await db.request.findUnique({
       where: { id: requestId },
-      select: { id: true, etaFrom: true, etaTo: true },
+      select: { id: true, etaFrom: true, etaTo: true, trackingCode: true },
     });
     if (!req) return { success: false, message: "Request not found." };
 
@@ -69,34 +58,35 @@ export const updateRequestsEtaAction = async (
     const updated = await db.request.update({
       where: { id: requestId },
       data: {
-        etaFrom: clearedBoth ? null : (fromDate ?? req.etaFrom),
-        etaTo: clearedBoth ? null : (toDate ?? req.etaTo),
+        etaFrom: clearedBoth ? null : fromDate,
+        etaTo: clearedBoth ? null : toDate,
       },
       select: { etaFrom: true, etaTo: true },
     });
 
     // Timeline event
     const actorId = session?.user?.id ?? null;
-
     await createRequestEvent({
       requestId,
       type: "ETA_UPDATED",
-      message: `ETA updated: From ${formatEtaDate(req.etaFrom || null)} - ${formatEtaDate(
-        req.etaTo || null,
-      )} → ${formatEtaDate(updated.etaFrom || null)} - ${formatEtaDate(
-        updated.etaTo || null,
-      )}`,
+      message: `ETA updated: For ${req.trackingCode}`,
       meta: {
-        etaFrom: updated.etaFrom ? updated.etaFrom.toISOString() : null,
-        etaTo: updated.etaTo ? updated.etaTo.toISOString() : null,
+        fromDate: req.etaFrom,
+        toDate: req.etaTo,
+        newFromDate: updated.etaFrom,
+        newToDate: updated.etaTo,
       },
       actorId,
+      actorName: session.user?.name || null,
+      actorEmail: session.user?.email || null,
       actorRole: "ADMIN",
     });
 
     revalidatePath(`/admin/requests/${requestId}`);
     revalidatePath(`/requests/${requestId}`);
     revalidatePath("/tracking");
+    revalidatePath("/admin/requests");
+    revalidatePath("/requests");
 
     return { success: true, message: "ETA updated successfully." };
   } catch (error) {

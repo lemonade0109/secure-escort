@@ -1,5 +1,4 @@
 import AdminEtaCard from "@/components/admin/admin-eta-card";
-import AdminRequestsTimeline from "@/components/admin/admin-requests-timeline";
 import { AdminUpdateStatusCard } from "@/components/admin/admin-update-status";
 import AssignGuardCard from "@/components/admin/assign-guard-card";
 import UserMenu from "@/components/dashboard/user-menu";
@@ -15,9 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getAdminRequestByIdAction } from "@/lib/actions/admin/get-admin-requests-id";
-import { getAvailableGuardsForRequestsAction } from "@/lib/actions/admin/get-available-guards-for-requests";
 import { getGuardOptionsForAssignRequestAction } from "@/lib/actions/admin/get-guard-options";
-
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { InfoRow, readDetail, requestTypeLabel } from "@/lib/helpers-function";
@@ -26,7 +23,7 @@ import { Bell } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import React from "react";
+import RequestTimeline from "@/components/shared/request-timeline";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -75,9 +72,6 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
   const { options: guardOptions } = await getGuardOptionsForAssignRequestAction(
     req.id,
   );
-  // const guardOptions = await getAvailableGuardsForRequestsAction(req.id);
-
-  console.log(guardOptions);
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
@@ -93,7 +87,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
             >
               Admin ● Requests
             </Link>
-            <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
+            <h1 className="text-2xl font-semibold sm:text-3xl">
               {requestTypeLabel(req.type)}
             </h1>
             <p className="mt-1 text-sm text-white/70">
@@ -219,7 +213,11 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
               </CardContent>
             </Card>
 
-            <AdminRequestsTimeline requestId={req.id} />
+            <RequestTimeline
+              requestId={req.id}
+              title="Admin Timeline"
+              showActor={true}
+            />
           </div>
 
           {/* RIGHT: sidebar */}

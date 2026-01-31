@@ -9,6 +9,8 @@ import UserMenu from "@/components/dashboard/user-menu";
 import { Bell } from "lucide-react";
 import Link from "next/link";
 import { GuardJobActionsCard } from "@/components/guard/guard-job-actions-card";
+import RequestTimeline from "@/components/shared/request-timeline";
+import { Separator } from "@/components/ui/separator";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -20,6 +22,7 @@ export default async function GuardJobDetailsPage({ params }: Props) {
   if (!job) return notFound();
 
   const details = (job.details ?? {}) as Record<string, unknown>;
+  console.log(details);
 
   return (
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
@@ -34,7 +37,7 @@ export default async function GuardJobDetailsPage({ params }: Props) {
             >
               Guard ● Job Details
             </Link>
-            <h1 className="mt-2 text-2xl font-semibold">
+            <h1 className="text-2xl font-semibold">
               {requestTypeLabel(job.type)}
             </h1>
             <p className="mt-1 text-sm text-white/70">
@@ -62,6 +65,8 @@ export default async function GuardJobDetailsPage({ params }: Props) {
             />
           </div>
         </div>
+
+        <Separator className="my-6 border-white/10" />
         <div className="grid gap-6 lg:grid-cols-5">
           <div className="space-y-6 lg:col-span-3">
             <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
@@ -119,22 +124,27 @@ export default async function GuardJobDetailsPage({ params }: Props) {
                   </p>
                 </div>
 
-                {job.notes ? (
+                {details.notes ? (
                   <div className="sm:col-span-2">
                     <p className="text-xs tracking-widest uppercase text-white/50">
                       Notes
                     </p>
-                    <p className="mt-1 text-white/80">{job.notes}</p>
+                    <p className="mt-1 text-white/80">
+                      {String(details.notes)}
+                    </p>
                   </div>
                 ) : null}
               </CardContent>
             </Card>
+
+            <RequestTimeline requestId={job.id} title="Job Timeline" />
           </div>
 
           <div className="lg:col-span-2">
             <GuardJobActionsCard
               requestId={job.id}
               currentStatus={job.status}
+              etaFrom={job.etaFrom}
             />
           </div>
         </div>

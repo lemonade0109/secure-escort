@@ -24,6 +24,15 @@ export const getGuardJobByIdAction = async (requestId: string) => {
   // Guard can only read their own job
   return db.request.findFirst({
     where: { id: requestId, guardId: guardProfile.id },
-    include: { user: { select: { name: true, email: true } } },
+    select: {
+      user: { select: { name: true, email: true } },
+      etaFrom: true,
+      details: true,
+      id: true,
+      trackingCode: true,
+      type: true,
+      status: true,
+      createdAt: true,
+    },
   });
 };

@@ -1,7 +1,6 @@
 "use server";
 
 import { db } from "@/db/db";
-import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { RequestEvent, Role } from "@prisma/client";
 import { InputJsonValue } from "@prisma/client/runtime/library";
@@ -13,6 +12,8 @@ type createEventType = {
   meta: Record<string, unknown>;
   actorId?: string | null;
   actorRole?: Role | null;
+  actorName?: string | null;
+  actorEmail?: string | null;
 };
 
 // Create a new request event (admin only)
@@ -27,17 +28,8 @@ export const createRequestEvent = async (input: createEventType) => {
       meta: (input.meta ?? {}) as InputJsonValue,
       actorId: input.actorId ?? session?.user?.id ?? null,
       actorRole: input.actorRole ?? null,
+      actorName: input.actorName ?? session?.user?.name ?? null,
+      actorEmail: input.actorEmail ?? session?.user?.email ?? null,
     },
-  });
-};
-
-// Get all events for a specific request (admin only)
-export const getRequestEventsByRequestId = async (requestId: string) => {
-  const { session } = await requireVerifiedUser();
-  if (!isAdmin(session?.user?.email)) throw new Error("Unauthorized");
-
-  return await db.requestEvent.findMany({
-    where: { requestId },
-    orderBy: { createdAt: "desc" },
   });
 };

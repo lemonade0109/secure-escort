@@ -140,6 +140,9 @@ enum RequestEventType {
   ETA_UPDATED
   NOTE_ADDED
   TRACKING_ACTIVATED
+  JOB_STARTED
+  JOB_COMPLETED
+  REQUEST_CANCELLED
 }
 
 model RequestEvent {
@@ -150,10 +153,12 @@ model RequestEvent {
   message   String?
   meta      Json?
 
-  actorId   String?  @db.ObjectId
-  actorRole Role?
-  actor     User?    @relation(fields: [actorId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+  actorId    String?  @db.ObjectId
+  actorRole  Role?
+  actorName  String?
+  actorEmail String?
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
 
   @@index([requestId])
   @@index([type])

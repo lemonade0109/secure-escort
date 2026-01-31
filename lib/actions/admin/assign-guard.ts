@@ -7,10 +7,10 @@ import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { getFriendlyErrorMessage } from "@/lib/utils";
 import { assignGuardSchema, validateWithZodSchema } from "@/lib/validators";
 import { BUSY_STATUSES, FormActionState } from "@/types";
-import { createRequestEvent } from "./request-events";
 import { Role } from "@prisma/client";
 import { getRequestWindowAction } from "../guard/request-window";
 import { overlaps } from "@/lib/scheduling/time";
+import { createRequestEvent } from "../timeline/create-request-events";
 
 export const assignGuardAction = async (
   prevState: FormActionState,

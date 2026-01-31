@@ -5,11 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import FormContainer from "../shared/form/form-container";
 import { guardUpdateJobStatusAction } from "@/lib/actions/guard/update-job-status";
 import { Button } from "../ui/button";
+import { formatGuardEta } from "@/lib/utils";
 
 export const GuardJobActionsCard: React.FC<{
   requestId: string;
   currentStatus: RequestStatus;
-}> = ({ requestId, currentStatus }) => {
+  etaFrom: Date | null;
+}> = ({ requestId, currentStatus, etaFrom }) => {
   const next =
     currentStatus === "ASSIGNED"
       ? ("IN_PROGRESS" as const)
@@ -26,35 +28,43 @@ export const GuardJobActionsCard: React.FC<{
 
   return (
     <Card className="text-white border-white/10 bg-white/3 backdrop-blur-xl">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-medium">Job Actions</CardTitle>
+      <CardHeader>
+        <CardTitle className="text-xl font-medium ">Job Actions</CardTitle>
+        <div className="w-full h-px bg-linear-to-r from-transparent via-white/15 to-transparent" />
       </CardHeader>
 
       <CardContent className="space-y-3">
-        <FormContainer
-          action={guardUpdateJobStatusAction}
-          className="space-y-4"
-        >
-          {() => (
-            <>
-              <input type="hidden" name="requestId" value={requestId} />
-              <input type="hidden" name="nextStatus" value={next || ""} />
-
-              <Button
-                type="submit"
-                className="w-full text-black bg-gold hover:bg-gold/90"
-                disabled={!next}
-              >
-                {label}
-              </Button>
-            </>
+        <>
+          {currentStatus === "COMPLETED" ? (
+            <p className="text-sm text-white/80">
+              This job has been completed.
+            </p>
+          ) : (
+            <p className="text-sm text-white/60">{formatGuardEta(etaFrom)}</p>
           )}
-        </FormContainer>
 
-        <p className="text-xs text-white">
-          Guards can only move progress forward (Assigned → In Progress →
-          Completed).
-        </p>
+          <FormContainer action={guardUpdateJobStatusAction} className="">
+            {() => (
+              <>
+                <input type="hidden" name="requestId" value={requestId} />
+                <input type="hidden" name="nextStatus" value={next || ""} />
+
+                <Button
+                  type="submit"
+                  className="w-full text-black bg-gold hover:bg-gold/90"
+                  disabled={!next}
+                >
+                  {label}
+                </Button>
+              </>
+            )}
+          </FormContainer>
+
+          <p className="text-xs text-white/60">
+            Guards can only move progress forward (Assigned → In Progress →
+            Completed).
+          </p>
+        </>
       </CardContent>
     </Card>
   );
