@@ -1,13 +1,12 @@
 import AdminGuardsTable from "@/components/admin/admin-guards-table";
 import AdminGuardsToolbar from "@/components/admin/admin-guards-toolbar";
-import UserMenu from "@/components/dashboard/user-menu";
 import GlowBackground from "@/components/shared/glow-background";
+import NavigationBar from "@/components/shared/navigationBar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getAdminGuardsAction } from "@/lib/actions/admin/get-admin-guards";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
-import { Bell } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -67,14 +66,10 @@ export default async function AdminGuardsPage({ searchParams }: Props) {
           </div>
 
           <div className="flex items-center gap-2 mb-6">
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="inline-flex items-center justify-center border rounded-lg size-9 border-white/10 bg-white/3 text-white/80 hover:bg-white/6"
-            >
-              <Bell className="size-4" />
-            </button>
-            <UserMenu name={session?.user?.name} email={session?.user?.email} />
+            <NavigationBar
+              userName={session?.user.name || ""}
+              userEmail={session?.user.email || ""}
+            />
           </div>
         </div>
 

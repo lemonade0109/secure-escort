@@ -21,6 +21,7 @@ import {
   TrainTrackIcon,
   Hourglass,
   UserIcon,
+  AlignHorizontalJustifyCenter,
 } from "lucide-react";
 import { signOutAction } from "@/lib/actions/auth/signout";
 import { useFormStatus } from "react-dom";
@@ -83,10 +84,19 @@ const UserMenu = ({ name, email, role }: UserMenuProps) => {
           </Link>
         </DropdownMenuItem>
 
+        {(userIsAdmin || role === "GUARD") && (
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard" className="cursor-pointer">
+              <LayoutDashboard className="w-4 h-4 mr-2" />
+              Dashboard
+            </Link>
+          </DropdownMenuItem>
+        )}
+
         {role === "GUARD" && (
           <DropdownMenuItem asChild>
             <Link href="/guard/jobs" className="cursor-pointer">
-              <LayoutDashboard className="w-4 h-4 mr-2" />
+              <AlignHorizontalJustifyCenter className="w-4 h-4 mr-2" />
               My Jobs
             </Link>
           </DropdownMenuItem>
@@ -97,15 +107,6 @@ const UserMenu = ({ name, email, role }: UserMenuProps) => {
             <Link href="/guard/availability" className="cursor-pointer">
               <Hourglass className="w-4 h-4 mr-2" />
               Working Hours
-            </Link>
-          </DropdownMenuItem>
-        )}
-
-        {userIsAdmin && (
-          <DropdownMenuItem asChild>
-            <Link href="/dashboard" className="cursor-pointer">
-              <LayoutDashboard className="w-4 h-4 mr-2" />
-              Dashboard
             </Link>
           </DropdownMenuItem>
         )}

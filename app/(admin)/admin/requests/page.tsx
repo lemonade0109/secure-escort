@@ -2,15 +2,14 @@ import { getAdminRequestsAction } from "@/lib/actions/admin/requests";
 import React from "react";
 import { Metadata } from "next";
 import GlowBackground from "@/components/shared/glow-background";
-import { Bell } from "lucide-react";
-import UserMenu from "@/components/dashboard/user-menu";
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { redirect } from "next/navigation";
 import AdminRequestsToolbar from "@/components/admin/admin-requests-toolbar";
 import Link from "next/link";
-import AdminAllRequestsTable from "@/components/admin/admin-all-reqeusts-table";
 import { RequestDetailsProps } from "@/types";
+import AdminAllRequestsTable from "@/components/admin/admin-all-requests-table";
+import NavigationBar from "@/components/shared/navigationBar";
 
 type SearchParams = {
   page?: number;
@@ -125,14 +124,10 @@ export default async function AdminRequestPage({
           </div>
 
           <div className="flex items-center gap-2 mt-2">
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="inline-flex items-center justify-center border rounded-lg size-9 border-white/10 bg-white/3 text-white/80 hover:bg-white/6"
-            >
-              <Bell className="size-4" />
-            </button>
-            <UserMenu name={session?.user?.name} email={session?.user?.email} />
+            <NavigationBar
+              userName={session?.user?.name || ""}
+              userEmail={session?.user?.email || ""}
+            />
           </div>
         </div>
 

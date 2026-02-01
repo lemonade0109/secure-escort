@@ -1,14 +1,12 @@
-import UserMenu from "@/components/dashboard/user-menu";
 import StatusPill from "@/components/requests/status-pill";
 import GlowBackground from "@/components/shared/glow-background";
+import NavigationBar from "@/components/shared/navigationBar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getGuardJobAction } from "@/lib/actions/guard/get-guard-job.";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { readDetail, requestTypeLabel } from "@/lib/helpers-function";
 import { formatGuardEta } from "@/lib/utils";
-import { Bell } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
 type Props = {
   searchParams?: Promise<{ tab?: string }>;
@@ -46,15 +44,11 @@ export default async function GuardJobPage({ searchParams }: Props) {
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="inline-flex items-center justify-center border rounded-lg size-9 border-white/10 bg-white/3 text-white/80 hover:bg-white/6"
-            >
-              <Bell className="size-4" />
-            </button>
-
-            <UserMenu name={name} email={email} role={role} />
+            <NavigationBar
+              userName={name || ""}
+              userEmail={email || ""}
+              role={role || ""}
+            />
           </div>
         </div>
 

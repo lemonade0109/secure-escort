@@ -11,6 +11,7 @@ import {
 import { FormActionState } from "@/types";
 import { revalidatePath } from "next/cache";
 import { createRequestEvent } from "../timeline/create-request-events";
+import { createNotificationAction } from "../notifications/create-notifications";
 
 function parseOptionalDate(val?: string) {
   const stringVal = val?.trim();
@@ -36,7 +37,14 @@ export const updateRequestsEtaAction = async (
 
     const req = await db.request.findUnique({
       where: { id: requestId },
-      select: { id: true, etaFrom: true, etaTo: true, trackingCode: true },
+      select: {
+        id: true,
+        etaFrom: true,
+        etaTo: true,
+        trackingCode: true,
+        userId: true,
+        guardId: true,
+      },
     });
     if (!req) return { success: false, message: "Request not found." };
 
@@ -64,12 +72,39 @@ export const updateRequestsEtaAction = async (
       select: { etaFrom: true, etaTo: true },
     });
 
+    // Notification to user
+    await createNotificationAction({
+      userId: req.userId,
+      title: `Request #${req.trackingCode} ETA updated`,
+      message: `The Estimated Time of Arrival for your request #${req.trackingCode} has been updated.`,
+      type: "ETA_UPDATED",
+      href: `/requests/${requestId}`,
+    });
+
+    // Notification to guard if assigned
+    if (req.guardId) {
+      const guardProfile = await db.guardProfile.findUnique({
+        where: { id: req.guardId },
+        select: { userId: true },
+      });
+      const guardUserId = guardProfile?.userId;
+      if (guardUserId) {
+        await createNotificationAction({
+          userId: guardUserId,
+          title: `Request #${requestId} ETA updated`,
+          message: `The Estimated Time of Arrival for the request #${requestId} assigned to you has been updated.`,
+          type: "ETA_UPDATED",
+          href: `/guard/jobs/${requestId}`,
+        });
+      }
+    }
+
     // Timeline event
     const actorId = session?.user?.id ?? null;
     await createRequestEvent({
       requestId,
       type: "ETA_UPDATED",
-      message: `ETA updated: For ${req.trackingCode}`,
+      message: `The Estimated Time of Arrival for request #${req.trackingCode} has been updated.`,
       meta: {
         fromDate: req.etaFrom,
         toDate: req.etaTo,

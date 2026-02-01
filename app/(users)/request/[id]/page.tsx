@@ -13,12 +13,11 @@ import {
 } from "@/lib/helpers-function";
 import { RequestDetailsProps } from "@/types";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
-import UserMenu from "@/components/dashboard/user-menu";
-import { Bell } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import RequestTimeline from "@/components/shared/request-timeline";
 import CopyButton from "@/components/requests/copy-button";
 import { formatEtaRange } from "@/lib/utils";
+import NavigationBar from "@/components/shared/navigationBar";
 
 export const metadata: Metadata = {
   title: "Request Details - Secure Escort",
@@ -80,18 +79,9 @@ export default async function RequestDetailsPage({ params }: PageProps) {
 
           <div className="flex items-center gap-2 mt-5">
             <StatusPill status={requestDetail.status} />
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="inline-flex items-center justify-center border rounded-lg size-9 border-white/10 bg-white/3 text-white/80 hover:bg-white/6"
-            >
-              <Bell className="size-4" />
-            </button>
-
-            <UserMenu
-              name={session?.user?.name || null}
-              email={session?.user?.email || null}
-              role={session?.user?.role || null}
+            <NavigationBar
+              userName={session?.user?.name || ""}
+              userEmail={session?.user?.email || ""}
             />
           </div>
         </div>

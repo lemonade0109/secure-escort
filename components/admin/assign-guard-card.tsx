@@ -72,7 +72,7 @@ export default function AssignGuardCard({
           <Button
             type="submit"
             className="w-full text-black bg-gold hover:bg-gold/90"
-            disabled={!guardId || isDisabled}
+            disabled={!guardId || isDisabled || defaultGuardId === guardId}
           >
             Assign Guard
           </Button>

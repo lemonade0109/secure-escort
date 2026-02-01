@@ -11,6 +11,7 @@ import { Role } from "@prisma/client";
 import { getRequestWindowAction } from "../guard/request-window";
 import { overlaps } from "@/lib/scheduling/time";
 import { createRequestEvent } from "../timeline/create-request-events";
+import { createNotificationAction } from "../notifications/create-notifications";
 
 export const assignGuardAction = async (
   prevState: FormActionState,
@@ -116,6 +117,34 @@ export const assignGuardAction = async (
       },
     });
 
+    // notify the user who create the Request
+    await createNotificationAction({
+      userId: req.userId,
+      type: "GUARD_ASSIGNED",
+      title: "Guard Assigned to Your Request",
+      message: `A guard has been assigned to your request (${req.trackingCode}).`,
+      href: `/requests/${requestId}`,
+    });
+
+    // notify the guard
+    const assignedGuardId = guard.id ?? null;
+    if (assignedGuardId) {
+      const guardProfile = await db.guardProfile.findUnique({
+        where: { id: assignedGuardId },
+        select: { userId: true },
+      });
+      const guardUserId = guardProfile?.userId;
+      if (guardUserId) {
+        await createNotificationAction({
+          userId: guardUserId,
+          type: "GUARD_ASSIGNED",
+          title: "You Have Been Assigned to a Request",
+          message: `You have been assigned to request (${requestId}).`,
+          href: `guard/jobs/${requestId}`,
+        });
+      }
+    }
+
     // Timeline: Guard assigned
     const actorId = session?.user?.id ?? null;
     const guardLabel =
@@ -130,7 +159,7 @@ export const assignGuardAction = async (
         from: req.status,
         to: "ASSIGNED",
         prevGuardId: prevGuardId,
-        newGuardId: guardId,
+        newGuardId: assignedGuardId,
       },
       actorId,
       actorRole: Role.ADMIN,

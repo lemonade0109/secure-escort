@@ -10,6 +10,8 @@ import {
 import { createRequestSchema, validateWithZodSchema } from "@/lib/validators";
 import { FormActionState } from "@/types";
 import { createRequestEvent } from "../timeline/create-request-events";
+import { createNotificationAction } from "../notifications/create-notifications";
+import { getAdminEmails } from "@/lib/admin";
 
 export const CreateRequestAction = async (
   prevState: FormActionState,
@@ -46,6 +48,26 @@ export const CreateRequestAction = async (
       },
       select: { id: true },
     });
+
+    //Notification to the admin
+
+    // Notification to Admin
+    const adminEmails = getAdminEmails();
+    const adminUsers = await db.user.findMany({
+      where: { email: { in: adminEmails } },
+      select: { id: true },
+    });
+
+    // Send notifications to all admins
+    for (const admin of adminUsers) {
+      await createNotificationAction({
+        userId: admin.id,
+        title: `New Request Created: ${trackingCode}`,
+        message: `A new request has been created with tracking code ${trackingCode}.`,
+        type: "REQUEST_CREATED",
+        href: `/admin/requests/${created.id}`,
+      });
+    }
 
     //Timeline Event
     await createRequestEvent({

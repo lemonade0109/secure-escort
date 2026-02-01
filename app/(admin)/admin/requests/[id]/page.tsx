@@ -1,7 +1,6 @@
 import AdminEtaCard from "@/components/admin/admin-eta-card";
 import { AdminUpdateStatusCard } from "@/components/admin/admin-update-status";
 import AssignGuardCard from "@/components/admin/assign-guard-card";
-import UserMenu from "@/components/dashboard/user-menu";
 import StatusPill from "@/components/requests/status-pill";
 import GlowBackground from "@/components/shared/glow-background";
 import { Badge } from "@/components/ui/badge";
@@ -19,11 +18,11 @@ import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { InfoRow, readDetail, requestTypeLabel } from "@/lib/helpers-function";
 import { RequestDetailsProps } from "@/types";
-import { Bell } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import RequestTimeline from "@/components/shared/request-timeline";
+import NavigationBar from "@/components/shared/navigationBar";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -100,16 +99,9 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
 
           <div className="flex flex-col items-end gap-4">
             <div className="flex items-center gap-2 mt-2">
-              <button
-                type="button"
-                aria-label="Notifications"
-                className="inline-flex items-center justify-center border rounded-lg size-9 border-white/10 bg-white/3 text-white/80 hover:bg-white/6"
-              >
-                <Bell className="size-4" />
-              </button>
-              <UserMenu
-                name={session?.user?.name}
-                email={session?.user?.email}
+              <NavigationBar
+                userName={session?.user?.name || ""}
+                userEmail={session?.user?.email || ""}
               />
             </div>
 

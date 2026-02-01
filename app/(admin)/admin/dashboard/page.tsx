@@ -1,13 +1,11 @@
 import AdminRecentRequestsTable from "@/components/admin/admin-recent-request-table";
 import AdminStats from "@/components/admin/admin-stats";
-import UserMenu from "@/components/dashboard/user-menu";
 import GlowBackground from "@/components/shared/glow-background";
+import NavigationBar from "@/components/shared/navigationBar";
 import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
-import { Bell } from "lucide-react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "Operations Dashboard | Admin | Secure Escort",
@@ -41,14 +39,10 @@ export default async function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2 mt-2">
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="inline-flex items-center justify-center border rounded-lg size-9 border-white/10 bg-white/3 text-white/80 hover:bg-white/6"
-            >
-              <Bell className="size-4" />
-            </button>
-            <UserMenu name={session?.user?.name} email={session?.user?.email} />
+            <NavigationBar
+              userName={session?.user?.name || ""}
+              userEmail={session?.user?.email || ""}
+            />
           </div>
         </div>
         <AdminStats />

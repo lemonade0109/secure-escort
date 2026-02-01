@@ -5,12 +5,11 @@ import { getGuardJobByIdAction } from "@/lib/actions/guard/get-guard-job-by-id";
 import { notFound } from "next/navigation";
 import { requestTypeLabel, readDetail } from "@/lib/helpers-function";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
-import UserMenu from "@/components/dashboard/user-menu";
-import { Bell } from "lucide-react";
 import Link from "next/link";
 import { GuardJobActionsCard } from "@/components/guard/guard-job-actions-card";
 import RequestTimeline from "@/components/shared/request-timeline";
 import { Separator } from "@/components/ui/separator";
+import NavigationBar from "@/components/shared/navigationBar";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -49,18 +48,9 @@ export default async function GuardJobDetailsPage({ params }: Props) {
 
           <div className="flex items-center gap-2 mt-5">
             <StatusPill status={job.status} />
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="inline-flex items-center justify-center border rounded-lg size-9 border-white/10 bg-white/3 text-white/80 hover:bg-white/6"
-            >
-              <Bell className="size-4" />
-            </button>
-
-            <UserMenu
-              name={session?.user?.name || null}
-              email={session?.user?.email || null}
-              role={session?.user?.role || null}
+            <NavigationBar
+              userName={session?.user?.name || ""}
+              userEmail={session?.user?.email || ""}
             />
           </div>
         </div>
