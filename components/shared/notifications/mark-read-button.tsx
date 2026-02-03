@@ -3,10 +3,23 @@ import { Button } from "@/components/ui/button";
 import { markNotificationReadAction } from "@/lib/actions/notifications/mark-Notification-Read";
 import React from "react";
 
-const MarkReadButton: React.FC<{ notificationId: string }> = ({
+interface MarkReadButtonProps {
+  notificationId: string;
+  onMarkRead: (notificationId: string) => void;
+}
+
+const MarkReadButton: React.FC<MarkReadButtonProps> = ({
   notificationId,
+  onMarkRead,
 }) => {
   const [pending, startTransition] = React.useTransition();
+
+  const handleMarkRead = () => {
+    startTransition(async () => {
+      onMarkRead(notificationId); // Update UI immediately
+      await markNotificationReadAction(notificationId); // Update DB in background
+    });
+  };
 
   return (
     <Button
@@ -15,11 +28,7 @@ const MarkReadButton: React.FC<{ notificationId: string }> = ({
       variant="ghost"
       className="h-7 px-2 text-xs text-white/70 hover:text-white hover:bg-white/5"
       disabled={pending}
-      onClick={() =>
-        startTransition(
-          async () => void (await markNotificationReadAction(notificationId)),
-        )
-      }
+      onClick={handleMarkRead}
     >
       {pending ? "..." : "Read"}
     </Button>

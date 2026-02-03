@@ -12,7 +12,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { Bell } from "lucide-react";
 import React from "react";
-import MarkAllReadButton from "./mark-all-read-button";
+import ClearAllButton from "./clear-all-button";
 import MarkReadButton from "./mark-read-button";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -62,8 +62,23 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
     };
   }, []);
 
-  const computedUnreadCount = items.filter((notification) => !notification.readAt)
-    .length;
+  const handleClearAll = () => {
+    setItems([]);
+    setUnreadCount(0);
+  };
+
+  const handleMarkRead = (notificationId: string) => {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === notificationId ? { ...item, readAt: new Date() } : item,
+      ),
+    );
+    setUnreadCount((prev) => Math.max(0, prev - 1));
+  };
+
+  const computedUnreadCount = items.filter(
+    (notification) => !notification.readAt,
+  ).length;
   const badgeCount = unreadCount > 0 ? unreadCount : computedUnreadCount;
   return (
     <DropdownMenu>
@@ -88,7 +103,9 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
       >
         <DropdownMenuLabel className="flex items-center justify-between">
           <span className="text-sm">Notifications</span>
-          <MarkAllReadButton />
+          <div className="flex gap-1">
+            <ClearAllButton onClearAll={handleClearAll} />
+          </div>
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator className="bg-white/10" />
@@ -125,7 +142,10 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
                     {!notification.readAt && (
                       <span className="mt-1 size-2 rounded-full bg-gold" />
                     )}
-                    <MarkReadButton notificationId={notification.id} />
+                    <MarkReadButton
+                      notificationId={notification.id}
+                      onMarkRead={handleMarkRead}
+                    />
 
                     {notification.href && (
                       <div className="">

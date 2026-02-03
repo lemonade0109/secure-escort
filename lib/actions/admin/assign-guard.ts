@@ -123,7 +123,7 @@ export const assignGuardAction = async (
       type: "GUARD_ASSIGNED",
       title: "Guard Assigned to Your Request",
       message: `A guard has been assigned to your request (${req.trackingCode}).`,
-      href: `/requests/${requestId}`,
+      href: `/request/${requestId}`,
     });
 
     // notify the guard
@@ -140,7 +140,7 @@ export const assignGuardAction = async (
           type: "GUARD_ASSIGNED",
           title: "You Have Been Assigned to a Request",
           message: `You have been assigned to request (${requestId}).`,
-          href: `guard/jobs/${requestId}`,
+          href: `/guard/jobs/${requestId}`,
         });
       }
     }
@@ -182,7 +182,7 @@ export const assignGuardAction = async (
 
     revalidatePath(`/admin/requests/${requestId}`);
     revalidatePath(`/admin/requests`);
-    revalidatePath(`/requests/${requestId}`);
+    revalidatePath(`/request/${requestId}`);
     revalidatePath(`/requests`);
 
     return {

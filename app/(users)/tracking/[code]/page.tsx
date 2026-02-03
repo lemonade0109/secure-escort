@@ -10,7 +10,7 @@ import {
   TimeLineItem,
 } from "@/lib/helpers-function";
 import { RequestDetailsProps } from "@/types";
-import React from "react";
+import TrackingMap from "@/components/tracking/tracking-map";
 
 function formatEta(d?: Date | string | null) {
   if (!d) return "";
@@ -196,6 +196,11 @@ export default async function TrackingCodePage({
             </div>
           )}
         </Card>
+        {request && (
+          <div className="mt-4">
+            <TrackingMap requestId={request.id} status={request.status} />
+          </div>
+        )}
       </div>
     </main>
   );

@@ -5,12 +5,7 @@ import { getRequestDetailAction } from "@/lib/actions/requests/get-request-detai
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Metadata } from "next";
-import {
-  requestTypeLabel,
-  InfoRow,
-  getSummary,
-  TimeLineItem,
-} from "@/lib/helpers-function";
+import { requestTypeLabel, InfoRow, getSummary } from "@/lib/helpers-function";
 import { RequestDetailsProps } from "@/types";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { Separator } from "@/components/ui/separator";
@@ -57,7 +52,7 @@ export default async function RequestDetailsPage({ params }: PageProps) {
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 max-w-5xl px-6 py-10 mx-auto space-y-6">
+      <div className="relative z-10 px-6 py-10 mx-auto space-y-6 max-w-7xl">
         <div className="flex items-start justify-between gap-4">
           <div>
             <Link
@@ -248,7 +243,6 @@ export default async function RequestDetailsPage({ params }: PageProps) {
                   </div>
                 </CardContent>
               </Card>
-              <RequestTimeline requestId={requestDetail.id} title="Progress" />
             </>
           </div>
 
@@ -287,7 +281,7 @@ export default async function RequestDetailsPage({ params }: PageProps) {
                     {requestDetail.status === "ASSIGNED" &&
                       "A guard has been assigned. Service will begin shortly."}
                     {requestDetail.status === "IN_PROGRESS" &&
-                      "Your service is currently in progress."}
+                      "Your service is currently in progress, go to tracking page to view live location."}
                     {requestDetail.status === "COMPLETED" &&
                       "Service completed. Thank you for using Secure Escort!"}
                     {requestDetail.status === "CANCELLED" &&
@@ -297,56 +291,7 @@ export default async function RequestDetailsPage({ params }: PageProps) {
               </CardContent>
             </Card>
 
-            <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base">Progress</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {(() => {
-                  const steps = [
-                    {
-                      key: "PENDING",
-                      title: "Request created",
-                      desc: "We receive your request and it's queued for assignment.",
-                    },
-                    {
-                      key: "ASSIGNED",
-                      title: "Guard Assigned",
-                      desc: "A guard will be assigned and you'll receive updates.",
-                    },
-                    {
-                      key: "IN_PROGRESS",
-                      title: "In Progress",
-                      desc: "Tracking becomes active once service starts.",
-                    },
-                    {
-                      key: "COMPLETED",
-                      title: "Completed",
-                      desc: "Service finished. You'll be able to rate your experience.",
-                    },
-                  ];
-                  const statusOrder = [
-                    "PENDING",
-                    "ASSIGNED",
-                    "IN_PROGRESS",
-                    "COMPLETED",
-                  ];
-                  const currentStep = statusOrder.indexOf(requestDetail.status);
-                  return steps.map((step, idx) => (
-                    <TimeLineItem
-                      key={step.key}
-                      title={step.title}
-                      desc={step.desc}
-                      active={idx <= currentStep}
-                    />
-                  ));
-                })()}
-                <div className="pt-2 text-xs text-white/60">
-                  ETA and live tracking will appear when the request is
-                  assigned.
-                </div>
-              </CardContent>
-            </Card>
+            <RequestTimeline requestId={requestDetail.id} title="Progress" />
           </div>
         </div>
       </div>

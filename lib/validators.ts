@@ -199,3 +199,18 @@ export const createGuardAvailabilitySchema = z.object({
 export const deleteGuardAvailabilitySchema = z.object({
   id: z.string().min(1, "Availability ID is required"),
 });
+
+// Schema for tracking guard location
+export const createGuardTrackingSchema = z.object({
+  requestId: z.string().min(10, "Request ID is required"),
+  lat: z.coerce.number().min(-90).max(90),
+  lng: z.coerce.number().min(-180).max(180),
+  accuracyM: z.coerce.number().int().positive().max(10000).optional(),
+  speedMps: z.coerce.number().nonnegative().max(200).optional(),
+  heading: z.coerce.number().nonnegative().max(360).optional(),
+});
+
+export const getTrackingFeedSchema = z.object({
+  requestId: z.string().min(10),
+  take: z.coerce.number().int().min(1).max(200).optional(),
+});

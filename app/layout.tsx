@@ -4,6 +4,7 @@ import "./globals.css";
 import "./sonner-theme.css";
 import { Toaster } from "sonner";
 import NextAuthProvider from "@/components/providers/session-provider";
+import "leaflet/dist/leaflet.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

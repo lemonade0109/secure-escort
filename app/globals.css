@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "../node_modules/tw-animate-css/dist/tw-animate.css";
-
-@custom-variant dark (&:is(.dark *));
-
+@import "leaflet/dist/leaflet.css";
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

@@ -83,7 +83,7 @@ export const guardUpdateJobStatusAction = async (
       title: `Request #${req.trackingCode} status updated`,
       message: `The status of your assigned request #${req.trackingCode} has been updated to ${nextStatus}.`,
       type: "STATUS_CHANGED",
-      href: `/guard/jobs/${requestId}`,
+      href: `/request/${requestId}`,
     });
 
     // Notification to Admin
@@ -128,7 +128,7 @@ export const guardUpdateJobStatusAction = async (
     revalidatePath(`/admin/requests/${requestId}`);
     revalidatePath(`/admin/requests`);
     revalidatePath(`/requests/${requestId}`);
-    revalidatePath(`/tracking`);
+    revalidatePath(`/tracking/${req.trackingCode}`);
     revalidatePath(`/guard/jobs/${requestId}`);
     revalidatePath(`/guard/jobs`);
 

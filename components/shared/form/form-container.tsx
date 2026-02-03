@@ -16,6 +16,7 @@ const FormContainer = ({
   children,
   className,
   onReset,
+  onStateChange,
 }: FormContainerProps) => {
   const router = useRouter();
   const last = React.useRef<{ msg?: string; to?: string }>({});
@@ -23,8 +24,14 @@ const FormContainer = ({
   const [state, formAction] = React.useActionState<FormActionState>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     action as any,
-    initialState
+    initialState,
   );
+
+  React.useEffect(() => {
+    if (onStateChange) {
+      onStateChange(state);
+    }
+  }, [state, onStateChange]);
 
   React.useEffect(() => {
     const msg = state?.message?.trim();

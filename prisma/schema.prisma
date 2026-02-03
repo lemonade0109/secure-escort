@@ -113,6 +113,7 @@ model Request {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   requestEvents RequestEvent[]
+  trackingPings TrackingPing[]
 
   @@index([userId])
   @@index([status])
@@ -218,3 +219,37 @@ model Notification {
   @@index([userId])
 }
 
+enum TrackingSource {
+  GUARD
+  ADMIN
+  SYSTEM
+}
+
+enum TrackingKind {
+  LOCATION
+  CHECKPOINT
+  STATUS
+}
+
+model TrackingPing {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  requestId String         @db.ObjectId
+  request   Request        @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  guardId   String?        @db.ObjectId
+  source    TrackingSource @default(GUARD)
+  kind      TrackingKind   @default(LOCATION)
+  lat       Float?
+  lng       Float?
+  accuracyM Int?
+  speedMps  Float?
+  heading   Float?
+  meta      Json?
+  label     String?
+  note      String?
+
+  createdAt DateTime @default(now())
+
+  @@index([requestId, createdAt])
+  @@index([guardId, createdAt])
+  @@index([kind])
+}

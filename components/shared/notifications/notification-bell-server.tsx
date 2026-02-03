@@ -1,8 +1,8 @@
 import { getMyNotificationAction } from "@/lib/actions/notifications/get-My-Notification";
-import NotificationBell from "./notification-bell";
+import NotificationBellClient from "./notification-bell-client";
 
 export default async function NotificationBellServer() {
   const { items, unreadCount } = await getMyNotificationAction();
 
-  return <NotificationBell items={items} unreadCount={unreadCount} />;
+  return <NotificationBellClient items={items} unreadCount={unreadCount} />;
 }
