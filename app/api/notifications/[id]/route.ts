@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db/db";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } },
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { session } = await requireVerifiedUser();
@@ -14,7 +14,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const notificationId = params.id;
+    const { id: notificationId } = await params;
 
     // Delete only if it belongs to the user
     await db.notification.deleteMany({
