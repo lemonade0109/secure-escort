@@ -22,6 +22,7 @@ import {
   Hourglass,
   UserIcon,
   AlignHorizontalJustifyCenter,
+  ChartBar,
 } from "lucide-react";
 import { signOutAction } from "@/lib/actions/auth/signout";
 import { useFormStatus } from "react-dom";
@@ -124,6 +125,15 @@ const UserMenu = ({ name, email, role }: UserMenuProps) => {
             Tracking
           </Link>
         </DropdownMenuItem>
+
+        {userIsAdmin && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin/analytics" className="cursor-pointer">
+              <ChartBar className="w-4 h-4 mr-2" />
+              Analytics
+            </Link>
+          </DropdownMenuItem>
+        )}
 
         {userIsAdmin && (
           <DropdownMenuItem asChild>
