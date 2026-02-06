@@ -1,9 +1,11 @@
 import MakeGuardActive from "@/components/admin/make-guard-active";
+import GuardRatingCard from "@/components/guard/guard-rating-card";
 import GlowBackground from "@/components/shared/glow-background";
 import NavigationBar from "@/components/shared/navigationBar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAdminGuardByIdAction } from "@/lib/actions/admin/get-admin-guard-by-id";
+import { getGuardRatingStatsAction } from "@/lib/actions/guard/get-guard-rating-stats";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import {
   InfoRow,
@@ -22,12 +24,13 @@ export default async function AdminGuardDetailsPage({ params }: Props) {
 
   const guard = await getAdminGuardByIdAction(id);
   if (!guard) return notFound();
+  const stats = await getGuardRatingStatsAction(guard.id);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 px-6 py-10 mx-auto space-y-6 max-w-7xl">
+      <div className="relative z-10 max-w-6xl px-6 py-10 mx-auto space-y-6">
         {/* Header */}
         <Card className="overflow-hidden text-white bg-white/4 border-white/10 backdrop-blur-xl">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/3">
@@ -55,8 +58,8 @@ export default async function AdminGuardDetailsPage({ params }: Props) {
           </div>
 
           <CardContent className="p-6">
-            <div className="grid gap-6 lg:grid-cols-3">
-              <div className="lg:col-span-2">
+            <div className="flex flex-col gap-6 ">
+              <div className="">
                 <p className="text-xs tracking-widest text-white uppercase">
                   Guard
                 </p>
@@ -78,10 +81,33 @@ export default async function AdminGuardDetailsPage({ params }: Props) {
                     mono
                   />
                 </div>
-              </div>
 
-              <div className="lg:col-span-1">
-                <MakeGuardActive active={guard.active} guardId={guard.id} />
+                <div className="w-full h-px my-4 bg-linear-to-r from-transparent via-white/15 to-transparent" />
+
+                <div className="grid mt-6 lg:grid-cols-3 gap-x-6 gap-y-4">
+                  <div className="lg:col-span-2">
+                    <GuardRatingCard
+                      average={stats?.average ?? 0}
+                      total={stats?.total ?? 0}
+                      reviews={
+                        stats?.recent
+                          ?.filter((review) => review.comment !== null)
+                          .map((review) => ({
+                            ...review,
+                            comment: review.comment || "",
+                            createdAt: review.createdAt.toISOString(),
+                            user: {
+                              name: review.user?.name || "Anonymous",
+                            },
+                          })) ?? []
+                      }
+                    />
+                  </div>
+
+                  <div className="lg:col-span-1">
+                    <MakeGuardActive active={guard.active} guardId={guard.id} />
+                  </div>
+                </div>
               </div>
             </div>
           </CardContent>

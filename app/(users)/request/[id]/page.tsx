@@ -13,6 +13,7 @@ import RequestTimeline from "@/components/shared/request-timeline";
 import CopyButton from "@/components/requests/copy-button";
 import { formatEtaRange } from "@/lib/utils";
 import NavigationBar from "@/components/shared/navigationBar";
+import ReviewCard from "@/components/reviews/review-card";
 
 export const metadata: Metadata = {
   title: "Request Details - Secure Escort",
@@ -243,6 +244,12 @@ export default async function RequestDetailsPage({ params }: PageProps) {
                   </div>
                 </CardContent>
               </Card>
+
+              {requestDetail.status === "COMPLETED" && (
+                <div className="mt-6">
+                  <ReviewCard requestId={requestDetail.id} />
+                </div>
+              )}
             </>
           </div>
 

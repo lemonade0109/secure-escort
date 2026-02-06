@@ -214,3 +214,19 @@ export const getTrackingFeedSchema = z.object({
   requestId: z.string().min(10),
   take: z.coerce.number().int().min(1).max(200).optional(),
 });
+
+export const createCheckPointPingSchema = z.object({
+  requestId: z.string().min(1, "Request ID is required"),
+  label: z.string().min(1, "Checkpoint Label is required"),
+  note: z.string().max(280).optional().or(z.literal("")),
+});
+
+export const createReviewSchema = z.object({
+  requestId: z.string().min(1, "Request ID is required"),
+  rating: z.coerce
+    .number()
+    .int()
+    .min(1)
+    .max(5, "Rating must be between 1 and 5"),
+  comment: z.string().max(1000).optional(),
+});

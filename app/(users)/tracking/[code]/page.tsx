@@ -11,6 +11,7 @@ import {
 } from "@/lib/helpers-function";
 import { RequestDetailsProps } from "@/types";
 import TrackingMap from "@/components/tracking/tracking-map";
+import { getLatestCheckpoint } from "@/lib/actions/tracking/get-latest-checkpoint";
 
 function formatEta(d?: Date | string | null) {
   if (!d) return "";
@@ -33,6 +34,9 @@ export default async function TrackingCodePage({
   const { code } = await params;
   const { session } = await requireVerifiedUser();
   const request = await getTrackingCodeAction({ code });
+  const latestCheckpoint = request
+    ? await getLatestCheckpoint(request.id)
+    : null;
 
   return (
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
@@ -196,6 +200,31 @@ export default async function TrackingCodePage({
             </div>
           )}
         </Card>
+
+        {latestCheckpoint && (
+          <Card className="my-4 text-white border-white/10 bg-white/4 backdrop-blur-xl">
+            <CardContent className="py-4 space-y-2">
+              <p className="text-xs tracking-widest uppercase text-white/50">
+                Latest Update
+              </p>
+
+              <p className="text-sm font-medium text-white">
+                {latestCheckpoint.label}
+              </p>
+
+              {latestCheckpoint.note && (
+                <p className="text-xs text-white/70">{latestCheckpoint.note}</p>
+              )}
+
+              <p className="text-white/50 text-[11px]">
+                {new Date(latestCheckpoint.createdAt).toLocaleString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
+            </CardContent>
+          </Card>
+        )}
         {request && (
           <div className="mt-4">
             <TrackingMap requestId={request.id} status={request.status} />

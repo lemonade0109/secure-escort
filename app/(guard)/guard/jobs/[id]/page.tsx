@@ -10,6 +10,7 @@ import { GuardJobActionsCard } from "@/components/guard/guard-job-actions-card";
 import RequestTimeline from "@/components/shared/request-timeline";
 import { Separator } from "@/components/ui/separator";
 import NavigationBar from "@/components/shared/navigationBar";
+import GuardCheckpointCard from "@/components/guard/guard-checkpoint-card";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -129,12 +130,14 @@ export default async function GuardJobDetailsPage({ params }: Props) {
             <RequestTimeline requestId={job.id} title="Job Timeline" />
           </div>
 
-          <div className="lg:col-span-2">
+          <div className="space-y-6 lg:col-span-2">
             <GuardJobActionsCard
               requestId={job.id}
               currentStatus={job.status}
               etaFrom={job.etaFrom}
             />
+
+            <GuardCheckpointCard requestId={job.id} />
           </div>
         </div>
       </div>
