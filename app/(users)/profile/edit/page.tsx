@@ -1,20 +1,12 @@
-import ProfileCard from "@/components/profile/profile-card";
+import React from "react";
+import ProfileEditCard from "./profile-edit-form-card";
+import { getProfileAction } from "@/lib/actions/profile/get-profile";
+import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import GlowBackground from "@/components/shared/glow-background";
 import NavigationBar from "@/components/shared/navigationBar";
-import { getProfileAction } from "@/lib/actions/profile/get-profile";
-import { isAdmin } from "@/lib/admin";
-import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
-import { Metadata } from "next";
-import React from "react";
 
-export const metadata: Metadata = {
-  title: "Profile - Secure Escort",
-  description: "Manage your profile details and role information.",
-};
-
-export default async function ProfilePage() {
+export default async function ProfileEditPage() {
   const { session } = await requireVerifiedUser();
-  const isAdminUser = isAdmin(session.user.email);
 
   const data = await getProfileAction();
   return (
@@ -38,11 +30,15 @@ export default async function ProfilePage() {
           </div>
         </div>
 
-        <ProfileCard
-          name={data?.name || ""}
-          email={data?.email || ""}
-          role={session?.user?.role || "USER"}
-          userIsAdmin={isAdminUser}
+        <ProfileEditCard
+          initial={{
+            name: data?.name || null,
+            email: data?.email || null,
+            image: data?.image || null,
+            phone: data?.phone || null,
+            emergencyName: data?.emergencyName || null,
+            emergencyPhone: data?.emergencyPhone || null,
+          }}
         />
       </div>
     </main>

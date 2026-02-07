@@ -17,17 +17,17 @@ const CinematicCardV2 = ({
         "shadow-[0_20px_60px_-20px_rgba(0,0,0,0.8)]",
         "backdrop-blur-md",
         "overflow-hidden",
-        className
+        className,
       )}
     >
       {/* glow  */}
-      <div className="pointer-events-none absolute -top-24 -left-24 h-56 w-56 rounded-full bg-gold/20 blur-3xl" />
+      <div className="absolute w-56 h-56 rounded-full pointer-events-none -top-24 -left-24 bg-gold/20 blur-3xl" />
 
       {/* vignette */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_0, rgba(255,255,255,0.08), transparent_55%)]" />
 
       {/* edge highlight */}
-      <div className="pointer-events-none absolute inset-0 ring-1 ring-white/10" />
+      <div className="absolute inset-0 pointer-events-none ring-1 ring-white/10" />
 
       <div className="">{children}</div>
     </div>

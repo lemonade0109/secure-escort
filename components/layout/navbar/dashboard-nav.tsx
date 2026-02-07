@@ -8,7 +8,8 @@ const DashboardNav: React.FC<{
   email: string | null | undefined;
   name: string | null | undefined;
   role?: string | null | undefined;
-}> = ({ email, name, role }) => {
+  image?: string | null | undefined;
+}> = ({ email, name, role, image }) => {
   return (
     <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/3">
       <Link href="/" className="flex items-center gap-2">
@@ -23,7 +24,7 @@ const DashboardNav: React.FC<{
       <div className="flex items-center gap-2">
         <NotificationBellServer />
 
-        <UserMenu name={name} email={email} role={role} />
+        <UserMenu name={name} email={email} role={role} image={image} />
       </div>
     </div>
   );

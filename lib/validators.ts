@@ -230,3 +230,11 @@ export const createReviewSchema = z.object({
     .max(5, "Rating must be between 1 and 5"),
   comment: z.string().max(1000).optional(),
 });
+
+export const updateUserProfileSchema = z.object({
+  name: z.string().min(2).max(60).optional().or(z.literal("")),
+  image: z.url().optional().or(z.literal("")),
+  phone: z.string().min(7).max(15).optional().or(z.literal("")),
+  emergencyPhone: z.string().min(7).max(15).optional().or(z.literal("")),
+  emergencyName: z.string().min(2).max(60).optional().or(z.literal("")),
+});

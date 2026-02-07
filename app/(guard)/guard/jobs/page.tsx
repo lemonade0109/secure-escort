@@ -14,8 +14,7 @@ type Props = {
 
 export default async function GuardJobPage({ searchParams }: Props) {
   const { session } = await requireVerifiedUser();
-  const name = session?.user?.name || null;
-  const email = session?.user?.email || null;
+
   const role = session?.user?.role || null;
 
   const searchParam = await searchParams;
@@ -44,11 +43,7 @@ export default async function GuardJobPage({ searchParams }: Props) {
           </div>
 
           <div className="flex items-center gap-2">
-            <NavigationBar
-              userName={name || ""}
-              userEmail={email || ""}
-              role={role || ""}
-            />
+            <NavigationBar role={role || ""} />
           </div>
         </div>
 

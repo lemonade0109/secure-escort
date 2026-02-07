@@ -39,10 +39,7 @@ export default async function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2 mt-2">
-            <NavigationBar
-              userName={session?.user?.name || ""}
-              userEmail={session?.user?.email || ""}
-            />
+            <NavigationBar />
           </div>
         </div>
         <AdminStats />

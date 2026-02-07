@@ -20,7 +20,7 @@ import { InfoRow, readDetail, requestTypeLabel } from "@/lib/helpers-function";
 import { RequestDetailsProps } from "@/types";
 import { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import RequestTimeline from "@/components/shared/request-timeline";
 import NavigationBar from "@/components/shared/navigationBar";
 
@@ -62,7 +62,9 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
   const { id } = await params;
   const { session } = await requireVerifiedUser();
   const userIsAdmin = isAdmin(session?.user?.email || "");
-  if (!userIsAdmin) return notFound();
+  if (!userIsAdmin) {
+    redirect("/dashboard");
+  }
 
   const req = await getAdminRequestByIdAction(id);
   if (!req) return notFound();
@@ -99,10 +101,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
 
           <div className="flex flex-col items-end gap-4">
             <div className="flex items-center gap-2 mt-2">
-              <NavigationBar
-                userName={session?.user?.name || ""}
-                userEmail={session?.user?.email || ""}
-              />
+              <NavigationBar />
             </div>
 
             <div className="flex items-center gap-2">

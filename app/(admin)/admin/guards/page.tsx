@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getAdminGuardsAction } from "@/lib/actions/admin/get-admin-guards";
+import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
 type Props = {
@@ -28,6 +30,11 @@ function parseActiveFilter(active: string | undefined) {
 
 export default async function AdminGuardsPage({ searchParams }: Props) {
   const { session } = await requireVerifiedUser();
+  const userIsAdmin = isAdmin(session?.user?.email || "");
+  if (!userIsAdmin) {
+    redirect("/dashboard");
+  }
+
   const sp = (await searchParams) ?? {};
   const q = sp.q || "";
   const active = parseActiveFilter(sp.active);
@@ -66,10 +73,7 @@ export default async function AdminGuardsPage({ searchParams }: Props) {
           </div>
 
           <div className="flex items-center gap-2 mb-6">
-            <NavigationBar
-              userName={session?.user.name || ""}
-              userEmail={session?.user.email || ""}
-            />
+            <NavigationBar />
           </div>
         </div>
 

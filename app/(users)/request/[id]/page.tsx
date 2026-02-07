@@ -7,7 +7,6 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { requestTypeLabel, InfoRow, getSummary } from "@/lib/helpers-function";
 import { RequestDetailsProps } from "@/types";
-import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import { Separator } from "@/components/ui/separator";
 import RequestTimeline from "@/components/shared/request-timeline";
 import CopyButton from "@/components/requests/copy-button";
@@ -40,7 +39,6 @@ function formatTimeFromDetails(details: RequestDetailsProps) {
 }
 
 export default async function RequestDetailsPage({ params }: PageProps) {
-  const { session } = await requireVerifiedUser();
   const id = (await params).id;
   const requestDetail = await getRequestDetailAction(id);
   if (!requestDetail) return notFound();
@@ -75,10 +73,7 @@ export default async function RequestDetailsPage({ params }: PageProps) {
 
           <div className="flex items-center gap-2 mt-5">
             <StatusPill status={requestDetail.status} />
-            <NavigationBar
-              userName={session?.user?.name || ""}
-              userEmail={session?.user?.email || ""}
-            />
+            <NavigationBar />
           </div>
         </div>
 

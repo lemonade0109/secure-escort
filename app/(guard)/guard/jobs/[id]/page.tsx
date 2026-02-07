@@ -49,10 +49,7 @@ export default async function GuardJobDetailsPage({ params }: Props) {
 
           <div className="flex items-center gap-2 mt-5">
             <StatusPill status={job.status} />
-            <NavigationBar
-              userName={session?.user?.name || ""}
-              userEmail={session?.user?.email || ""}
-            />
+            <NavigationBar role={session?.user?.role || ""} />
           </div>
         </div>
 

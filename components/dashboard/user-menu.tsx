@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,6 +33,7 @@ export type UserMenuProps = {
   name?: string | null;
   email?: string | null;
   role?: string | null;
+  image?: string | null;
 };
 
 function initialsFromName(name?: string | null, email?: string | null) {
@@ -42,7 +44,7 @@ function initialsFromName(name?: string | null, email?: string | null) {
   return base.slice(0, 2).toUpperCase();
 }
 
-const UserMenu = ({ name, email, role }: UserMenuProps) => {
+const UserMenu = ({ name, email, role, image }: UserMenuProps) => {
   const initials = initialsFromName(name, email);
   const userIsAdmin = isAdminClient(email);
 
@@ -56,9 +58,13 @@ const UserMenu = ({ name, email, role }: UserMenuProps) => {
           className="gap-2 px-2 text-white h-9 border-white/10 bg-white/5 hover:bg-white/10 hover:text-white/90"
         >
           <Avatar className="w-6 h-6">
-            <AvatarFallback className="bg-white/10 text-[10px] text-white/80">
-              {initials}
-            </AvatarFallback>
+            {image ? (
+              <Image src={image} alt={name || "User"} width={24} height={24} className="w-6 h-6" />
+            ) : (
+              <AvatarFallback className="bg-white/10 text-[10px] text-white/80">
+                {initials}
+              </AvatarFallback>
+            )}
           </Avatar>
 
           <span className="hidden text-xs sm:inline text-white/80">

@@ -20,13 +20,17 @@ enum Role {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  email         String    @unique
-  password      String
-  name          String?
-  emailVerified DateTime? @db.Timestamp()
-  role          Role      @default(USER)
-  createdAt     DateTime  @default(now())
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  email          String    @unique
+  password       String
+  image          String?
+  phone          String?
+  emergencyPhone String?
+  emergencyName  String?
+  name           String?
+  emailVerified  DateTime? @db.Timestamp()
+  role           Role      @default(USER)
+  createdAt      DateTime  @default(now())
 
   services                Service[]
   emailVerificationTokens EmailVerificationToken[]

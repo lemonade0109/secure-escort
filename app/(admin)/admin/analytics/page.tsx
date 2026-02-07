@@ -2,7 +2,9 @@ import GlowBackground from "@/components/shared/glow-background";
 import NavigationBar from "@/components/shared/navigationBar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAdminAnalyticsAction } from "@/lib/actions/admin/analytics/get-admin-analytics";
+import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
+import { redirect } from "next/navigation";
 
 function pct(x: number) {
   return `${Math.round(x * 100)}%`;
@@ -10,6 +12,11 @@ function pct(x: number) {
 
 export default async function AdminAnalyticsPage() {
   const { session } = await requireVerifiedUser();
+  const userIsAdmin = isAdmin(session?.user?.email || "");
+  if (!userIsAdmin) {
+    redirect("/dashboard");
+  }
+
   const data = await getAdminAnalyticsAction();
 
   if (!data.ok) {
@@ -49,10 +56,7 @@ export default async function AdminAnalyticsPage() {
           </div>
 
           <div className="flex items-center gap-2 mt-2">
-            <NavigationBar
-              userName={session?.user?.name || ""}
-              userEmail={session?.user?.email || ""}
-            />
+            <NavigationBar />
           </div>
         </div>
 

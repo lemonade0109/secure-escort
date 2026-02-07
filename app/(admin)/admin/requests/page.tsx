@@ -124,10 +124,7 @@ export default async function AdminRequestPage({
           </div>
 
           <div className="flex items-center gap-2 mt-2">
-            <NavigationBar
-              userName={session?.user?.name || ""}
-              userEmail={session?.user?.email || ""}
-            />
+            <NavigationBar />
           </div>
         </div>
 

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAdminGuardByIdAction } from "@/lib/actions/admin/get-admin-guard-by-id";
 import { getGuardRatingStatsAction } from "@/lib/actions/guard/get-guard-rating-stats";
+import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import {
   InfoRow,
@@ -14,12 +15,17 @@ import {
   requestTypeLabel,
 } from "@/lib/helpers-function";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 type Props = { params: Promise<{ id: string }> };
 
 export default async function AdminGuardDetailsPage({ params }: Props) {
   const { session } = await requireVerifiedUser();
+  const userIsAdmin = isAdmin(session?.user?.email || "");
+  if (!userIsAdmin) {
+    redirect("/dashboard");
+  }
+
   const { id } = await params;
 
   const guard = await getAdminGuardByIdAction(id);
@@ -48,10 +54,7 @@ export default async function AdminGuardDetailsPage({ params }: Props) {
                   </Badge>
                 )}
                 <div className="flex items-center gap-2 ml-4">
-                  <NavigationBar
-                    userName={session?.user?.name || ""}
-                    userEmail={session?.user?.email || ""}
-                  />
+                  <NavigationBar />
                 </div>
               </div>
             </div>

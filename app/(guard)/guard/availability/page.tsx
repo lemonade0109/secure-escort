@@ -7,9 +7,9 @@ import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 
 export default async function GuardAvailabilityPage() {
   const { session } = await requireVerifiedUser();
-  const userName = session?.user?.name || "Guard";
-  const userEmail = session?.user?.email || "";
+
   const userRole = session?.user?.role || "USER";
+
   const data = await getGuardAvailabilityBlocksAction();
 
   return (
@@ -27,11 +27,7 @@ export default async function GuardAvailabilityPage() {
             </CardTitle>
 
             <div className="flex items-center gap-2">
-              <NavigationBar
-                userName={userName || ""}
-                userEmail={userEmail || ""}
-                role={userRole || ""}
-              />
+              <NavigationBar role={userRole || ""} />
             </div>
           </div>
 

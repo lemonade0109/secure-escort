@@ -5,8 +5,9 @@ import GlowBackground from "@/components/shared/glow-background";
 import NavigationBar from "@/components/shared/navigationBar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAdminAuditEventAction } from "@/lib/actions/admin/audit/get-admin-audit-event";
+import { isAdmin } from "@/lib/admin";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
-import React from "react";
+import { redirect } from "next/navigation";
 
 export default async function AdminAuditPage({
   searchParams,
@@ -14,6 +15,11 @@ export default async function AdminAuditPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { session } = await requireVerifiedUser();
+  const userIsAdmin = isAdmin(session?.user?.email || "");
+  if (!userIsAdmin) {
+    redirect("/dashboard");
+  }
+
   const sp = await searchParams;
   const q = typeof sp.q === "string" ? sp.q : "";
   const type = typeof sp.type === "string" ? sp.type : "";
@@ -48,10 +54,7 @@ export default async function AdminAuditPage({
           </div>
 
           <div className="flex items-center gap-2">
-            <NavigationBar
-              userName={session?.user?.name || ""}
-              userEmail={session?.user?.email || ""}
-            />
+            <NavigationBar />
           </div>
         </div>
 
