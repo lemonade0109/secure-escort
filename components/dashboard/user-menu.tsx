@@ -17,12 +17,12 @@ import {
   LockKeyhole,
   LogOut,
   PersonStandingIcon,
-  Settings,
   TrainTrackIcon,
   Hourglass,
   UserIcon,
   AlignHorizontalJustifyCenter,
   ChartBar,
+  ClipboardList,
 } from "lucide-react";
 import { signOutAction } from "@/lib/actions/auth/signout";
 import { useFormStatus } from "react-dom";
@@ -137,6 +137,15 @@ const UserMenu = ({ name, email, role }: UserMenuProps) => {
 
         {userIsAdmin && (
           <DropdownMenuItem asChild>
+            <Link href="/admin/audit" className="cursor-pointer">
+              <ClipboardList className="w-4 h-4 mr-2" />
+              Audit Log
+            </Link>
+          </DropdownMenuItem>
+        )}
+
+        {userIsAdmin && (
+          <DropdownMenuItem asChild>
             <Link href="/admin/dashboard" className="cursor-pointer">
               <LockKeyhole className="w-4 h-4 mr-2" />
               Admin Dashboard
@@ -152,13 +161,6 @@ const UserMenu = ({ name, email, role }: UserMenuProps) => {
             </Link>
           </DropdownMenuItem>
         )}
-
-        <DropdownMenuItem asChild>
-          <Link href="/settings" className="cursor-pointer">
-            <Settings className="w-4 h-4 mr-2" />
-            Settings
-          </Link>
-        </DropdownMenuItem>
 
         <DropdownMenuSeparator className="bg-white/10" />
 

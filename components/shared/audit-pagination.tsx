@@ -10,27 +10,39 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 
-interface PaginationProps {
+interface AuditPaginationProps {
   currentPage: number;
   totalPages: number;
+  pageSize: number;
   baseUrl?: string;
+  query?: Record<string, string | undefined>;
 }
 
-export const Pagination: React.FC<PaginationProps> = ({
+export const AuditPagination: React.FC<AuditPaginationProps> = ({
   currentPage,
   totalPages,
+  pageSize,
   baseUrl = "",
+  query = {},
 }) => {
   const searchParams = useSearchParams();
 
-  const createPageUrl = (pageNumber: number) => {
+  const createPageUrl = (pageNumber: number, nextPageSize = pageSize) => {
     const params = new URLSearchParams(searchParams);
+
+    Object.entries(query).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    });
+
     params.set("page", pageNumber.toString());
+    params.set("pageSize", String(nextPageSize));
+
     return `${baseUrl}?${params.toString()}`;
   };
 
   const getPageNumbers = () => {
-    const delta = 2; // Number of pages to show on each side of current page
+    const delta = 2;
     const range: (number | string)[] = [];
     const rangeWithDots: (number | string)[] = [];
 
@@ -64,16 +76,13 @@ export const Pagination: React.FC<PaginationProps> = ({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="flex items-center justify-between gap-4 px-2 py-4">
-      {/* Page Info */}
+    <div className="flex flex-wrap items-center justify-between gap-4 px-2 py-4">
       <div className="text-sm text-white/60">
         Page <span className="font-medium text-white">{currentPage}</span> of{" "}
         <span className="font-medium text-white">{totalPages}</span>
       </div>
 
-      {/* Pagination Controls */}
       <div className="flex items-center gap-1">
-        {/* First Page */}
         <Button
           asChild
           variant="outline"
@@ -92,7 +101,6 @@ export const Pagination: React.FC<PaginationProps> = ({
           )}
         </Button>
 
-        {/* Previous Page */}
         <Button
           asChild
           variant="outline"
@@ -114,7 +122,6 @@ export const Pagination: React.FC<PaginationProps> = ({
           )}
         </Button>
 
-        {/* Page Numbers */}
         <div className="flex items-center gap-1">
           {pageNumbers.map((pageNumber, index) =>
             pageNumber === "..." ? (
@@ -148,7 +155,6 @@ export const Pagination: React.FC<PaginationProps> = ({
           )}
         </div>
 
-        {/* Next Page */}
         <Button
           asChild
           variant="outline"
@@ -167,7 +173,6 @@ export const Pagination: React.FC<PaginationProps> = ({
           )}
         </Button>
 
-        {/* Last Page */}
         <Button
           asChild
           variant="outline"
