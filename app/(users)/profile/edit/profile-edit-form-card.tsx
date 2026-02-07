@@ -145,8 +145,7 @@ export default function ProfileEditCard({
               </Button>
 
               <p className="text-xs text-white/60">
-                Email can&apos;t be changed here (we&apos;ll add “change email”
-                flow later).
+                Email can&apos;t be changed here.
               </p>
             </>
           )}
