@@ -24,21 +24,21 @@ export default async function AdminDashboardPage() {
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 px-6 py-10 mx-auto space-y-6 max-w-7xl">
+      <div className="relative z-10 px-6 py-8 sm:py-10 mx-auto space-y-6 max-w-7xl">
         <div className="flex justify-between">
           <div>
             <p className="text-xs tracking-widest uppercase text-white/50">
               Admin Dashboard
             </p>
-            <h1 className="text-2xl font-semibold sm:text-3xl">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold">
               Operations Dashboard
             </h1>
-            <p className="mt-2 text-sm text-white/70">
+            <p className="mt-2 text-sm sm:text-base text-white/70">
               Monitor requests, assign guards, and update statuses.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2 sm:mt-2">
             <NavigationBar />
           </div>
         </div>

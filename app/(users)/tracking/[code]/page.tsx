@@ -68,7 +68,9 @@ export default async function TrackingCodePage({
                     <CardTitle className="text-base sm:text-lg">
                       Tracking Code: {request.trackingCode}
                     </CardTitle>
-                    <StatusPill status={request.status} />
+                    <div className="hidden sm:flex">
+                      <StatusPill status={request.status} />
+                    </div>
                   </div>
                 </CardHeader>
 

@@ -20,13 +20,13 @@ const AdminRecentRequestsTable: React.FC = async () => {
     <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
       {/* subtle top glow line */}
       <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-gold/40 to-transparent" />
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-base">Recent Requests</CardTitle>
+      <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <CardTitle className="text-sm sm:text-base">Recent Requests</CardTitle>
 
         <Button
           asChild
           variant="outline"
-          className="text-white border-white/15 bg-white/3 hover:text-white/90 hover:bg-white/6"
+          className="text-white border-white/15 bg-white/3 hover:text-white/90 hover:bg-white/6 w-full sm:w-auto"
         >
           <Link href="/admin/requests">View All</Link>
         </Button>

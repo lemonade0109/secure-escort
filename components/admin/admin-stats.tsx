@@ -26,7 +26,9 @@ const AdminStats: React.FC = async () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-gold">{item.value}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-gold">
+              {item.value}
+            </div>
           </CardContent>
         </Card>
       ))}
