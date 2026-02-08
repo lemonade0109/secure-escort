@@ -10,7 +10,7 @@ export default function TrackingPage() {
     <main className="min-h-screen bg-[#070a12] text-white relative overflow-hidden">
       <GlowBackground intensity="medium" />
 
-      <div className="max-w-3xl px-6 py-12 mx-auto">
+      <div className="max-w-3xl px-6 py-8 sm:py-12 mx-auto">
         <Card className="relative z-10 text-white border-white/10 bg-white/4 backdrop-blur-xl">
           <CardHeader>
             <div className="">
@@ -20,9 +20,11 @@ export default function TrackingPage() {
               >
                 Dashboard
               </Link>
-              <CardTitle className="text-xl">Track Delivery</CardTitle>
+              <CardTitle className="text-lg sm:text-xl md:text-2xl">
+                Track Delivery
+              </CardTitle>
             </div>
-            <p className="text-sm text-white/70">
+            <p className="text-sm sm:text-base text-white/70">
               Enter your tracking code to see status updates and ETA.
             </p>
           </CardHeader>

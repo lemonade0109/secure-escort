@@ -31,7 +31,7 @@ export default async function RequestsPage({ searchParams }: PageProps) {
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 px-6 py-10 mx-auto space-y-6 max-w-7xl">
+      <div className="relative z-10 px-6 py-8 sm:py-10 mx-auto space-y-6 max-w-7xl">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <Link
@@ -40,24 +40,26 @@ export default async function RequestsPage({ searchParams }: PageProps) {
             >
               Dashboard
             </Link>
-            <h1 className="text-2xl font-semibold sm:text-3xl">Requests</h1>
-            <p className="mt-2 text-sm text-white/70">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold">
+              Requests
+            </h1>
+            <p className="mt-2 text-sm sm:text-base text-white/70">
               View and manage your escort, delivery, and personal security
               requests.
             </p>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <Link
               href={"/request"}
-              className="px-4 py-3 text-sm font-medium text-black rounded-md bg-gold hover:bg-gold/90"
+              className="px-4 py-3 text-sm font-medium text-black rounded-md bg-gold hover:bg-gold/90 text-center"
             >
               Create Request
             </Link>
 
             <Link
               href={"/tracking"}
-              className="px-4 py-3 text-sm font-medium border rounded-md border-white/15 bg-white/3 hover:bg-white/6"
+              className="px-4 py-3 text-sm font-medium border rounded-md border-white/15 bg-white/3 hover:bg-white/6 text-center"
             >
               Track by Code
             </Link>

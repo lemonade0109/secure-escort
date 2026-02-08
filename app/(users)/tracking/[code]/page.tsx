@@ -42,7 +42,7 @@ export default async function TrackingCodePage({
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 max-w-4xl px-6 py-12 mx-auto">
+      <div className="relative z-10 max-w-4xl px-6 py-8 sm:py-12 mx-auto">
         <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
           <DashboardNav
             email={session?.user?.email}
@@ -52,9 +52,9 @@ export default async function TrackingCodePage({
           {!request ? (
             <Card className="mx-2 text-white border-white/10 bg-white/4 backdrop-blur-xl">
               <CardHeader>
-                <CardTitle className="text-lg">
+                <CardTitle className="text-base sm:text-lg">
                   Tracking code &quot;{code}&quot; not found.
-                  <p className="text-sm text-white/70">
+                  <p className="text-sm sm:text-base text-white/70">
                     Please check the code and try again.
                   </p>
                 </CardTitle>
@@ -62,13 +62,13 @@ export default async function TrackingCodePage({
             </Card>
           ) : (
             <div className="grid gap-6 lg:grid-cols-2">
-              <Card className="ml-2 text-white border-white/10 bg-white/4 backdrop-blur-xl">
+              <Card className="sm:ml-2 text-white border-white/10 bg-white/4 backdrop-blur-xl">
                 <CardHeader>
-                  <div className="flex items-center justify-between gap-4">
-                    <CardTitle className="text-lg">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <CardTitle className="text-base sm:text-lg">
                       Tracking Code: {request.trackingCode}
-                      <StatusPill status={request.status} />
                     </CardTitle>
+                    <StatusPill status={request.status} />
                   </div>
                 </CardHeader>
 
@@ -118,7 +118,7 @@ export default async function TrackingCodePage({
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-2 mt-2 text-xs">
+                        <div className="flex flex-wrap items-center gap-2 mt-2 text-xs">
                           <span className="px-2 py-1 border rounded-full border-white/10 bg-white/3 text-white/70">
                             ETA
                           </span>
@@ -150,9 +150,11 @@ export default async function TrackingCodePage({
               </Card>
 
               {/* Right: Timeline */}
-              <Card className="mr-2 text-white border-white/10 bg-white/4 backdrop-blur-xl">
+              <Card className="sm:mr-2 text-white border-white/10 bg-white/4 backdrop-blur-xl">
                 <CardHeader className="pb-2">
-                  <CardTitle className="pb-2">Progress</CardTitle>
+                  <CardTitle className="pb-2 text-base sm:text-lg">
+                    Progress
+                  </CardTitle>
                 </CardHeader>
 
                 <CardContent className="space-y-4">
@@ -208,12 +210,14 @@ export default async function TrackingCodePage({
                 Latest Update
               </p>
 
-              <p className="text-sm font-medium text-white">
+              <p className="text-sm sm:text-base font-medium text-white">
                 {latestCheckpoint.label}
               </p>
 
               {latestCheckpoint.note && (
-                <p className="text-xs text-white/70">{latestCheckpoint.note}</p>
+                <p className="text-xs sm:text-sm text-white/70">
+                  {latestCheckpoint.note}
+                </p>
               )}
 
               <p className="text-white/50 text-[11px]">
