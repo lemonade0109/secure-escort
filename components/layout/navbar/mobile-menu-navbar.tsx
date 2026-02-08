@@ -6,6 +6,7 @@ import { Button } from "../../ui/button";
 import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../../ui/sheet";
 import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const MobileMenuNavbar = ({
   links,
@@ -17,7 +18,14 @@ const MobileMenuNavbar = ({
   open: boolean;
 }) => {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const isLoggedIn = !!session?.user?.email;
+
+  const handleSignOut = async () => {
+    setOpen(false);
+    await signOut({ redirect: false });
+    router.refresh();
+  };
 
   return (
     <React.Fragment>
@@ -71,10 +79,7 @@ const MobileMenuNavbar = ({
                     <Button
                       variant="outline"
                       className="w-full"
-                      onClick={() => {
-                        setOpen(false);
-                        signOut({ callbackUrl: "/" });
-                      }}
+                      onClick={handleSignOut}
                     >
                       Sign Out
                     </Button>
