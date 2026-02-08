@@ -2,7 +2,7 @@ import GlowBackground from "@/components/shared/glow-background";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import StatusPill from "@/components/requests/status-pill";
 import { getGuardJobByIdAction } from "@/lib/actions/guard/get-guard-job-by-id";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { requestTypeLabel, readDetail } from "@/lib/helpers-function";
 import { requireVerifiedUser } from "@/lib/auth/require-verified-user";
 import Link from "next/link";
@@ -19,7 +19,7 @@ export default async function GuardJobDetailsPage({ params }: Props) {
   const { id } = await params;
   const job = await getGuardJobByIdAction(id);
 
-  if (!job) return notFound();
+  if (!job) return redirect("/guard/jobs");
 
   const details = (job.details ?? {}) as Record<string, unknown>;
 

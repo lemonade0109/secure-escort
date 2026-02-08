@@ -8,7 +8,7 @@ const TrustSection = () => {
       <div className="max-w-7xl mx-auto px-6">
         {/* Title */}
         <FadeUp>
-          <h2 className="text-3xl md:text-4xl font-semibold text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-center">
             Trusted Security & Delivery You Can Rely On
           </h2>
         </FadeUp>

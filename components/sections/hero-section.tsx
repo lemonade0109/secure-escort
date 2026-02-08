@@ -6,11 +6,11 @@ import FadeUp from "../motion/FadeUp";
 
 const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden bg-[#070A12] py-20 lg:py-28 ">
-      <div className="grid grid-cols-1 lg:grid-cols-2  items-center">
+    <section className="relative overflow-hidden bg-[#070A12] py-16 sm:py-20 lg:py-28">
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16">
         {/* Text grid */}
 
-        <div className="container mx-auto px-12 text-center lg:text-left">
+        <div className="mx-auto w-full max-w-2xl px-6 sm:px-8 lg:px-12 text-center lg:text-left">
           <FadeUp delay={0.0}>
             <span className="inline-block mb-3 text-sm tracking-wide text-gold">
               Trusted Security Services
@@ -18,13 +18,13 @@ const HeroSection = () => {
           </FadeUp>
 
           <FadeUp delay={0.06}>
-            <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl font-serif">
+            <h1 className="text-3xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl font-serif">
               Secure Escorts & Courier Services
             </h1>
           </FadeUp>
 
           <FadeUp delay={0.12}>
-            <p className="mt-6 max-w-xl text-white/70 text-sm">
+            <p className="mt-6 max-w-xl text-white/70 text-sm sm:text-base">
               Request professional guard or secure courier services. Track
               movements in real-time and get an estimated time of arrival.
               Experience safety and reliability with Secure Escort.
@@ -32,11 +32,11 @@ const HeroSection = () => {
           </FadeUp>
 
           <FadeUp delay={0.18}>
-            <div className="mt-8 flex items-center justify-center lg:justify-start gap-8 flex-wrap">
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-6">
               <Button
                 asChild
                 variant="default"
-                className=" bg-gold hover:bg-gold/90 text-black px-4 py-3 "
+                className="bg-gold hover:bg-gold/90 text-black px-5 py-3 w-full sm:w-auto"
               >
                 <Link href="/request" className="  text-sm">
                   Request a Guard
@@ -46,7 +46,7 @@ const HeroSection = () => {
               <Button
                 asChild
                 variant="outline"
-                className="text-white hover:text-white/80 hover:bg-accent-foreground/20"
+                className="text-white hover:text-white/80 hover:bg-accent-foreground/20 w-full sm:w-auto"
               >
                 <Link href="/tracking" className="">
                   Track Delivery
@@ -57,8 +57,8 @@ const HeroSection = () => {
         </div>
 
         {/* Image grid */}
-        <FadeUp delay={0.1} className="container mx-auto lg:mx-0">
-          <div className=" relative h-105 sm:h-120 lg:h-130 rounded-2xl overflow-hidden shadow-lg ">
+        <FadeUp delay={0.1} className="w-full px-6 sm:px-8 lg:px-0">
+          <div className="relative h-80 sm:h-96 lg:h-130 rounded-2xl overflow-hidden shadow-lg">
             <Image
               src="/heroimg.png"
               alt="Security escort and protected delivery"

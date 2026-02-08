@@ -32,11 +32,13 @@ const HowItWorksSection = () => {
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <div className="text-center">
           <FadeUp>
-            <h2 className="text-3xl md:text-4xl font-semibold">How It Works</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold">
+              How It Works
+            </h2>
           </FadeUp>
 
           <FadeUp delay={0.08}>
-            <p className="mt-3 text-white/70">
+            <p className="mt-3 text-sm sm:text-base text-white/70">
               Simple steps from request to completion — built for trust.
             </p>
           </FadeUp>

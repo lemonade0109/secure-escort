@@ -14,19 +14,19 @@ const CTASection = () => {
       />
 
       <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
           Ready to Secure What Matters?
         </h2>
 
-        <p className="mt-5 text-base md:text-lg text-white/70 max-w-2xl mx-auto">
+        <p className="mt-5 text-sm sm:text-base md:text-lg text-white/70 max-w-2xl mx-auto">
           Request a professional guard or track your secured delivery in
           real-time — built for trust, safety, and peace of mind.
         </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button
             asChild
-            className="bg-gold text-black hover:bg-gold/90 hover:transition-colors duration-300 px-8 py-6 text-base font-medium"
+            className="bg-gold text-black hover:bg-gold/90 hover:transition-colors duration-300 px-8 py-6 text-base font-medium w-full sm:w-auto"
           >
             <Link href="/request">Request a Guard</Link>
           </Button>
@@ -34,7 +34,7 @@ const CTASection = () => {
           <Button
             asChild
             variant="outline"
-            className="text-white hover:text-white/80 hover:bg-accent-foreground/20 hover:transition-colors duration-300 px-8 py-6 text-base"
+            className="text-white hover:text-white/80 hover:bg-accent-foreground/20 hover:transition-colors duration-300 px-8 py-6 text-base w-full sm:w-auto"
           >
             <Link href="/tracking" className="">
               Track Delivery

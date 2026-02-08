@@ -71,10 +71,18 @@ export const guardUpdateJobStatusAction = async (
         message: `Cannot change status from ${req.status} → ${nextStatus}.`,
       };
 
+    const updateData: { status: RequestStatus; guardId?: string | null } = {
+      status: nextStatus,
+    };
+
+    if (nextStatus === "COMPLETED") {
+      updateData.guardId = null;
+    }
+
     // update status
     await db.request.update({
       where: { id: requestId },
-      data: { status: nextStatus },
+      data: updateData,
     });
 
     // Notifications to user

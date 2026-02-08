@@ -67,7 +67,9 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
   }
 
   const req = await getAdminRequestByIdAction(id);
-  if (!req) return notFound();
+  if (!req) {
+    notFound();
+  }
   const details = (req.details || {}) as RequestDetailsProps;
 
   const { options: guardOptions } = await getGuardOptionsForAssignRequestAction(

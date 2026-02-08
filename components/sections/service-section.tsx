@@ -12,13 +12,13 @@ const ServiceSection = () => {
         {/* Title */}
         <div className="text-center mb-12">
           <FadeUp>
-            <h2 className="text-3xl md:text-4xl font-semibold">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold">
               Our Core Services
             </h2>
           </FadeUp>
 
           <FadeUp delay={0.08}>
-            <p className="mt-3 text-white/70">
+            <p className="mt-3 text-sm sm:text-base text-white/70">
               Professional protection and secure delivery services tailored to
               your needs.
             </p>
