@@ -13,19 +13,21 @@ export default async function ProfileEditPage() {
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 max-w-4xl px-6 py-10 mx-auto">
+      <div className="relative z-10 max-w-4xl px-6 py-8 sm:py-10 mx-auto">
         <div className="flex justify-between">
-          <div className="mb-6">
+          <div className="mb-2 sm:mb-6">
             <p className="text-xs tracking-widest uppercase text-white/50">
               Account
             </p>
-            <h1 className="mt-2 text-2xl font-bold sm:text-3xl">Profile</h1>
-            <p className="mt-2 text-sm text-white/70">
+            <h1 className="mt-2 text-xl sm:text-2xl md:text-3xl font-bold">
+              Profile
+            </h1>
+            <p className="mt-2 text-sm sm:text-base text-white/70">
               View your account details and role access.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:mt-1">
             <NavigationBar role={session?.user.role || "USER"} />
           </div>
         </div>

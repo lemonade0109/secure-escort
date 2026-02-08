@@ -51,8 +51,8 @@ export default async function RequestDetailsPage({ params }: PageProps) {
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 px-6 py-10 mx-auto space-y-6 max-w-7xl">
-        <div className="flex items-start justify-between gap-4">
+      <div className="relative z-10 px-6 py-8 sm:py-10 mx-auto space-y-6 max-w-7xl">
+        <div className="flex justify-between">
           <div>
             <Link
               href="/requests"
@@ -60,10 +60,10 @@ export default async function RequestDetailsPage({ params }: PageProps) {
             >
               Request Details
             </Link>
-            <h1 className="text-2xl font-semibold ">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold">
               {requestTypeLabel(requestDetail.type)}
             </h1>
-            <p className="mt-1 text-sm text-white/70">
+            <p className="mt-1 text-sm sm:text-base text-white/70">
               Tracking:{" "}
               <span className="font-mono text-white/90">
                 {requestDetail.trackingCode}
@@ -71,8 +71,10 @@ export default async function RequestDetailsPage({ params }: PageProps) {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 mt-5">
-            <StatusPill status={requestDetail.status} />
+          <div className="flex items-center  gap-2 sm:mt-5">
+            <div className="hidden sm:flex">
+              <StatusPill status={requestDetail.status} />
+            </div>
             <NavigationBar />
           </div>
         </div>
@@ -84,9 +86,9 @@ export default async function RequestDetailsPage({ params }: PageProps) {
             <>
               <Card className="text-white lg:col-span-2 border-white/10 bg-white/4 backdrop-blur-xl">
                 <CardContent className="px-5 pt-0 pb-5">
-                  <div className="grid gap-4 md:grid-cols-3">
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {/* When */}
-                    <div className="p-4 border rounded-xl border-white/10 bg-white/3 md:col-span-1">
+                    <div className="p-4 border rounded-xl border-white/10 bg-white/3">
                       <p className="text-xs tracking-widest uppercase text-white/50">
                         Estimated Arrival
                       </p>
@@ -100,7 +102,7 @@ export default async function RequestDetailsPage({ params }: PageProps) {
                       </p>
                     </div>
                     {/* Summary */}
-                    <div className="p-4 border rounded-xl border-white/10 bg-white/3 md:col-span-2">
+                    <div className="p-4 border rounded-xl border-white/10 bg-white/3 sm:col-span-2 lg:col-span-2">
                       <p className="text-xs tracking-widest uppercase text-white/50">
                         Summary
                       </p>
@@ -230,8 +232,8 @@ export default async function RequestDetailsPage({ params }: PageProps) {
 
                   {/* Notes */}
                   <div className="p-4 border rounded-xl border-white/10 bg-white/3">
-                    <p className="text-sm font-medium">Notes</p>
-                    <p className="mt-2 text-sm text-white/70">
+                    <p className="text-sm sm:text-base font-medium">Notes</p>
+                    <p className="mt-2 text-sm sm:text-base text-white/70">
                       {details?.notes && String(details.notes).trim()
                         ? String(details.notes).trim()
                         : "No additional notes provided."}
@@ -260,7 +262,7 @@ export default async function RequestDetailsPage({ params }: PageProps) {
                   <p className="text-xs tracking-widest uppercase text-white/50">
                     Tracking Code
                   </p>
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <p className="mt-1 font-mono text-white">
                       {requestDetail.trackingCode}
                     </p>
