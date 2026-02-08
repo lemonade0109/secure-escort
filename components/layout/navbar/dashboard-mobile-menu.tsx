@@ -11,12 +11,27 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { isAdminClient } from "@/lib/admin";
-import { signOut, useSession } from "next-auth/react";
+import { signOutAction } from "@/lib/actions/auth/signout";
+import { useFormStatus } from "react-dom";
 
 type DashboardMobileMenuProps = {
   name?: string | null;
   email?: string | null;
   role?: string | null;
+};
+
+const SignOutButton = () => {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      type="submit"
+      variant="outline"
+      className="w-full border-white/15 text-white hover:text-white/90 hover:bg-white/10"
+      disabled={pending}
+    >
+      {pending ? "Signing out..." : "Sign Out"}
+    </Button>
+  );
 };
 
 const DashboardMobileMenu = ({
@@ -25,51 +40,28 @@ const DashboardMobileMenu = ({
   role,
 }: DashboardMobileMenuProps) => {
   const [open, setOpen] = React.useState(false);
-  const { data: session } = useSession();
-  const sessionUser = session?.user;
-  const effectiveEmail = sessionUser?.email ?? email ?? null;
-  const effectiveName = sessionUser?.name ?? name ?? null;
-  const effectiveRole = sessionUser?.role ?? role ?? null;
-  const isLoggedIn = !!sessionUser?.email;
-  const userIsAdmin = isAdminClient(effectiveEmail);
+  const userIsAdmin = isAdminClient(email);
 
   const links = [
-    { href: "/profile", label: "Profile", show: isLoggedIn },
+    { href: "/profile", label: "Profile", show: true },
     {
       href: "/dashboard",
       label: "Dashboard",
-      show: isLoggedIn && (userIsAdmin || effectiveRole === "GUARD"),
+      show: userIsAdmin || role === "GUARD",
     },
-    {
-      href: "/guard/jobs",
-      label: "My Jobs",
-      show: isLoggedIn && effectiveRole === "GUARD",
-    },
+    { href: "/guard/jobs", label: "My Jobs", show: role === "GUARD" },
     {
       href: "/guard/availability",
       label: "Working Hours",
-      show: isLoggedIn && effectiveRole === "GUARD",
+      show: role === "GUARD",
     },
-    { href: "/requests", label: "Requests", show: isLoggedIn },
+    { href: "/requests", label: "Requests", show: true },
     { href: "/tracking", label: "Tracking", show: true },
-    {
-      href: "/admin/analytics",
-      label: "Analytics",
-      show: isLoggedIn && userIsAdmin,
-    },
-    { href: "/admin/audit", label: "Audit Log", show: isLoggedIn && userIsAdmin },
-    {
-      href: "/admin/dashboard",
-      label: "Admin Dashboard",
-      show: isLoggedIn && userIsAdmin,
-    },
-    { href: "/admin/guards", label: "Guards", show: isLoggedIn && userIsAdmin },
+    { href: "/admin/analytics", label: "Analytics", show: userIsAdmin },
+    { href: "/admin/audit", label: "Audit Log", show: userIsAdmin },
+    { href: "/admin/dashboard", label: "Admin Dashboard", show: userIsAdmin },
+    { href: "/admin/guards", label: "Guards", show: userIsAdmin },
   ];
-
-  const handleSignOut = async () => {
-    setOpen(false);
-    await signOut({ callbackUrl: "/sign-in?signedOut=1" });
-  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -95,10 +87,10 @@ const DashboardMobileMenu = ({
 
           <div className="px-4 pb-4 text-white/80">
             <div className="text-sm font-medium text-white">
-              {effectiveName || "Account"}
+              {name || "Account"}
             </div>
             <div className="text-xs text-white/60 wrap-break-word">
-              {effectiveEmail || ""}
+              {email || ""}
             </div>
           </div>
 
@@ -125,26 +117,9 @@ const DashboardMobileMenu = ({
                 Create New Request
               </Link>
 
-              {isLoggedIn ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full border-white/15 text-white hover:text-white/90 hover:bg-white/10"
-                  onClick={handleSignOut}
-                >
-                  Sign Out
-                </Button>
-              ) : (
-                <Button
-                  asChild
-                  variant="outline"
-                  className="w-full border-white/15 text-white hover:text-white/90 hover:bg-white/10"
-                >
-                  <Link href="/sign-in" onClick={() => setOpen(false)}>
-                    Sign In
-                  </Link>
-                </Button>
-              )}
+              <form action={signOutAction} className="w-full">
+                <SignOutButton />
+              </form>
             </div>
           </div>
         </SheetContent>

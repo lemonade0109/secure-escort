@@ -21,7 +21,7 @@ const MobileMenuNavbar = ({
 
   const handleSignOut = async () => {
     setOpen(false);
-    await signOut({ callbackUrl: "/sign-in?signedOut=1" });
+    await signOut({ callbackUrl: "/signedOut=1" });
   };
 
   return (
