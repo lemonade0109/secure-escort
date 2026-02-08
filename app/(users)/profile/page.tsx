@@ -22,7 +22,7 @@ export default async function ProfilePage() {
       <GlowBackground intensity="medium" />
 
       <div className="relative z-10 max-w-4xl px-6 py-8 sm:py-10 mx-auto">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex  justify-between">
           <div className="mb-2 sm:mb-6">
             <p className="text-xs tracking-widest uppercase text-white/50">
               Account
