@@ -1,4 +1,5 @@
 import GlowBackground from "@/components/shared/glow-background";
+import FadeUp from "@/components/motion/FadeUp";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -57,103 +58,110 @@ export default function ServicesPage() {
       <GlowBackground intensity="medium" />
 
       {/* Hero */}
-      <section className="relative z-10 mx-auto max-w-7xl px-6 pt-14 pb-8">
+      <section className="relative z-10 mx-auto max-w-7xl px-6 pt-12 sm:pt-14 pb-8">
         <div className="text-center">
-          <Link
-            href="/"
-            className="text-xs tracking-widest uppercase text-white/50"
-          >
-            Secure Escort
-          </Link>
-          <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
-            Services built for trust, safety, and clarity.
-          </h1>
-          <p className="mt-4 text-sm sm:text-base text-white/70 max-w-2xl mx-auto">
-            Choose the service that matches your need, submit a request in
-            seconds, then track progress from assignment to completion.
-          </p>
-
-          <div className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Button
-              asChild
-              className="bg-gold text-black hover:bg-gold/90 px-7 py-6 text-base"
+          <FadeUp>
+            <Link
+              href="/"
+              className="text-xs tracking-widest uppercase text-white/50"
             >
-              <Link href="/request">Create a Request</Link>
-            </Button>
+              Secure Escort
+            </Link>
+          </FadeUp>
+          <FadeUp delay={0.06}>
+            <h1 className="mt-3 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
+              Services built for trust, safety, and clarity.
+            </h1>
+          </FadeUp>
+          <FadeUp delay={0.12}>
+            <p className="mt-4 text-sm sm:text-base text-white/70 max-w-2xl mx-auto">
+              Choose the service that matches your need, submit a request in
+              seconds, then track progress from assignment to completion.
+            </p>
+          </FadeUp>
 
-            <Button
-              asChild
-              variant="outline"
-              className="border-white/15 bg-white/3 text-white hover:text-white/90 hover:bg-white/6 px-7 py-6 text-base"
-            >
-              <Link href="/tracking">Track a Request</Link>
-            </Button>
-          </div>
+          <FadeUp delay={0.18}>
+            <div className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Button
+                asChild
+                className="bg-gold text-black hover:bg-gold/90 px-7 py-6 text-base w-full sm:w-auto"
+              >
+                <Link href="/request">Create a Request</Link>
+              </Button>
+
+              <Button
+                asChild
+                variant="outline"
+                className="border-white/15 bg-white/3 text-white hover:text-white/90 hover:bg-white/6 px-7 py-6 text-base w-full sm:w-auto"
+              >
+                <Link href="/tracking">Track a Request</Link>
+              </Button>
+            </div>
+          </FadeUp>
         </div>
       </section>
 
       {/* Cards */}
       <section className="relative z-10 mx-auto max-w-7xl px-6 pb-14">
         <div className="grid gap-6 lg:grid-cols-3">
-          {SERVICES.map((s) => (
-            <Card
-              key={s.title}
-              className="border-white/10 bg-white/4 text-white backdrop-blur-xl overflow-hidden"
-            >
-              {/* top shimmer */}
-              <div className="relative">
-                <div className="pointer-events-none absolute inset-0">
-                  <div className="absolute -top-20 left-8 h-56 w-56 rounded-full bg-[radial-gradient(closest-side,rgba(212,160,23,0.18),transparent)] blur-2xl" />
-                </div>
-                <CardHeader className="relative z-10">
-                  <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center gap-2 text-sm">
-                      <span className="text-xl">{s.icon}</span>
-                      <span className="text-xs uppercase tracking-widest text-white/60">
-                        {s.badge}
-                      </span>
-                    </span>
-
-                    <span className="rounded-full border border-white/10 bg-white/3 px-3 py-1 text-[11px] text-white/70">
-                      Available
-                    </span>
+          {SERVICES.map((s, index) => (
+            <FadeUp key={s.title} delay={0.12 + index * 0.06}>
+              <Card className="border-white/10 bg-white/4 text-white backdrop-blur-xl overflow-hidden">
+                {/* top shimmer */}
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-0">
+                    <div className="absolute -top-20 left-8 h-56 w-56 rounded-full bg-[radial-gradient(closest-side,rgba(212,160,23,0.18),transparent)] blur-2xl" />
                   </div>
+                  <CardHeader className="relative z-10">
+                    <div className="flex items-center justify-between">
+                      <span className="inline-flex items-center gap-2 text-sm">
+                        <span className="text-xl">{s.icon}</span>
+                        <span className="text-xs uppercase tracking-widest text-white/60">
+                          {s.badge}
+                        </span>
+                      </span>
 
-                  <CardTitle className="mt-3 text-xl">{s.title}</CardTitle>
-                  <p className="mt-2 text-sm text-white/70">{s.desc}</p>
-                </CardHeader>
-              </div>
+                      <span className="rounded-full border border-white/10 bg-white/3 px-3 py-1 text-[11px] text-white/70">
+                        Available
+                      </span>
+                    </div>
 
-              <CardContent className="space-y-4">
-                <div className="h-px w-full bg-linear-to-r from-transparent via-white/15 to-transparent" />
-
-                <ul className="space-y-2 text-sm text-white/80">
-                  {s.highlights.map((h) => (
-                    <li key={h} className="flex gap-2">
-                      <span className="mt-0.5 text-gold">•</span>
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="pt-2 flex flex-col gap-3">
-                  <Button
-                    asChild
-                    className="bg-gold text-black hover:bg-gold/90"
-                  >
-                    <Link href={s.ctaHref}>{s.ctaLabel}</Link>
-                  </Button>
-
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="border-white/15 bg-white/3 text-white hover:text-white/90 hover:bg-white/6"
-                  >
-                    <Link href="/tracking">Track Delivery</Link>
-                  </Button>
+                    <CardTitle className="mt-3 text-xl">{s.title}</CardTitle>
+                    <p className="mt-2 text-sm text-white/70">{s.desc}</p>
+                  </CardHeader>
                 </div>
-              </CardContent>
-            </Card>
+
+                <CardContent className="space-y-4">
+                  <div className="h-px w-full bg-linear-to-r from-transparent via-white/15 to-transparent" />
+
+                  <ul className="space-y-2 text-sm text-white/80">
+                    {s.highlights.map((h) => (
+                      <li key={h} className="flex gap-2">
+                        <span className="mt-0.5 text-gold">•</span>
+                        <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="pt-2 flex flex-col gap-3">
+                    <Button
+                      asChild
+                      className="bg-gold text-black hover:bg-gold/90 w-full"
+                    >
+                      <Link href={s.ctaHref}>{s.ctaLabel}</Link>
+                    </Button>
+
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="border-white/15 bg-white/3 text-white hover:text-white/90 hover:bg-white/6 w-full"
+                    >
+                      <Link href="/tracking">Track Delivery</Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </FadeUp>
           ))}
         </div>
 
@@ -172,54 +180,55 @@ export default function ServicesPage() {
               title: "Built for safety",
               desc: "Role protection, verification, and audit trails help keep the platform secure and professional.",
             },
-          ].map((t) => (
-            <Card
-              key={t.title}
-              className="border-white/10 bg-white/4 text-white backdrop-blur-xl"
-            >
-              <CardContent className="p-6">
-                <p className="text-sm font-semibold">{t.title}</p>
-                <p className="mt-2 text-sm text-white/70">{t.desc}</p>
-              </CardContent>
-            </Card>
+          ].map((t, index) => (
+            <FadeUp key={t.title} delay={0.12 + index * 0.06}>
+              <Card className="border-white/10 bg-white/4 text-white backdrop-blur-xl">
+                <CardContent className="p-6">
+                  <p className="text-sm font-semibold">{t.title}</p>
+                  <p className="mt-2 text-sm text-white/70">{t.desc}</p>
+                </CardContent>
+              </Card>
+            </FadeUp>
           ))}
         </div>
       </section>
 
       {/* Bottom CTA */}
-      <section className="relative z-10 mx-auto max-w-7xl px-6 pb-16">
-        <Card className="border-white/10 bg-white/4 text-white backdrop-blur-xl overflow-hidden">
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-72 w-130 rounded-full bg-[radial-gradient(closest-side,rgba(212,160,23,0.22),transparent)] blur-2xl" />
-          </div>
-
-          <CardContent className="relative z-10 p-8 text-center">
-            <h2 className="text-2xl sm:text-3xl font-semibold">
-              Ready to secure what matters?
-            </h2>
-            <p className="mt-3 text-sm sm:text-base text-white/70 max-w-2xl mx-auto">
-              Create a request in seconds, get a guard assigned, follow updates,
-              and complete safely.
-            </p>
-
-            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Button
-                asChild
-                className="bg-gold text-black hover:bg-gold/90 px-8 py-6 text-base"
-              >
-                <Link href="/request">Create a Request</Link>
-              </Button>
-
-              <Button
-                asChild
-                variant="outline"
-                className="border-white/15 bg-white/3 text-white hover:text-white/90 hover:bg-white/6 px-8 py-6 text-base"
-              >
-                <Link href="/contact">Contact Us</Link>
-              </Button>
+      <section className="relative z-10 mx-auto max-w-7xl px-6 pb-14 sm:pb-16">
+        <FadeUp delay={0.12}>
+          <Card className="border-white/10 bg-white/4 text-white backdrop-blur-xl overflow-hidden">
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-72 w-130 rounded-full bg-[radial-gradient(closest-side,rgba(212,160,23,0.22),transparent)] blur-2xl" />
             </div>
-          </CardContent>
-        </Card>
+
+            <CardContent className="relative z-10 p-6 sm:p-8 text-center">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold">
+                Ready to secure what matters?
+              </h2>
+              <p className="mt-3 text-sm sm:text-base text-white/70 max-w-2xl mx-auto">
+                Create a request in seconds, get a guard assigned, follow
+                updates, and complete safely.
+              </p>
+
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Button
+                  asChild
+                  className="bg-gold text-black hover:bg-gold/90 px-8 py-6 text-base w-full sm:w-auto"
+                >
+                  <Link href="/request">Create a Request</Link>
+                </Button>
+
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-white/15 bg-white/3 text-white hover:text-white/90 hover:bg-white/6 px-8 py-6 text-base w-full sm:w-auto"
+                >
+                  <Link href="/contact">Contact Us</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </FadeUp>
       </section>
     </main>
   );
