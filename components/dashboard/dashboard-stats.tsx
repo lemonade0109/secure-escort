@@ -33,7 +33,7 @@ const DashboardStats = (props: DashboardStatsProps) => {
           </CardHeader>
 
           <CardContent>
-            <div className="mt-2 text-3xl font-semibold text-gold">
+            <div className="mt-2 text-2xl sm:text-3xl font-semibold text-gold">
               {i.value}
             </div>
           </CardContent>

@@ -13,15 +13,15 @@ const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
       {/* top glow divider */}
       <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-gold/40 to-transparent" />
 
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-sm tracking-widest uppercase text-white/70">
+      <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <CardTitle className="text-xs sm:text-sm tracking-widest uppercase text-white/70">
           Recent Requests
         </CardTitle>
 
         <Button
           asChild
           variant="outline"
-          className="text-white border-white/15 bg-white/5 hover:text-white/90 hover:bg-white/10"
+          className="text-white border-white/15 bg-white/5 hover:text-white/90 hover:bg-white/10 w-full sm:w-auto"
         >
           <Link href="/requests">View All</Link>
         </Button>
@@ -44,7 +44,7 @@ const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
               href={`/request/${request.id}`}
               className="block p-4 transition border rounded-xl border-white/10 bg-white/3 hover:bg-white/5"
             >
-              <div className="flex items-start justify-between gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <p className="text-sm font-medium">
                     {request.type === "ESCORT"
@@ -58,14 +58,14 @@ const RecentRequests: React.FC<{ requests: RecentRequestProps[] }> = (
                     </span>
                   </p>
                   {request.type !== "PERSONAL_SECURITY" && (
-                    <p className="mt-1 text-xs text-white/70">
+                    <p className="mt-1 text-xs sm:text-sm text-white/70">
                       From: {request.details?.pickup || "_"}, To:{" "}
                       {request.details?.dropoff || "_"}
                     </p>
                   )}
 
                   {request.type === "PERSONAL_SECURITY" && (
-                    <p className="mt-1 text-xs text-white/70">
+                    <p className="mt-1 text-xs sm:text-sm text-white/70">
                       Location: {request.details?.location || "_"}
                     </p>
                   )}

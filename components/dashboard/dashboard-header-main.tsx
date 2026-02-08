@@ -36,11 +36,11 @@ export default async function DashboardHeader() {
                 Dashboard
               </p>
 
-              <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
+              <h1 className="mt-2 text-xl sm:text-2xl md:text-3xl font-semibold">
                 Welcome back, <span className="text-white/90">{userName}!</span>
               </h1>
 
-              <p className="max-w-xl mt-2 text-sm text-white/70">
+              <p className="max-w-xl mt-2 text-sm sm:text-base text-white/70">
                 Manage your escort requests and track secured deliveries from
                 one place.
               </p>
@@ -48,7 +48,7 @@ export default async function DashboardHeader() {
               <div className="flex flex-col gap-3 mt-6 sm:flex-row">
                 <Button
                   asChild
-                  className="text-black transition duration-300 bg-gold hover:bg-gold/90 "
+                  className="text-black transition duration-300 bg-gold hover:bg-gold/90 w-full sm:w-auto"
                 >
                   <Link href="/request">Request A Service</Link>
                 </Button>
@@ -56,7 +56,7 @@ export default async function DashboardHeader() {
                 <Button
                   asChild
                   variant="outline"
-                  className="text-white transition duration-300 border-white/15 bg-white/3 hover:text-white/90 hover:bg-white/6"
+                  className="text-white transition duration-300 border-white/15 bg-white/3 hover:text-white/90 hover:bg-white/6 w-full sm:w-auto"
                 >
                   <Link href="/tracking">Track Your Package</Link>
                 </Button>
