@@ -90,7 +90,6 @@ const SignUpForm = () => {
                 type="text"
                 label="Name"
                 placeholder="Enter your name"
-                className="text-xs"
               />
             </div>
 
@@ -100,7 +99,6 @@ const SignUpForm = () => {
                 type="email"
                 label="Email"
                 placeholder="Enter your email"
-                className="text-xs"
               />
             </div>
 
@@ -116,7 +114,6 @@ const SignUpForm = () => {
                 onBlur={() => setShowPasswordStrength(false)}
                 placeholder="Enter your password"
                 required
-                className="text-xs "
               />
               {showPasswordStrength && (
                 <div className="mt-2">
@@ -178,7 +175,6 @@ const SignUpForm = () => {
                 onBlur={() => setShowConfirmPassword(false)}
                 required
                 placeholder="Re-enter your password"
-                className="text-xs "
               />
 
               {showConfirmPassword && confirmPassword.length > 0 && (

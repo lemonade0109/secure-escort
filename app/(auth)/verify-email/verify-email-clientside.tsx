@@ -27,10 +27,12 @@ const VerifyEmailClientSide = () => {
       <Card className="custom-card">
         <CardHeader className="">
           <CardTitle>
-            <h1 className="text-3xl font-semibold "> Verify Your Email</h1>
+            <h1 className="text-2xl sm:text-3xl font-semibold ">
+              Verify Your Email
+            </h1>
           </CardTitle>
           <CardDescription>
-            <p className="text-sm text-white/70 ">
+            <p className="text-sm sm:text-base text-white/70 ">
               Confirm your account to continue.
             </p>
           </CardDescription>

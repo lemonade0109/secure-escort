@@ -35,13 +35,13 @@ const CheckEmailForm = () => {
     <Card className="custom-card">
       <CardHeader>
         <CardTitle>
-          <h1 className="font-semibold text-3xl">
+          <h1 className="font-semibold text-2xl sm:text-3xl">
             Didn&apos;t receive the email?
           </h1>
         </CardTitle>
 
         <CardDescription>
-          <p className="text-sm text-white/70">
+          <p className="text-sm sm:text-base text-white/70">
             {" "}
             Click below and we&apos;ll send you a fresh verification link.
           </p>

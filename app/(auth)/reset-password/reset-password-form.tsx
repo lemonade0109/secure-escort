@@ -73,11 +73,13 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
     <Card className="custom-card">
       <CardHeader>
         <CardTitle>
-          <h1 className="font-semibold text-3xl">Reset password</h1>
+          <h1 className="font-semibold text-2xl sm:text-3xl">Reset password</h1>
         </CardTitle>
 
         <CardDescription>
-          <p className="text-sm text-white/70"> Choose a new password</p>
+          <p className="text-sm sm:text-base text-white/70">
+            Choose a new password
+          </p>
         </CardDescription>
       </CardHeader>
 
@@ -109,7 +111,6 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
                       name="password"
                       label="New Password"
                       placeholder="Enter new password"
-                      className="text-xs"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       onFocus={() => setShowPasswordStrength(true)}
@@ -169,7 +170,6 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
                       name="confirmPassword"
                       label="Confirm Password"
                       placeholder="Re-enter your new password"
-                      className="text-xs"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       onFocus={() => setShowConfirmPassword(true)}

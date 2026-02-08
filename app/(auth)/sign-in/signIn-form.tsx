@@ -40,7 +40,6 @@ const SignInForm = () => {
               type="email"
               label="Email"
               placeholder="Enter your email"
-              className="text-xs"
             />
             <div className="space-y-2" />
             <PasswordInput
@@ -48,7 +47,6 @@ const SignInForm = () => {
               type="password"
               label="Password"
               placeholder="Enter your password"
-              className="text-xs"
             />
             <div className="space-y-2" />
 

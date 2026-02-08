@@ -29,7 +29,10 @@ const PasswordInput = ({
   >;
   return (
     <div className="mb-2 gap-1 flex flex-col relative">
-      <Label htmlFor={name} className={`capitalize ${className}`}>
+      <Label
+        htmlFor={name}
+        className={`capitalize text-sm sm:text-base ${className ?? ""}`}
+      >
         {label || name}
       </Label>
       <div className="relative">
@@ -42,7 +45,7 @@ const PasswordInput = ({
           {...inputProps}
           autoComplete="new-password"
           placeholder={placeholder}
-          className={`pr-12 ${className ?? ""}`}
+          className={`pr-12 text-sm sm:text-base ${className ?? ""}`}
         />
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <Button

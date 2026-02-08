@@ -32,7 +32,7 @@ const ForgotPasswordForm = () => {
   return (
     <FormContainer
       action={forgotPasswordAction}
-      className="space-y-4  w-1/3 max-w-md p-6"
+      className="space-y-4 w-full max-w-md p-4 sm:p-6"
     >
       {(data) => {
         if (data && data.success) {
@@ -49,7 +49,7 @@ const ForgotPasswordForm = () => {
                   </h1>
                 </CardTitle>
                 <CardDescription>
-                  <p className="mt-2 text-sm text-white/70 text-center">
+                  <p className="mt-2 text-sm sm:text-base text-white/70 text-center">
                     We&apos;ve sent a password reset link to your email address.
                     Please check your inbox and follow the instructions to reset
                     your password.
@@ -73,7 +73,7 @@ const ForgotPasswordForm = () => {
                   <div className="pt-4">
                     <Link
                       href="/sign-in"
-                      className="text-sm text-gold hover:underline"
+                      className="text-sm sm:text-base text-gold hover:underline"
                     >
                       ← Back to Sign In
                     </Link>
@@ -88,12 +88,12 @@ const ForgotPasswordForm = () => {
           <Card className="custom-card  ">
             <CardHeader className="">
               <CardTitle>
-                <h1 className="text-3xl font-semibold text-center">
+                  <h1 className="text-2xl sm:text-3xl font-semibold text-center">
                   Forgot Password?
                 </h1>
               </CardTitle>
               <CardDescription>
-                <p className="mt-2 text-sm text-white/70 text-center">
+                <p className="mt-2 text-sm sm:text-base text-white/70 text-center">
                   Enter your email address and we&apos;ll send you a link to
                   reset your password.
                 </p>

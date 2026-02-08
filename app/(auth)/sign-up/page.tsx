@@ -22,10 +22,10 @@ export default function SignUpPage() {
       <Card className="custom-card">
         <CardHeader>
           <CardTitle>
-            <h1 className="text-3xl font-semibold">Create account</h1>
+            <h1 className="text-2xl sm:text-3xl font-semibold">Create account</h1>
           </CardTitle>
           <CardDescription>
-            <p className="mt-2 text-sm text-white/70">
+            <p className="mt-2 text-sm sm:text-base text-white/70">
               Sign up to request a guard or make secured deliveries.
             </p>
           </CardDescription>
