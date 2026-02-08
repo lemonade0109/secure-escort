@@ -3,7 +3,6 @@ import NotificationBellServer from "@/components/shared/notifications/notificati
 import { ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import DashboardMobileMenu from "./dashboard-mobile-menu";
 
 const DashboardNav: React.FC<{
   email: string | null | undefined;
@@ -24,11 +23,8 @@ const DashboardNav: React.FC<{
 
       <div className="flex items-center gap-2">
         <NotificationBellServer />
-        <DashboardMobileMenu name={name} email={email} role={role} />
 
-        <div className="hidden sm:flex">
-          <UserMenu name={name} email={email} role={role} image={image} />
-        </div>
+        <UserMenu name={name} email={email} role={role} image={image} />
       </div>
     </div>
   );

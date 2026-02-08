@@ -1,3 +1,22 @@
 :root {
   --sonner-bg: #070a12;
 }
+
+@media (max-width: 640px) {
+  :root {
+    --sonner-toast-width: calc(100vw - 2rem);
+  }
+}
+
+@media (max-width: 640px) {
+  [data-sonner-toaster] {
+    padding: 0 1rem 1rem;
+    width: 100%;
+  }
+
+  [data-sonner-toast] {
+    width: 100%;
+    margin: 0;
+    border-radius: 12px;
+  }
+}
