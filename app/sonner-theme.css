@@ -4,19 +4,20 @@
 
 @media (max-width: 640px) {
   :root {
-    --sonner-toast-width: calc(100vw - 2rem);
+    --sonner-toast-width: min(92vw, 22rem);
   }
 }
 
 @media (max-width: 640px) {
   [data-sonner-toaster] {
     padding: 0 1rem 1rem;
-    width: 100%;
+    width: auto;
   }
 
   [data-sonner-toast] {
-    width: 100%;
-    margin: 0;
+    width: var(--sonner-toast-width);
+    max-width: 22rem;
+    margin: 0 auto;
     border-radius: 12px;
   }
 }

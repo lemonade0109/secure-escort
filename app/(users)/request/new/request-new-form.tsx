@@ -69,12 +69,8 @@ export default function NewRequestForm(props: { type: RequestType }) {
                       placeholder="e.g. 4"
                     />
 
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <FormInput
-                        name="date"
-                        type="date"
-                        label="Date"
-                      />
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <FormInput name="date" type="date" label="Date" />
 
                       <FormInput
                         name="durationHours"
@@ -99,18 +95,10 @@ export default function NewRequestForm(props: { type: RequestType }) {
                       placeholder="e.g. Lekki Phase 1"
                     />
 
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <FormInput
-                        name="date"
-                        type="date"
-                        label="Date"
-                      />
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <FormInput name="date" type="date" label="Date" />
 
-                      <FormInput
-                        name="time"
-                        type="time"
-                        label="Time"
-                      />
+                      <FormInput name="time" type="time" label="Time" />
                     </div>
 
                     {props.type === "ESCORT" ? (
