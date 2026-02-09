@@ -15,7 +15,7 @@ export default async function AdminGuardsPage() {
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 max-w-3xl px-6 py-10 mx-auto">
+      <div className="relative z-10 max-w-3xl px-6 py-8 sm:py-10 mx-auto">
         <div className="mb-4">
           <Link
             href="/admin/guards"
@@ -23,10 +23,10 @@ export default async function AdminGuardsPage() {
           >
             Admin ● Guards
           </Link>
-          <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
+          <h1 className="mt-2 text-xl sm:text-2xl md:text-3xl font-semibold">
             Create Guard Profile
           </h1>
-          <p className="mt-1 text-sm text-white/70">
+          <p className="mt-1 text-sm sm:text-base text-white/70">
             Promote a user into a guard and manage their profile.
           </p>
         </div>

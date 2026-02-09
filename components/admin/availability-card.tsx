@@ -139,7 +139,7 @@ const AvailabilityCard: React.FC<AvailabilityCardProps> = ({ data }) => {
               data.blocks.map((b) => (
                 <div
                   key={b.id}
-                  className="flex flex-col gap-3 p-4 border sm:flex-row sm:items-center sm:justify-between rounded-xl border-white/10 bg-white/3"
+                  className="flex p-4 border flex-row items-center justify-between rounded-xl border-white/10 bg-white/3"
                 >
                   <div className="text-sm">
                     <span className="font-medium">{b.day}</span>

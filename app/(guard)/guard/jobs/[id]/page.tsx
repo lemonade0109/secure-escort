@@ -27,8 +27,8 @@ export default async function GuardJobDetailsPage({ params }: Props) {
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 max-w-5xl px-6 py-10 mx-auto space-y-6">
-        <div className="flex items-start justify-between gap-4">
+      <div className="relative z-10 max-w-5xl px-6 py-8 sm:py-10 mx-auto space-y-6">
+        <div className="flex justify-between">
           <div>
             <Link
               href="/guard/jobs"
@@ -36,10 +36,10 @@ export default async function GuardJobDetailsPage({ params }: Props) {
             >
               Guard ● Job Details
             </Link>
-            <h1 className="text-2xl font-semibold">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold">
               {requestTypeLabel(job.type)}
             </h1>
-            <p className="mt-1 text-sm text-white/70">
+            <p className="mt-1 text-sm sm:text-base text-white/70">
               Tracking:{" "}
               <span className="font-mono text-white/90">
                 {job.trackingCode}
@@ -47,8 +47,10 @@ export default async function GuardJobDetailsPage({ params }: Props) {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 mt-5">
-            <StatusPill status={job.status} />
+          <div className="flex items-center gap-2 sm:mt-5">
+            <div className="hidden sm:flex">
+              <StatusPill status={job.status} />
+            </div>
             <NavigationBar role={session?.user?.role || ""} />
           </div>
         </div>
@@ -58,10 +60,10 @@ export default async function GuardJobDetailsPage({ params }: Props) {
           <div className="space-y-6 lg:col-span-3">
             <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Customer</CardTitle>
+                <CardTitle className="text-sm sm:text-base">Customer</CardTitle>
                 <div className="w-full h-px mt-4 bg-linear-to-r from-transparent via-white/15 to-transparent" />
               </CardHeader>
-              <CardContent className="text-sm text-white/80">
+              <CardContent className="text-sm sm:text-base text-white/80">
                 <p>{job.user?.name ?? "-"}</p>
                 <p className="text-white/60">{job.user?.email ?? "-"}</p>
               </CardContent>
@@ -69,11 +71,11 @@ export default async function GuardJobDetailsPage({ params }: Props) {
 
             <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Details</CardTitle>
+                <CardTitle className="text-sm sm:text-base">Details</CardTitle>
                 <div className="w-full h-px mt-4 bg-linear-to-r from-transparent via-white/15 to-transparent" />
               </CardHeader>
 
-              <CardContent className="grid gap-4 text-sm sm:grid-cols-2">
+              <CardContent className="grid gap-4 text-sm sm:text-base sm:grid-cols-2">
                 <div>
                   <p className="text-xs tracking-widest uppercase text-white/50">
                     {job.type === "PERSONAL_SECURITY" ? "Location" : "Pickup"}

@@ -38,16 +38,16 @@ export default async function AdminAuditPage({
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 px-6 py-10 mx-auto space-y-6 max-w-7xl">
+      <div className="relative z-10 px-6 py-8 sm:py-10 mx-auto space-y-6 max-w-7xl">
         <div className="flex justify-between">
           <div>
             <p className="text-xs tracking-widest uppercase text-white/50">
               Admin ● Audit Log
             </p>
-            <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
+            <h1 className="mt-2 text-xl sm:text-2xl md:text-3xl font-semibold">
               Activity & Security
             </h1>
-            <p className="mt-1 text-sm text-white/70">
+            <p className="mt-1 text-sm sm:text-base text-white/70">
               Track all admin + guard actions for accountability and dispute
               resolution.
             </p>
@@ -60,7 +60,7 @@ export default async function AdminAuditPage({
 
         <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
           <CardHeader className="pb-3">
-            <CardTitle>Event Log</CardTitle>
+            <CardTitle className="text-sm sm:text-base">Event Log</CardTitle>
           </CardHeader>
 
           <CardContent className="space-y-4">

@@ -24,10 +24,10 @@ export default async function AdminAnalyticsPage() {
       <main className="min-h-screen bg-[#070a12] text-white relative overflow-hidden">
         <GlowBackground intensity="medium" />
 
-        <div className="relative z-10 px-6 py-10 mx-auto max-w-7xl">
+        <div className="relative z-10 px-6 py-8 sm:py-10 mx-auto max-w-7xl">
           <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
             <CardHeader>
-              <CardTitle>Analytics</CardTitle>
+              <CardTitle className="text-base sm:text-lg">Analytics</CardTitle>
             </CardHeader>
 
             <CardContent className="text-white/70">{data.message}</CardContent>
@@ -41,21 +41,21 @@ export default async function AdminAnalyticsPage() {
     <main className="min-h-screen bg-[#070a12] text-white relative overflow-hidden">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 px-6 py-10 mx-auto space-y-6 max-w-7xl">
+      <div className="relative z-10 px-6 py-8 sm:py-10 mx-auto space-y-6 max-w-7xl">
         <div className="flex justify-between">
           <div>
             <p className="text-xs tracking-widest uppercase text-white/50">
               Admin ● Analytics
             </p>
-            <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
+            <h1 className="mt-2 text-xl sm:text-2xl md:text-3xl font-semibold">
               Operations Overview
             </h1>
-            <p className="mt-1 text-sm text-white/70">
+            <p className="mt-1 text-sm sm:text-base text-white/70">
               Quick health metrics for Secure Escorts
             </p>
           </div>
 
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2 sm:mt-2">
             <NavigationBar />
           </div>
         </div>
@@ -75,13 +75,13 @@ export default async function AdminAnalyticsPage() {
           {/* Peak hours */}
           <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">
+              <CardTitle className="text-sm sm:text-base">
                 Peak Hours (Last 7 Days)
               </CardTitle>
             </CardHeader>
 
             <CardContent className="space-y-3">
-              <div className="grid grid-cols-6 gap-2 text-xs text-white/70">
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 text-xs text-white/70">
                 {data.peakHours7d.map((h) => (
                   <div
                     key={h.hour}
@@ -93,7 +93,7 @@ export default async function AdminAnalyticsPage() {
                 ))}
               </div>
 
-              <p className="text-xs text-white">
+              <p className="text-xs sm:text-sm text-white">
                 This helps admins schedule guards around demand
               </p>
             </CardContent>
@@ -102,7 +102,7 @@ export default async function AdminAnalyticsPage() {
           {/* Top guards */}
           <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">
+              <CardTitle className="text-sm sm:text-base">
                 Top Guards (Last 7 Days)
               </CardTitle>
             </CardHeader>
@@ -122,7 +122,7 @@ export default async function AdminAnalyticsPage() {
                         </span>
                       ) : null}
                     </div>
-                    <div className="text-xs break-all text-white/60">
+                    <div className="text-xs sm:text-sm break-all text-white/60">
                       {g.email}
                     </div>
                     <div className="mt-2 text-xs text-white/80">
@@ -143,7 +143,7 @@ export default async function AdminAnalyticsPage() {
         {/* Completion time */}
         <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">
+            <CardTitle className="text-sm sm:text-base">
               Service Speed (Last 7 Days)
             </CardTitle>
           </CardHeader>
@@ -153,12 +153,12 @@ export default async function AdminAnalyticsPage() {
               <p className="text-xs tracking-widest uppercase text-white/50">
                 Avg completion time
               </p>
-              <p className="mt-1 text-lg text-white">
+              <p className="mt-1 text-base sm:text-lg text-white">
                 {data.avgCompleteMins7d === null
                   ? "_"
                   : `${data.avgCompleteMins7d} mins`}
               </p>
-              <p className="mt-1 text-xs text-white/60">
+              <p className="mt-1 text-xs sm:text-sm text-white/60">
                 Created to Completed (from timeline events)
               </p>
             </div>
@@ -166,10 +166,10 @@ export default async function AdminAnalyticsPage() {
               <p className="text-xs tracking-widest uppercase text-white/50">
                 Completed vs total (7d)
               </p>
-              <p className="mt-1 text-lg text-white">
+              <p className="mt-1 text-base sm:text-lg text-white">
                 {data.last7dCompleted} / {data.last7dTotal}
               </p>
-              <p className="mt-1 text-xs text-white/60">
+              <p className="mt-1 text-xs sm:text-sm text-white/60">
                 Completion rate: {pct(data.completionRate7d)}
               </p>
             </div>
@@ -189,7 +189,7 @@ function Metric({ title, value }: { title: string; value: string | number }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-semibold">{value}</div>
+        <div className="text-xl sm:text-2xl font-semibold">{value}</div>
       </CardContent>
     </Card>
   );

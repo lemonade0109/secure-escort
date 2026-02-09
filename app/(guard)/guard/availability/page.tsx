@@ -16,12 +16,14 @@ export default async function GuardAvailabilityPage() {
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 max-w-5xl px-6 py-10 mx-auto">
+      <div className="relative z-10 max-w-5xl px-6 py-8 sm:py-10 mx-auto">
         <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/3">
             <CardTitle className="font-normal">
-              <span className="text-lg ">Availability Schedule</span>
-              <p className="text-xs text-white/60">
+              <span className="text-base sm:text-lg">
+                Availability Schedule
+              </span>
+              <p className="text-xs sm:text-sm text-white/60">
                 Manage when you are available to work.
               </p>
             </CardTitle>

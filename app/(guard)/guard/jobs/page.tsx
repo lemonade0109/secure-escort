@@ -28,16 +28,16 @@ export default async function GuardJobPage({ searchParams }: Props) {
     <main className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 px-6 py-10 mx-auto space-y-6 max-w-7xl">
-        <div className="flex items-center justify-between">
+      <div className="relative z-10 px-6 py-8 sm:py-10 mx-auto space-y-6 max-w-7xl">
+        <div className="flex justify-between">
           <div>
             <p className="text-xs tracking-widest uppercase text-white/60">
               Guard ● Jobs
             </p>
-            <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
+            <h1 className="mt-2 text-xl sm:text-2xl md:text-3xl font-semibold">
               My Assigned Jobs
             </h1>
-            <p className="mt-1 text-sm text-white/70">
+            <p className="mt-1 text-sm sm:text-base text-white/70 hidden sm:flex">
               View your assigned requests and track progress.
             </p>
           </div>
@@ -48,7 +48,7 @@ export default async function GuardJobPage({ searchParams }: Props) {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 text-sm">
+        <div className="flex flex-wrap gap-2 text-sm">
           <Link
             href="/guard/jobs?tab=active"
             className={[
@@ -86,7 +86,7 @@ export default async function GuardJobPage({ searchParams }: Props) {
 
         <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Job Details</CardTitle>
+            <CardTitle className="text-sm sm:text-base">Job Details</CardTitle>
           </CardHeader>
 
           <CardContent className="space-y-4">
@@ -114,7 +114,7 @@ export default async function GuardJobPage({ searchParams }: Props) {
                     href={`/guard/jobs/${j.id}`}
                     className="block p-4 transition border rounded-xl border-white/10 bg-white/3 hover:bg-white/5"
                   >
-                    <div className="flex items-start justify-between gap-4">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="min-w-0">
                         <p className="text-sm font-medium">
                           {requestTypeLabel(j.type)}
@@ -138,12 +138,12 @@ export default async function GuardJobPage({ searchParams }: Props) {
                           </p>
                         )}
 
-                        <p className="mt-2 text-xs text-white/50">
+                        <p className="mt-2 text-xs sm:text-sm text-white/50">
                           Customer: {j.user?.name || "_"} (
                           {j.user?.email || "_"})
                         </p>
                       </div>
-                      <div className="flex flex-col items-end gap-1">
+                      <div className="flex flex-row sm:flex-col items-start justify-between sm:items-end gap-2">
                         <StatusPill status={j.status} />
                         <p className="text-xs text-white/50">
                           {formatGuardEta(j.etaFrom)}
