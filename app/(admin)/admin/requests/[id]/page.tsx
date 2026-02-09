@@ -80,9 +80,9 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
     <div className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 px-6 py-10 mx-auto max-w-7xl">
+      <div className="relative z-10 px-6 py-8 sm:py-10 mx-auto max-w-7xl">
         {/* Top Header */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex justify-between">
           <div>
             <Link
               href="/admin/requests"
@@ -90,10 +90,10 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
             >
               Admin ● Requests
             </Link>
-            <h1 className="text-2xl font-semibold sm:text-3xl">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold">
               {requestTypeLabel(req.type)}
             </h1>
-            <p className="mt-1 text-sm text-white/70">
+            <p className="mt-1 text-sm sm:text-base text-white/70">
               Tracking Code:{" "}
               <span className="font-mono text-white/90">
                 {req.trackingCode}
@@ -106,7 +106,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
               <NavigationBar />
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex-wrap items-center gap-2 hidden sm:flex">
               <StatusPill status={req.status} />
               <Badge className="px-3 py-1 text-xs border border-white/10 bg-white/4 text-white/80">
                 {requestTypeLabel(req.type)}
@@ -232,13 +232,15 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
 
             <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
               <CardHeader>
-                <CardTitle className="text-base">Oops Notes</CardTitle>
+                <CardTitle className="text-base sm:text-lg">
+                  Oops Notes
+                </CardTitle>
                 <CardDescription className="text-white/60">
                   Admin-only operational notes.
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="text-sm text-white/70">
+              <CardContent className="text-sm sm:text-base text-white/70">
                 Assign a guard before moving status to <b>IN_PROGRESS</b>.
                 <div className="mt-4 text-xs text-white">
                   Tip: Tracking activates once a guard is assigned and service
