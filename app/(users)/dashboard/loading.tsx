@@ -3,11 +3,22 @@ import DashboardStatsLoading from "@/components/dashboard/loading/dashboard-stat
 import QuickActionsLoading from "@/components/dashboard/loading/quick-actions-loading";
 import RecentRequestLoading from "@/components/dashboard/loading/recent-requests-loading";
 import GlowBackground from "@/components/shared/glow-background";
-import { getRequestAction } from "@/lib/actions/requests/get-requests";
+import { RecentRequestProps } from "@/types";
 import React from "react";
 
-export default async function LoadingPage() {
-  const data = await getRequestAction();
+export default function LoadingPage() {
+  const placeholderRequests: RecentRequestProps[] = Array.from({
+    length: 3,
+  }).map((_, index) => ({
+    id: `loading-${index}`,
+    type: "DELIVERY",
+    status: "PENDING",
+    createdAt: new Date(),
+    pickup: null,
+    dropoff: null,
+    trackingCode: "",
+    details: {},
+  }));
   return (
     <main className=" min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
@@ -23,13 +34,7 @@ export default async function LoadingPage() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <RecentRequestLoading // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              requests={data.recent.map((req: any) => ({
-                ...req,
-                pickup: req.details?.pickup,
-                dropoff: req.details?.dropoff,
-              }))}
-            />
+            <RecentRequestLoading requests={placeholderRequests} />
           </div>
 
           <div className="space-y-6">

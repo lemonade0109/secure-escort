@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Secure Escort
+
+Secure Escort is a full‑stack platform for managing security escort, personal protection, and delivery requests. It provides role‑based experiences for users, guards, and admins—covering request creation, guard assignment, status updates, tracking, analytics, and secure authentication.
+
+## Features
+
+- Role‑based access for Users, Guards, and Admins
+- Request lifecycle management (create, assign, track, complete)
+- Guard workflows for job acceptance, status updates, and checkpoints
+- Admin dashboards for oversight, analytics, and audit logging
+- Email verification and password reset flows
+- Cloudinary‑backed avatar uploads
+- Responsive, mobile‑first UI with skeleton loading states
+
+## Tech Stack
+
+- Next.js 16 (App Router) + React 19
+- TypeScript
+- Tailwind CSS + Radix UI
+- Prisma ORM + MongoDB
+- NextAuth (Credentials)
+- Zod validation
+- Leaflet (maps)
+- Nodemailer (transactional emails)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+ (recommended)
+- MongoDB connection string
+
+### Installation
+
+1. Install dependencies
+
+   ```bash
+   npm install
+   ```
+
+2. Create a .env file in the project root and configure the required variables (see below).
+
+3. Sync Prisma schema to your database
+
+   ```bash
+   npx prisma db push
+   ```
+
+4. Start the dev server
+
+   ```bash
+   npm run dev
+   ```
+
+The app runs at http://localhost:3000.
+
+## Environment Variables
+
+Create a .env file in the project root:
+
+```env
+# Database
+DATABASE_URL="mongodb+srv://..."
+
+# NextAuth
+NEXTAUTH_SECRET="your-secret"
+NEXTAUTH_URL="http://localhost:3000"
+
+# App
+NEXT_PUBLIC_APP_NAME="Secure Escort"
+NEXT_PUBLIC_SERVER_URL="http://localhost:3000"
+
+# Admin access
+ADMIN_EMAILS="admin1@example.com,admin2@example.com"
+NEXT_PUBLIC_ADMIN_EMAILS="admin1@example.com,admin2@example.com"
+
+# Email (SMTP)
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT="587"
+SMTP_USER="your-smtp-user"
+SMTP_PASSWORD="your-smtp-password"
+SENDER_EMAIL="no-reply@secure-escort.com"
+SENDER_NAME="Secure Escort"
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME="your-cloud-name"
+CLOUDINARY_API_KEY="your-api-key"
+CLOUDINARY_API_SECRET="your-api-secret"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- npm run dev — start development server
+- npm run build — build for production
+- npm run start — start production server
+- npm run lint — run lint checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+- app — routes and layouts (App Router)
+- components — shared UI + feature components
+- lib — utilities, actions, validators, and helpers
+- prisma — Prisma schema
+- db — Prisma client setup
+- email — email templates
+- types — shared TypeScript types
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Set all environment variables in your hosting provider.
+2. Build the app: npm run build
+3. Run the server: npm run start
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+License not specified. Add a LICENSE file if you want to open‑source this project.
