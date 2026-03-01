@@ -23,6 +23,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import RequestTimeline from "@/components/shared/request-timeline";
 import NavigationBar from "@/components/shared/navigationBar";
+import AdminAiSummaryCard from "@/components/ai/ai-summary";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -80,7 +81,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
     <div className="min-h-screen relative overflow-hidden bg-[#070a12] text-white">
       <GlowBackground intensity="medium" />
 
-      <div className="relative z-10 px-6 py-8 sm:py-10 mx-auto max-w-7xl">
+      <div className="relative z-10 px-6 py-8 mx-auto sm:py-10 max-w-7xl">
         {/* Top Header */}
         <div className="flex justify-between">
           <div>
@@ -90,7 +91,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
             >
               Admin ● Requests
             </Link>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold">
+            <h1 className="text-xl font-semibold sm:text-2xl md:text-3xl">
               {requestTypeLabel(req.type)}
             </h1>
             <p className="mt-1 text-sm sm:text-base text-white/70">
@@ -106,7 +107,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
               <NavigationBar />
             </div>
 
-            <div className="flex-wrap items-center gap-2 hidden sm:flex">
+            <div className="flex-wrap items-center hidden gap-2 sm:flex">
               <StatusPill status={req.status} />
               <Badge className="px-3 py-1 text-xs border border-white/10 bg-white/4 text-white/80">
                 {requestTypeLabel(req.type)}
@@ -120,6 +121,7 @@ export default async function AdminRequestsDetailsPage({ params }: Props) {
         <div className="grid gap-6 lg:grid-cols-3">
           {/* LEFT: main content */}
           <div className="space-y-6 lg:col-span-2">
+            <AdminAiSummaryCard requestId={req.id} />
             {/* Summary */}
             <Card className="text-white border-white/10 bg-white/4 backdrop-blur-xl">
               <CardHeader>
