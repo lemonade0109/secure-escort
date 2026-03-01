@@ -3,7 +3,7 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { generateRequestSummary } from "@/lib/ai/generate-request-summary";
+import { mockGenerateRequestSummary } from "@/lib/ai/ai-mock/generate-request-summary-mock";
 
 export default function AdminAiSummaryCard({
   requestId,
@@ -16,7 +16,7 @@ export default function AdminAiSummaryCard({
   async function handleGenerate() {
     try {
       setLoading(true);
-      const res = await generateRequestSummary(requestId);
+      const res = await mockGenerateRequestSummary(requestId);
       if (res.success) {
         setSummary(res.summary ?? "");
       }
