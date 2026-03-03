@@ -36,13 +36,16 @@ const ServiceRecommenderWidget = () => {
       // minimal "structured" data from chat for now
       const payload = {
         userText: prompt,
-        // optional signals you may later extract:
-        hasPickup: /from|pickup/i.test(prompt),
-        hasDropoff: /to|dropoff/i.test(prompt),
-        itemDescription: /deliver|delivery|package|document/i.test(prompt)
-          ? "mentioned"
-          : null,
-        durationHours: /hours|hour/i.test(prompt) ? 2 : null,
+
+        pickup: null,
+        dropoff: null,
+        location: null,
+        time: null,
+        itemDescription: null,
+        estimatedValue: null,
+        date: null,
+        durationHours: null,
+        notes: prompt,
       };
 
       const res = await recommendServiceAction(payload);
@@ -54,7 +57,7 @@ const ServiceRecommenderWidget = () => {
         ...prev,
         { role: "assistant", content: res.explanation },
       ]);
-    } catch (error) {
+    } catch {
       setMessages((prev) => [
         ...prev,
         {

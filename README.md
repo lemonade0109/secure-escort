@@ -86,6 +86,10 @@ SENDER_NAME="Secure Escort"
 CLOUDINARY_CLOUD_NAME="your-cloud-name"
 CLOUDINARY_API_KEY="your-api-key"
 CLOUDINARY_API_SECRET="your-api-secret"
+
+# AI (Hugging Face)
+HF_API_KEY="your-huggingface-api-key"
+HF_MODEL="mistralai/Mistral-7B-Instruct-v0.2"
 ```
 
 ## Scripts
