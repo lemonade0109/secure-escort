@@ -7,6 +7,7 @@ import QuickActions from "@/components/dashboard/quick-actions";
 import DashboardHeader from "@/components/dashboard/dashboard-header-main";
 import { getRequestAction } from "@/lib/actions/requests/get-requests";
 import { Metadata } from "next";
+import ServiceRecommenderWidget from "@/components/ai/service-recommender";
 
 export const metadata: Metadata = {
   title: "Dashboard - Secure Escort",
@@ -45,6 +46,8 @@ export default async function DashboardPage() {
           </div>
         </div>
       </div>
+
+      <ServiceRecommenderWidget />
     </main>
   );
 }

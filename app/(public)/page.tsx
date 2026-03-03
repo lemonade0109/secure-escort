@@ -1,3 +1,4 @@
+import ServiceRecommenderWidget from "@/components/ai/service-recommender";
 import Footer from "@/components/layout/footer/footer";
 import Navbar from "@/components/layout/navbar/navbar";
 import CTASection from "@/components/sections/CTA-section";
@@ -5,7 +6,6 @@ import HeroSection from "@/components/sections/hero-section";
 import HowItWorksSection from "@/components/sections/howitworks-section";
 import ServiceSection from "@/components/sections/service-section";
 import TrustSection from "@/components/sections/trust-section";
-import React from "react";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +19,7 @@ export default function HomePage() {
       <HowItWorksSection />
       <CTASection />
       <Footer />
+      <ServiceRecommenderWidget />
     </main>
   );
 }
