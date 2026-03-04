@@ -20,7 +20,8 @@ const ServiceRecommenderWidget = () => {
   const [messages, setMessages] = React.useState<Msg[]>([
     {
       role: "assistant",
-      content: `Tell me what you need. Example: "I need to move from Lekki at night" or "I want to deliver documents to Ikeja."`,
+      content:
+        "Tell me what you need in plain language, and I’ll suggest the safest service. For example: \"I need to move from Lekki to Ikeja around 10pm\" or \"I want to send legal documents to VI this afternoon.\"",
     },
   ]);
 
@@ -62,7 +63,8 @@ const ServiceRecommenderWidget = () => {
         ...prev,
         {
           role: "assistant",
-          content: "Something went wrong, Please try again.",
+          content:
+            "I couldn’t process that properly just now. Please resend with your location, destination (if any), and preferred time.",
         },
       ]);
     } finally {
@@ -134,7 +136,7 @@ const ServiceRecommenderWidget = () => {
                         window.location.href = `/request/new?type=${type}`;
                       }}
                     >
-                      Reset
+                      Proceed with this service
                     </Button>
                   </div>
                 </div>
