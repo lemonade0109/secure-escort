@@ -9,6 +9,64 @@ import { Input } from "../ui/input";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
+const normalizeField = (value?: string | null) => {
+  if (!value) return null;
+  const cleaned = value.trim().replace(/\s+/g, " ");
+  return cleaned.length ? cleaned : null;
+};
+
+const extractPayloadFromPrompt = (prompt: string) => {
+  const lower = prompt.toLowerCase();
+
+  const routeMatch = prompt.match(
+    /\bfrom\s+([a-z0-9\s,'-]{2,}?)\s+to\s+([a-z0-9\s,'-]{2,}?)(?=$|\.|,|\s(?:at|by|around|tonight|tomorrow|this))/i,
+  );
+
+  const toMatch = prompt.match(
+    /\bto\s+([a-z0-9\s,'-]{2,}?)(?=$|\.|,|\s(?:at|by|around|tonight|tomorrow|this))/i,
+  );
+
+  const atInMatch = prompt.match(
+    /\b(?:at|in|around)\s+([a-z0-9\s,'-]{2,}?)(?=$|\.|,|\s(?:at|by|around|tonight|tomorrow|this))/i,
+  );
+
+  const deliveryItemMatch = prompt.match(
+    /\b(?:deliver|delivery|send|ship|dispatch|drop\s?off)\s+(?:a|an|the)?\s*([a-z0-9\s,'-]{2,}?)(?=\s+to\b|\s+for\b|\s+at\b|$|\.|,)/i,
+  );
+
+  const timeMatch = prompt.match(
+    /\b(tonight|this night|tomorrow(?:\s+(?:morning|afternoon|evening|night))?|today(?:\s+(?:morning|afternoon|evening|night))?|(?:at|by|around)\s+\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i,
+  );
+
+  const durationMatch = prompt.match(
+    /\b(\d+(?:\.\d+)?)\s*(?:hour|hours|hr|hrs)\b/i,
+  );
+
+  const hasDeliveryIntent =
+    /\b(deliver|delivery|send|ship|dispatch|drop\s?off|parcel|package|document|documents|item|goods)\b/.test(
+      lower,
+    );
+
+  const pickup = normalizeField(routeMatch?.[1] || null);
+  const dropoff = normalizeField(routeMatch?.[2] || toMatch?.[1] || null);
+  const location = normalizeField(atInMatch?.[1] || dropoff || pickup);
+  const time = normalizeField(timeMatch?.[1] || null);
+  const itemDescription = normalizeField(deliveryItemMatch?.[1] || null);
+
+  return {
+    pickup,
+    dropoff,
+    location,
+    time,
+    date: null,
+    itemDescription:
+      itemDescription || (hasDeliveryIntent ? "package/document" : null),
+    durationHours: durationMatch ? Number(durationMatch[1]) : null,
+    hasPickup: Boolean(pickup),
+    hasDropoff: Boolean(dropoff),
+  };
+};
+
 const ServiceRecommenderWidget = () => {
   const [open, setOpen] = React.useState(false);
   const [text, setText] = React.useState("");
@@ -21,7 +79,7 @@ const ServiceRecommenderWidget = () => {
     {
       role: "assistant",
       content:
-        "Tell me what you need in plain language, and I’ll suggest the safest service. For example: \"I need to move from Lekki to Ikeja around 10pm\" or \"I want to send legal documents to VI this afternoon.\"",
+        'Tell me what you need in plain language, and I’ll suggest the safest service. For example: "I need to move from Lekki to Ikeja around 10pm" or "I want to send legal documents to VI this afternoon."',
     },
   ]);
 
@@ -34,18 +92,20 @@ const ServiceRecommenderWidget = () => {
     setMessages((prev) => [...prev, { role: "user", content: prompt }]);
 
     try {
-      // minimal "structured" data from chat for now
+      const extracted = extractPayloadFromPrompt(prompt);
+
       const payload = {
         userText: prompt,
-
-        pickup: null,
-        dropoff: null,
-        location: null,
-        time: null,
-        itemDescription: null,
+        pickup: extracted.pickup,
+        dropoff: extracted.dropoff,
+        location: extracted.location,
+        time: extracted.time,
+        itemDescription: extracted.itemDescription,
         estimatedValue: null,
-        date: null,
-        durationHours: null,
+        date: extracted.date,
+        durationHours: extracted.durationHours,
+        hasPickup: extracted.hasPickup,
+        hasDropoff: extracted.hasDropoff,
         notes: prompt,
       };
 
@@ -91,7 +151,7 @@ const ServiceRecommenderWidget = () => {
         <div className="fixed bottom-5 right-5 z-60 w-90 max-w-[92vw]">
           <Card className="border-white/10 bg-[#070a12]/95 backdrop-blur-xl text-white overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-              <div className="font-medium">Service Assistant</div>
+              <div className="font-medium">Service Assistant(experimental)</div>
               <button
                 onClick={() => setOpen(false)}
                 className="p-1 rounded-md hover:bg-white/10"

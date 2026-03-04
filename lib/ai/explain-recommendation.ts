@@ -1,7 +1,8 @@
 import "server-only";
 
-const HF_BASE_URL = "https://api-inference.huggingface.co/models";
-const FALLBACK_MESSAGE = "I recommend this service based on your request. Share your location, time, and any special notes so we can dispatch quickly.";
+const HF_BASE_URL = "https://router.huggingface.co/hf-inference/models";
+const FALLBACK_MESSAGE =
+  "I recommend this service based on your request. Share your location, time, and any special notes so we can dispatch quickly.";
 
 type HuggingFaceResponse =
   | Array<{
@@ -48,7 +49,7 @@ const buildScenario = (context: Record<string, unknown>) => {
 
   const place = route || (location ? `around ${location}` : null);
   const delivery = itemDescription
-    ? `for delivering ${itemDescription}`
+    ? `based on your request: \"${userText}\"`
     : null;
   const duration =
     durationHours && durationHours > 0
@@ -73,7 +74,7 @@ const buildLocalExplanation = (
   if (service === "DELIVERY") {
     return [
       scenario
-        ? `Delivery Service is the best fit ${scenario}.`
+        ? `Delivery Service is the best fit based on your request.`
         : "Delivery Service is the best fit for this request.",
       "It keeps the job focused on secure handoff, route planning, and status tracking instead of personal accompaniment.",
       "To dispatch fast, confirm pickup point, dropoff point, item details, and your preferred delivery window.",
@@ -134,22 +135,25 @@ export const explainRecommendation = async (
   }
 
   try {
-    const response = await fetch(`${HF_BASE_URL}/${encodeURIComponent(model)}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        inputs: buildPrompt(service, context),
-        parameters: {
-          max_new_tokens: 180,
-          temperature: 0.45,
-          return_full_text: false,
+    const response = await fetch(
+      `${HF_BASE_URL}/${encodeURIComponent(model)}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
         },
-      }),
-      cache: "no-store",
-    });
+        body: JSON.stringify({
+          inputs: buildPrompt(service, context),
+          parameters: {
+            max_new_tokens: 180,
+            temperature: 0.45,
+            return_full_text: false,
+          },
+        }),
+        cache: "no-store",
+      },
+    );
 
     const result = (await response.json()) as HuggingFaceResponse;
 
